@@ -692,10 +692,10 @@ int TextHelper::writeSynastryReport( Horoscope *h2, AspectExpert* /*aexpert*/ )
 
 		table->setEntry( 0, i + 1, fmt.getObjectName( p, format, chartprops->isVedic() ));
 		table->setEntry( 1, i + 1, fmt.getPosFormatted( pos.longitude, pos.direction, DEG_PRECISION_SECOND, format ));
-		if ( IS_EPHEM_OBJECT( obs[p] ) && horoscope->getTropicalLongitude( obs[p] ) == 0 ) table->errorcount++;
+		if ( IS_EPHEM_OBJECT( p ) && horoscope->getTropicalLongitude( p ) == 0 ) table->errorcount++;
 
 		table->setEntry( 2, i + 1, fmt.getPosFormatted( pos2.longitude, pos2.direction, DEG_PRECISION_SECOND, format ));
-		if ( IS_EPHEM_OBJECT( obs[p] ) && h2->getTropicalLongitude( obs[p] ) == 0 ) table->errorcount++;
+		if ( IS_EPHEM_OBJECT( p ) && h2->getTropicalLongitude( p ) == 0 ) table->errorcount++;
 	}
 	sheet->addItem( table );
 	return 0;
