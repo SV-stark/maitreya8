@@ -309,7 +309,8 @@ protected:
 				assert( activewidget != compositewidget );
 
 				// set NULL horoscopes if there is no partner context
-				if ( h1 == h2 ) activewidget->setHoroscopes();
+				//if ( h1 == h2 ) activewidget->setHoroscopes();
+				if ( !h1 || ! h2 || h1 == h2 ) activewidget->setHoroscopes();
 				else activewidget->setHoroscopes( h1, h2 );
 			}
 			activewidget->OnDataChanged();

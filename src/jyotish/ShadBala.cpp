@@ -253,7 +253,7 @@ void ShadBalaExpert::updateDigBala()
 		if ( bala > 6 ) bala = 12 - bala;
 
 		digbala[p] = bala * 10;
-		//printf( "ShadBalaExpert::updateDigBala planet %d housepos %f weakest %f bala %f\n", p, housepos, weakestHouse, bala );
+		printf( "ShadBalaExpert::updateDigBala planet %d housepos %f weakest %f bala %f\n", p, housepos, weakestHouse, bala );
 	}
 }
 

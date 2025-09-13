@@ -6,7 +6,7 @@ RM = rm -f
 
 VIEW_LIB = libmaitreya_views.a
 
-CPPFLAGS = -g -I. -I../base -I../gui -I../jyotish -I../dialogs `wx-config --cppflags`
+CPPFLAGS = -g -c -I. -I../base -I../gui -I../jyotish -I../dialogs `wx-config --cppflags`
 
 LDLIBS = `wx-config --libs` 
 

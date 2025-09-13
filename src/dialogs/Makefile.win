@@ -6,7 +6,7 @@ RM = rm -f
 
 DIALOG_LIB = libmaitreya_dialogs.a
 
-CPPFLAGS = -g -I. -I.. -I../.. -I../base -I../gui -I../jyotish `wx-config --cppflags`
+CPPFLAGS = -g -c -I. -I.. -I../.. -I../base -I../gui -I../jyotish `wx-config --cppflags`
 
 LDLIBS = `wx-config --libs` 
 

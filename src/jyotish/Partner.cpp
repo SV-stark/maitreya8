@@ -341,7 +341,7 @@ void AshtakootaExpert::writeComprehensive( Sheet *sheet )
 
 	// vashya
 	table->setEntry( 1, 2, _( "Vashya" ));
-	table->setEntry( 2, 2, _( "control, amenability" ));
+	table->setEntry( 2, 2, _( "Control, amenability" ));
 	table->setEntry( 3, 2, _( "Vashya of Moon's sign" ));
 	s.Clear();
 	s << lang.getSignName( rasi1 ) << wxT( " / ")
@@ -358,7 +358,7 @@ void AshtakootaExpert::writeComprehensive( Sheet *sheet )
 
 	// Dina
 	table->setEntry( 1, 3, wxT( "Dina (Tara)" ));
-	table->setEntry( 2, 3, wxT( "health, family happiness" ));
+	table->setEntry( 2, 3, wxT( "Health, family happiness" ));
 	table->setEntry( 3, 3, wxT( "Tara of difference between Moon's Nakshatras" ));
 	table->setEntry( 4, 3, lang.getTaraName( tara1 ) );
 	table->setEntry( 5, 3, lang.getTaraName( tara2 ) );
@@ -366,7 +366,7 @@ void AshtakootaExpert::writeComprehensive( Sheet *sheet )
 
 	// yoni
 	table->setEntry( 1, 4, wxT( "Yoni" ));
-	table->setEntry( 2, 4, wxT( "sexual attraction" ));
+	table->setEntry( 2, 4, wxT( "Sexual attraction" ));
 	table->setEntry( 3, 4, wxT( "Animal symbol of the Moon's Nakshatra" ));
 	s.Clear();
 	s << lang.getNakshatra27Name( nak1 ) << wxT( " - " ) << yoni1.name;
@@ -378,7 +378,7 @@ void AshtakootaExpert::writeComprehensive( Sheet *sheet )
 
 	// graha
 	table->setEntry( 1, 5, _( "Graha" ));
-	table->setEntry( 2, 5, _( "mental affection" ));
+	table->setEntry( 2, 5, _( "Mental affection" ));
 	table->setEntry( 3, 5, _( "Mutual friendship of the Moon's sign lords" ));
 	table->setEntry( 4, 5, lang.getObjectName( ::getLord( rasi1 ), TF_LONG ) );
 	table->setEntry( 5, 5, lang.getObjectName( ::getLord( rasi2 ), TF_LONG ) );
@@ -386,7 +386,7 @@ void AshtakootaExpert::writeComprehensive( Sheet *sheet )
 
 	// gana
 	table->setEntry( 1, 6, _( "Gana" ));
-	table->setEntry( 2, 6, _( "character matching" ));
+	table->setEntry( 2, 6, _( "Character matching" ));
 	table->setEntry( 3, 6, _( "Moon's Nakshatra" ));
 	s.Clear();
 	s << lang.getNakshatra27Name( nak1 ) << wxT( " - " ) << lang.getGanaName( gana1 );
@@ -398,7 +398,7 @@ void AshtakootaExpert::writeComprehensive( Sheet *sheet )
 
 	// rasi / bha
 	table->setEntry( 1, 7, _( "Rasi (Bha)" ));
-	table->setEntry( 2, 7, _( "general indications" ));
+	table->setEntry( 2, 7, _( "Love, affection" ));
 	table->setEntry( 3, 7, _( "Difference between the Moon's signs" ));
 	s.Clear();
 	table->setEntry( 4, 7, lang.getSignName( rasi1 ) );
@@ -407,7 +407,7 @@ void AshtakootaExpert::writeComprehensive( Sheet *sheet )
 
 	// nadi
 	table->setEntry( 1, 8, _( "Nadi" ));
-	table->setEntry( 2, 8, _( "physiological matching, offspring" ));
+	table->setEntry( 2, 8, _( "Physiological matching, offspring" ));
 	table->setEntry( 3, 8, _( "Moon's sign" ));
 	s.Clear();
 	s << lang.getSignName( rasi1 ) << wxT( " - ") << lang.getNadiName( nadi1 );
@@ -419,7 +419,7 @@ void AshtakootaExpert::writeComprehensive( Sheet *sheet )
 
 	// rajju
 	table->setEntry( 1, 9, _( "Rajju" ));
-	table->setEntry( 2, 9, _( "general indications" ));
+	table->setEntry( 2, 9, _( "General indications" ));
 	table->setEntry( 3, 9, _( "Moon's Nakshatra" ));
 	s.Clear();
 	s << lang.getNakshatra27Name( nak1 ) << wxT( " - " )
