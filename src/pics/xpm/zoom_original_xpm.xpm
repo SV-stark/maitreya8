@@ -1,5 +1,5 @@
 /* XPM */
-static char *zoom_original_xpm[] = {
+static const char *zoom_original_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 138 2 ",
 "   c #5F6261",

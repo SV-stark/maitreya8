@@ -1,5 +1,5 @@
 /* XPM */
-static char *uranian_xpm[] = {
+static const char *uranian_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 256 2 ",
 "   c #040404",

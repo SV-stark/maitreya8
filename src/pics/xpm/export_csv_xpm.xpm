@@ -1,5 +1,5 @@
 /* XPM */
-static char *export_csv_xpm[] = {
+static const char *export_csv_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 224 2 ",
 "   c #515151",

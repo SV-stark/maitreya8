@@ -1,5 +1,5 @@
 /* XPM */
-static char *yogaeditor_xpm[] = {
+static const char *yogaeditor_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 174 2 ",
 "   c #36343B",

@@ -1,5 +1,5 @@
 /* XPM */
-static char *export_html_xpm[] = {
+static const char *export_html_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 180 2 ",
 "   c #173885",

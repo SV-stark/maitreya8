@@ -1,5 +1,5 @@
 /* XPM */
-static char *eclipse_xpm[] = {
+static const char *eclipse_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 197 2 ",
 "   c #525251",

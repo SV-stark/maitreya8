@@ -1,5 +1,5 @@
 /* XPM */
-static char *tip_xpm[] = {
+static const char *tip_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 195 2 ",
 "   c #3A2828",

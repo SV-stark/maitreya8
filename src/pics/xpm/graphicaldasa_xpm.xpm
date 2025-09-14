@@ -1,5 +1,5 @@
 /* XPM */
-static char *graphicaldasa_xpm[] = {
+static const char *graphicaldasa_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 187 2 ",
 "   c #0B1120",

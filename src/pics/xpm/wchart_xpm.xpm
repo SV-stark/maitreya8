@@ -1,5 +1,5 @@
 /* XPM */
-static char *wchart_xpm[] = {
+static const char *wchart_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 219 2 ",
 "   c #2B3C35",

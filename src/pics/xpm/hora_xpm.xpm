@@ -1,5 +1,5 @@
 /* XPM */
-static char *hora_xpm[] = {
+static const char *hora_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 190 2 ",
 "   c #6B6B6B",

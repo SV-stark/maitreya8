@@ -1,5 +1,5 @@
 /* XPM */
-static char *dasatree3e_xpm[] = {
+static const char *dasatree3e_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 135 2 ",
 "   c #125906",

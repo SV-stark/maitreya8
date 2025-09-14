@@ -1,5 +1,5 @@
 /* XPM */
-static char *filter_xpm[] = {
+static const char *filter_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 100 2 ",
 "   c #060606",

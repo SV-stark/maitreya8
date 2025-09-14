@@ -1,5 +1,5 @@
 /* XPM */
-static char *mview_xpm[] = {
+static const char *mview_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 169 2 ",
 "   c #83848A",

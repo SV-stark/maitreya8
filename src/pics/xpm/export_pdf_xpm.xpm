@@ -1,5 +1,5 @@
 /* XPM */
-static char *export_pdf_xpm[] = {
+static const char *export_pdf_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 226 2 ",
 "   c #DE1B1B",

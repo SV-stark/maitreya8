@@ -1,5 +1,5 @@
 /* XPM */
-static char *maitreya_xpm[] = {
+static const char *maitreya_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 238 2 ",
 "   c #5D3A37",

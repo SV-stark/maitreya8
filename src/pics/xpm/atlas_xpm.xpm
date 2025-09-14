@@ -1,5 +1,5 @@
 /* XPM */
-static char *atlas_xpm[] = {
+static const char *atlas_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 147 2 ",
 "   c #1A374F",

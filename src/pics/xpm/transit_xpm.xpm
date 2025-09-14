@@ -1,5 +1,5 @@
 /* XPM */
-static char *transit_xpm[] = {
+static const char *transit_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 219 2 ",
 "   c #33312E",

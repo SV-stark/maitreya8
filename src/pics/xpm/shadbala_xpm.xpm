@@ -1,5 +1,5 @@
 /* XPM */
-static char *shadbala_xpm[] = {
+static const char *shadbala_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 241 2 ",
 "   c #070707",

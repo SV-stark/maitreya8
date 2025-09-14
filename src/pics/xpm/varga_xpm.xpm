@@ -1,5 +1,5 @@
 /* XPM */
-static char *varga_xpm[] = {
+static const char *varga_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 165 2 ",
 "   c #252526",

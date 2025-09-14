@@ -1,5 +1,5 @@
 /* XPM */
-static char *export_image_xpm[] = {
+static const char *export_image_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "24 24 170 2 ",
 "   c #362B3B",
