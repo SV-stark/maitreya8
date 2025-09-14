@@ -9,6 +9,13 @@ libmaitreya_views_a_SOURCES = AshtakaVargaView.cpp DasaGraphicView.cpp DasaGraph
 	SolarView.cpp TextView.cpp TextView.h TransitView.cpp UranianView.cpp VargaView.cpp \
 	YogaView.cpp
 
+# start printviewhook
+libmaitreya_views_a_SOURCES += PrintView.cpp
+# end printviewhook
+
+# start uranianhook
+libmaitreya_views_a_SOURCES += UranianChartView.cpp
+# end uranianhook
 
 all-am: 
 
@@ -16,5 +23,5 @@ clean:
 	rm -f lib*.a *.o core *~ *.bak
 	rm -fr obj bin .libs
 
-EXTRA_DIST = Makefile.win 
+EXTRA_DIST = Makefile.win views.vcxproj
 

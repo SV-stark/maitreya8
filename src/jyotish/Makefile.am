@@ -58,6 +58,6 @@ clean:
 	rm -f $(bin_PROGRAMS)
 	rm -f locations.dat
 	
-EXTRA_DIST = Makefile.win MdlParser.h*
+EXTRA_DIST = Makefile.win MdlParser.h* jyotish.vcxproj
 
 

@@ -24,7 +24,8 @@ libmaitreya_wxpdfdoc_a_SOURCES = pdfannotation.cpp pdfbarcode.cpp pdfcffdecoder.
 	wx/pdfutility.h wx/pdfxml.h wxmemdbg.h 
 
 EXTRA_DIST = Makefile.win pdfcjkfontdata.inc pdfcmapdata.inc pdfcodepagedata.inc \
-	pdfcolourdata.inc pdfcorefontdata.inc pdfcorefontkerning.inc pdfdc28.inc pdfdc29.inc pdfglyphnames.inc
+	pdfcolourdata.inc pdfcorefontdata.inc pdfcorefontkerning.inc pdfdc28.inc pdfdc29.inc \
+	pdfglyphnames.inc wxpdfdoc.vcxproj
 
 clean:
 	rm -f lib*.a *.o *~ *.bak

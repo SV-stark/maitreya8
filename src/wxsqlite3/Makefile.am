@@ -7,7 +7,7 @@ noinst_LIBRARIES = libmaitreya_wxsqlite3.a
 libmaitreya_wxsqlite3_a_SOURCES = sqlite3.c sqlite3.h wxsqlite3.cpp wx/wxsqlite3def.h \
 	wx/wxsqlite3dyn.h wx/wxsqlite3.h wx/wxsqlite3opt.h
 
-EXTRA_DIST = Makefile.win 
+EXTRA_DIST = Makefile.win wxsqlite3.vcxproj
 
 clean:
 	rm -f lib*.a *.o *~ *.bak

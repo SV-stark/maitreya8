@@ -18,7 +18,7 @@ libmaitreya_dialogs_a_SOURCES = AboutDialog.cpp AboutDialog.h AnimationPanel.cpp
 	VedicPanel.cpp VedicPanel.h WesternCalculationPanel.cpp WesternCalculationPanel.h WesternChartPanel.cpp \
 	WesternChartPanel.h WesternPanel.cpp WesternPanel.h YogaEditorPanel.cpp YogaEditorPanel.h 
 
-EXTRA_DIST = Makefile.win
+EXTRA_DIST = Makefile.win dialogs.vcxproj
 
 clean:
 	rm -f lib*.a *.o *~ *.bak

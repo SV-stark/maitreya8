@@ -61,7 +61,7 @@ links:
 
 pkgdatadir = ${datarootdir}/maitreya8
 
-EXTRA_DIST = Makefile.win maitreya8.rc maitreya8.template
+EXTRA_DIST = Makefile.win maitreya8.rc maitreya8.template gui.vcxproj
 
 clean:
 	rm -f *.o *~ *.bak maitreya8 maitreya8.bin
