@@ -395,7 +395,7 @@ MString SheetFormatter::getPosFormatted( const double &len, const MOVING_DIRECTI
 			}
 			s << SPACE;
 			t.add( MToken( s ));
-			t.add( MToken( TTSE_SIGN, sign, format ));
+			t.add( MToken( TTSE_SIGN, sign, format, writercfg->vedicSignNames ));
 		}
 	}
 
