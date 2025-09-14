@@ -1849,11 +1849,13 @@ wxJSONReader::ConvertCharByChar( wxString& s, const wxMemoryBuffer& utf8Buffer )
  @return the last char read or -1 in case of EOF
 */
 
+/* mp: remove obsolete def because msvc compilation fails 
 union byte
 {
     unsigned char c[2];
     short int b;
 };
+*/
 
 int
 wxJSONReader::ReadMemoryBuff( wxInputStream& is, wxJSONValue& val )
