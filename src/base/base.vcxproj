@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{c144e0f1-99fd-42be-8c56-6a5f1483b3b7}</ProjectGuid>
+    <RootNamespace>base</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\pics;..\swe;..\wxsqlite3;..\wxJSON;..\..\;.;$(WXWIDGETS)\include;$(WXWIDGETS)\include\msvc</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\pics;..\swe;..\wxsqlite3;..\wxJSON;..\..\;.;$(WXWIDGETS)\include;$(WXWIDGETS)\include\msvc</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AspectConfig.cpp" />
+    <ClCompile Include="AtlasDao.cpp" />
+    <ClCompile Include="AtlasImporter.cpp" />
+    <ClCompile Include="AtlasLogic.cpp" />
+    <ClCompile Include="BaseDao.cpp" />
+    <ClCompile Include="Calculator.cpp" />
+    <ClCompile Include="ChartConfig.cpp" />
+    <ClCompile Include="ChartProperties.cpp" />
+    <ClCompile Include="ColorConfig.cpp" />
+    <ClCompile Include="Commands.cpp" />
+    <ClCompile Include="Conf.cpp" />
+    <ClCompile Include="ConfigListLoader.cpp" />
+    <ClCompile Include="ConfigStubs.cpp" />
+    <ClCompile Include="DataSet.cpp" />
+    <ClCompile Include="FileConfig.cpp" />
+    <ClCompile Include="FontProvider.cpp" />
+    <ClCompile Include="IdConverter.cpp" />
+    <ClCompile Include="ImageProvider.cpp" />
+    <ClCompile Include="JSonTool.cpp" />
+    <ClCompile Include="Lang.cpp" />
+    <ClCompile Include="LanguageConfig.cpp" />
+    <ClCompile Include="maitreya.cpp" />
+    <ClCompile Include="mathbase.cpp" />
+    <ClCompile Include="MultipleViewConfig.cpp" />
+    <ClCompile Include="PlanetList.cpp" />
+    <ClCompile Include="PrintoutConfig.cpp" />
+    <ClCompile Include="SheetConfig.cpp" />
+    <ClCompile Include="SymbolProvider.cpp" />
+    <ClCompile Include="VargaBase.cpp" />
+    <ClCompile Include="VedicChartConfig.cpp" />
+    <ClCompile Include="ViewNode.cpp" />
+    <ClCompile Include="WesternChartConfig.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AspectConfig.h" />
+    <ClInclude Include="AtlasDao.h" />
+    <ClInclude Include="AtlasImporter.h" />
+    <ClInclude Include="AtlasLogic.h" />
+    <ClInclude Include="BaseDao.h" />
+    <ClInclude Include="Calculator.h" />
+    <ClInclude Include="ChartConfig.h" />
+    <ClInclude Include="ChartProperties.h" />
+    <ClInclude Include="chart_images.h" />
+    <ClInclude Include="ColorConfig.h" />
+    <ClInclude Include="Commands.h" />
+    <ClInclude Include="Conf.h" />
+    <ClInclude Include="ConfigBase.h" />
+    <ClInclude Include="ConfigListLoader.h" />
+    <ClInclude Include="ConfigLoader.h" />
+    <ClInclude Include="DataSet.h" />
+    <ClInclude Include="FileConfig.h" />
+    <ClInclude Include="FontProvider.h" />
+    <ClInclude Include="GraphConfig.h" />
+    <ClInclude Include="IdConverter.h" />
+    <ClInclude Include="ImageProvider.h" />
+    <ClInclude Include="JSonTool.h" />
+    <ClInclude Include="Lang.h" />
+    <ClInclude Include="LanguageConfig.h" />
+    <ClInclude Include="maitreya.h" />
+    <ClInclude Include="mathbase.h" />
+    <ClInclude Include="MultipleViewConfig.h" />
+    <ClInclude Include="PlanetList.h" />
+    <ClInclude Include="PrintoutConfig.h" />
+    <ClInclude Include="PrintoutConfigBase.h" />
+    <ClInclude Include="SheetConfig.h" />
+    <ClInclude Include="SymbolProvider.h" />
+    <ClInclude Include="VargaBase.h" />
+    <ClInclude Include="VedicChartConfig.h" />
+    <ClInclude Include="ViewNode.h" />
+    <ClInclude Include="WesternChartConfig.h" />
+    <ClInclude Include="xpm_images.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

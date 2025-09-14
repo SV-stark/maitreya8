@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{7b207940-76a1-422c-b87c-f4d58d95062e}</ProjectGuid>
+    <RootNamespace>gui</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>maitreya8</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>maitreya8</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\jyotish;..\dialogs;..\views;..\wxpdfdoc;..\gui;..\base;..\..\;.;$(WXWIDGETS)\include;$(WXWIDGETS)\include\msvc</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(Outdir);$(WXWIDGETS)\lib\vc_x64_lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>views.lib;dialogs.lib;jyotish.lib;base.lib;wxJSON.lib;swe.lib;wxsqlite3.lib;wxpdfdoc.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\jyotish;..\dialogs;..\views;..\wxpdfdoc;..\gui;..\base;..\..\;.;$(WXWIDGETS)\include;$(WXWIDGETS)\include\msvc</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(Outdir);$(WXWIDGETS)\lib\vc_x64_lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>views.lib;dialogs.lib;jyotish.lib;base.lib;wxJSON.lib;swe.lib;wxsqlite3.lib;wxpdfdoc.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="ApplicationWindow.h" />
+    <ClInclude Include="BarDiagram.h" />
+    <ClInclude Include="BasicSheetWidget.h" />
+    <ClInclude Include="BasicVedicChart.h" />
+    <ClInclude Include="BasicView.h" />
+    <ClInclude Include="BasicWesternChart.h" />
+    <ClInclude Include="BasicWidget.h" />
+    <ClInclude Include="ChartField.h" />
+    <ClInclude Include="ChildWindow.h" />
+    <ClInclude Include="ChildWindowListCtrl.h" />
+    <ClInclude Include="DasaTreeWidget.h" />
+    <ClInclude Include="Document.h" />
+    <ClInclude Include="GraphicalChart.h" />
+    <ClInclude Include="GraphicGrid.h" />
+    <ClInclude Include="guibase.h" />
+    <ClInclude Include="MenuProvider.h" />
+    <ClInclude Include="MultipleChildWindow.h" />
+    <ClInclude Include="PdfBase.h" />
+    <ClInclude Include="PdfPainter.h" />
+    <ClInclude Include="PdfTools.h" />
+    <ClInclude Include="PrintoutSheetCreator.h" />
+    <ClInclude Include="SarvatobhadraChart.h" />
+    <ClInclude Include="SheetWidget.h" />
+    <ClInclude Include="SheetWriter.h" />
+    <ClInclude Include="SplitterWidget.h" />
+    <ClInclude Include="Statusbar.h" />
+    <ClInclude Include="TextWidget.h" />
+    <ClInclude Include="ToolPanel.h" />
+    <ClInclude Include="TreeWidget.h" />
+    <ClInclude Include="VedicChart.h" />
+    <ClInclude Include="VedicRasiChart.h" />
+    <ClInclude Include="WesternChart.h" />
+    <ClInclude Include="YogaEditor.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ApplicationWindow.cpp" />
+    <ClCompile Include="BarDiagram.cpp" />
+    <ClCompile Include="BasicSheetWidget.cpp" />
+    <ClCompile Include="BasicVedicChart.cpp" />
+    <ClCompile Include="BasicView.cpp" />
+    <ClCompile Include="BasicWesternChart.cpp" />
+    <ClCompile Include="BasicWidget.cpp" />
+    <ClCompile Include="ChartField.cpp" />
+    <ClCompile Include="ChildWindow.cpp" />
+    <ClCompile Include="ChildWindowListCtrl.cpp" />
+    <ClCompile Include="DasaTreeWidget.cpp" />
+    <ClCompile Include="Document.cpp" />
+    <ClCompile Include="GraphicalChart.cpp" />
+    <ClCompile Include="GraphicGrid.cpp" />
+    <ClCompile Include="guibase.cpp" />
+    <ClCompile Include="MenuProvider.cpp" />
+    <ClCompile Include="MultipleChildWindow.cpp" />
+    <ClCompile Include="PdfBase.cpp" />
+    <ClCompile Include="PdfPainter.cpp" />
+    <ClCompile Include="PdfTools.cpp" />
+    <ClCompile Include="PrintoutSheetCreator.cpp" />
+    <ClCompile Include="SarvatobhadraChart.cpp" />
+    <ClCompile Include="SheetWidget.cpp" />
+    <ClCompile Include="SheetWriter.cpp" />
+    <ClCompile Include="SplitterWidget.cpp" />
+    <ClCompile Include="Statusbar.cpp" />
+    <ClCompile Include="TextWidget.cpp" />
+    <ClCompile Include="ToolPanel.cpp" />
+    <ClCompile Include="TreeWidget.cpp" />
+    <ClCompile Include="VedicChart.cpp" />
+    <ClCompile Include="VedicRasiChart.cpp" />
+    <ClCompile Include="WesternChart.cpp" />
+    <ClCompile Include="YogaEditor.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
