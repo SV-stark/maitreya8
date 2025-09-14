@@ -296,10 +296,10 @@ char **ImageProvider::bitmapId2CharArray( const BitmapId &index )
 	if( ! ( IS_VALID_BITMAP_ID( index )))
 	{
 		wxLogError( wxT( "invalid bitmap id %d, allowed values are between %d and %d" ), (int)index, (int)BM_FIRST, (int)BM_LAST );
-		return error_xpm;
+		return (char**)error_xpm;
 	}
 
-	static char **xpms[] = { error_xpm, 
+	static const char **xpms[] = { error_xpm, 
 		maitreya_xpm,
 
 		// global commands
@@ -373,7 +373,7 @@ char **ImageProvider::bitmapId2CharArray( const BitmapId &index )
 	};
 
 	
-	return xpms[index];
+	return (char**)xpms[index];
 }
 
 /*****************************************************
