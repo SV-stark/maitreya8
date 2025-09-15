@@ -49,8 +49,7 @@ AtlasAliasDialog::AtlasAliasDialog(wxWindow* parent, AtlasEntry &entry )
 {
     // begin wxGlade: AtlasAliasDialog::AtlasAliasDialog
     label_name = new wxStaticText(this, wxID_ANY, _("Name"));
-    const wxString list_choices[] = {};
-    list = new wxListBox(this, AL_LIST, wxDefaultPosition, wxDefaultSize, 0, list_choices, wxLB_SINGLE|wxLB_SORT);
+    list = new wxListBox(this, AL_LIST, wxDefaultPosition, wxDefaultSize, 0, 0, wxLB_SINGLE|wxLB_SORT);
     button_add = new wxButton(this, AL_ADD, _("Add Entry"));
     button_edit = new wxButton(this, AL_EDIT, _("Edit Entry"));
     button_delete = new wxButton(this, AL_DELETE, _("Delete Entry"));
