@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gui", "src\gui\gui.vcxproj"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "swe", "src\swe\swe.vcxproj", "{B4E855AD-AF8F-4B3C-A96C-8C1C7D70D5AD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jyotishcli", "src\jyotish\jyotishcli\jyotishcli.vcxproj", "{42067A4A-F29D-4E86-8F21-E4B42D88CD95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -101,6 +103,14 @@ Global
 		{B4E855AD-AF8F-4B3C-A96C-8C1C7D70D5AD}.Release|x64.Build.0 = Release|x64
 		{B4E855AD-AF8F-4B3C-A96C-8C1C7D70D5AD}.Release|x86.ActiveCfg = Release|Win32
 		{B4E855AD-AF8F-4B3C-A96C-8C1C7D70D5AD}.Release|x86.Build.0 = Release|Win32
+		{42067A4A-F29D-4E86-8F21-E4B42D88CD95}.Debug|x64.ActiveCfg = Debug|x64
+		{42067A4A-F29D-4E86-8F21-E4B42D88CD95}.Debug|x64.Build.0 = Debug|x64
+		{42067A4A-F29D-4E86-8F21-E4B42D88CD95}.Debug|x86.ActiveCfg = Debug|Win32
+		{42067A4A-F29D-4E86-8F21-E4B42D88CD95}.Debug|x86.Build.0 = Debug|Win32
+		{42067A4A-F29D-4E86-8F21-E4B42D88CD95}.Release|x64.ActiveCfg = Release|x64
+		{42067A4A-F29D-4E86-8F21-E4B42D88CD95}.Release|x64.Build.0 = Release|x64
+		{42067A4A-F29D-4E86-8F21-E4B42D88CD95}.Release|x86.ActiveCfg = Release|Win32
+		{42067A4A-F29D-4E86-8F21-E4B42D88CD95}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
