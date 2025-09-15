@@ -21,7 +21,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gui", "src\gui\gui.vcxproj"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "swe", "src\swe\swe.vcxproj", "{B4E855AD-AF8F-4B3C-A96C-8C1C7D70D5AD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jyotishcli", "src\jyotish\jyotishcli\jyotishcli.vcxproj", "{42067A4A-F29D-4E86-8F21-E4B42D88CD95}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jyotishcli", "src\jyotish\jyotishcli.vcxproj", "{42067A4A-F29D-4E86-8F21-E4B42D88CD95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

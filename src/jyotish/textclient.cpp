@@ -577,9 +577,19 @@ void MaitreyaTextclient::run( int argc, wxChar **argv )
 #endif
 
 	// TODO ugly and not working for non standard installations e.g. in /opt/maitreya8
-	wxString basedir = wxT( "." );
-	if ( ! wxDir::Exists( wxT( "../resources/yogas" ))) basedir = wxT( "/usr/local/share/maitreya8" );
+	wxString basedir;
+	if ( wxDir::Exists(wxT("../resources/yogas"))) basedir = wxT(".");
+	else if (wxDir::Exists(wxT("../../src/resources/yogas"))) basedir = wxT("../../src/resources");
+	else if (wxDir::Exists(wxT("/usr/local/share/maitreya8/yogas"))) basedir = wxT("/usr/local/share/maitreya8");
+	else basedir = wxT( "/usr/share/maitreya8" );
+
+	/*
+	//if ( ! wxDir::Exists( wxT( "../resources/yogas" ))) basedir = wxT( "/usr/local/share/maitreya8" );
+	
+	if (!wxDir::Exists(wxT("../../src/resources/yogas"))) basedir = wxT("/usr/local/share/maitreya8");
+
 	if ( ! wxDir::Exists( basedir )) basedir = wxT( "/usr/share/maitreya8" );
+	*/
 
 	wxLog::SetLogLevel( wxLOG_Error );
 	FileConfig::get()->init( basedir );
