@@ -61,12 +61,10 @@ YogaEditorPanel::YogaEditorPanel( wxWindow* parent, wxWindowID id, MinimalVargaH
     label_description = new wxStaticText(this, YE_DESCRIPTION, _("Description"));
     text_description = new wxTextCtrl(this, wxID_ANY, wxEmptyString);
     label_group = new wxStaticText(this, wxID_ANY, _("Group"));
-    const wxString choice_group_choices[] = {};
-    choice_group = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, choice_group_choices);
+    choice_group = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, 0);
     button_new_group = new wxBitmapButton(this, YE_NEW_GROUP, wxNullBitmap);
     label_source = new wxStaticText(this, wxID_ANY, _("Source"));
-    const wxString choice_source_choices[] = {};
-    choice_source = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, choice_source_choices);
+    choice_source = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, 0);
     button_new_source = new wxBitmapButton(this, YE_NEW_SOURCE, wxNullBitmap);
     check_higher_vargas = new wxCheckBox(this, wxID_ANY, _("Allow Higher Vargas"));
     text_effect = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);

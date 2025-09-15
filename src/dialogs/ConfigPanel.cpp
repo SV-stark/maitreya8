@@ -185,7 +185,7 @@ wxString ConfigPanelFactory::getPanelName( const int &id )
 ConfigPanel *ConfigPanelFactory::createPanel( const int &id, wxWindow *parent )
 {
 	assert( id >= 0 && id < NB_PANELS );
-	ConfigPanel *panel;
+	ConfigPanel *panel = 0;
 	switch ( id )
 	{
 	case CONFIGPANEL_GENERAL:

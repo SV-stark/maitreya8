@@ -47,8 +47,7 @@ StyleManagerDialog::StyleManagerDialog(wxWindow* parent, std::vector<SheetConfig
 	v( configs )
 {
     // begin wxGlade: StyleManagerDialog::StyleManagerDialog
-    const wxString list_choices[] = {};
-    list = new wxListBox(this, CD_LIST, wxDefaultPosition, wxDefaultSize, 0, list_choices, wxLB_SINGLE);
+    list = new wxListBox(this, CD_LIST, wxDefaultPosition, wxDefaultSize, 0, 0, wxLB_SINGLE);
     button_new = new wxButton(this, CD_NEW, _("New"));
     button_copy = new wxButton(this, CD_COPY, _("Copy"));
     button_rename = new wxButton(this, CD_RENAME, _("Rename"));

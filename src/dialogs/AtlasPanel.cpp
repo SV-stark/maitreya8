@@ -70,8 +70,7 @@ AtlasPanel::AtlasPanel( wxWindow* parent ) : ConfigPanel( parent )
     text_sqlfile = new wxTextCtrl(this, AD_TEXTSQLFILE, wxEmptyString);
     text_sqlfilestatus = new wxStaticText(panel_sqlfilestatus, wxID_ANY, _("Status"));
     button_startimport = new wxButton(this, AD_RUNIMPORT, _("Start Import"));
-    const wxString list_countries_choices[] = {};
-    list_countries = new wxListBox(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, list_countries_choices, wxLB_SINGLE);
+    list_countries = new wxListBox(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, 0, wxLB_SINGLE);
     button_countries = new wxButton(this, AD_COUNTRIES, _("Change Countries ..."));
 
     set_properties();

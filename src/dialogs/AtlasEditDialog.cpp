@@ -57,11 +57,9 @@ AtlasEditDialog::AtlasEditDialog(wxWindow* parent, AtlasLogic *logic, const Atla
     label_asciiname = new wxStaticText(this, wxID_ANY, _("ASCII Name"));
     text_asciiname = new wxTextCtrl(this, wxID_ANY, wxEmptyString);
     label_country = new wxStaticText(this, wxID_ANY, _("Country"));
-    const wxString choice_country_choices[] = {};
-    choice_country = new wxChoice(this, AE_COUNTRY, wxDefaultPosition, wxDefaultSize, 0, choice_country_choices);
+    choice_country = new wxChoice(this, AE_COUNTRY, wxDefaultPosition, wxDefaultSize, 0, 0);
     label_admincode = new wxStaticText(this, wxID_ANY, _("Admin Code"));
-    const wxString choice_admin_choices[] = {};
-    choice_admin = new wxChoice(this, AE_ADMIN, wxDefaultPosition, wxDefaultSize, 0, choice_admin_choices);
+    choice_admin = new wxChoice(this, AE_ADMIN, wxDefaultPosition, wxDefaultSize, 0, 0);
     label_population = new wxStaticText(this, wxID_ANY, _("Population"));
     text_population = new wxTextCtrl(this, wxID_ANY, wxEmptyString);
     label_longitude = new wxStaticText(this, wxID_ANY, _("Longitude"));
@@ -79,8 +77,7 @@ AtlasEditDialog::AtlasEditDialog(wxWindow* parent, AtlasLogic *logic, const Atla
     };
     choice_ns = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 2, choice_ns_choices);
     label_timezone = new wxStaticText(this, wxID_ANY, _("Time Zone"));
-    const wxString choice_timezone_choices[] = {};
-    choice_timezone = new wxChoice(this, AE_TZNAME, wxDefaultPosition, wxDefaultSize, 0, choice_timezone_choices);
+    choice_timezone = new wxChoice(this, AE_TZNAME, wxDefaultPosition, wxDefaultSize, 0, 0);
     label_tzh = new wxStaticText(this, wxID_ANY, _("TZ Hours"));
     label_tzhours = new wxStaticText(this, wxID_ANY, _("dummy"));
     label_aliases = new wxStaticText(this, wxID_ANY, _("Aliases"));

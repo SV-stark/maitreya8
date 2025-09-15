@@ -158,8 +158,7 @@ BrushDialog::BrushDialog( wxWindow* parent, const MBrush &b )
     };
     choice_bgstyle = new wxChoice(this, CD_CHOICE_BGSTYLE, wxDefaultPosition, wxDefaultSize, 9, choice_bgstyle_choices);
     label_bgimage = new wxStaticText(this, wxID_ANY, _("Image"));
-    const wxString choice_bgimage_choices[] = {};
-    choice_bgimage = new wxChoice(this, CD_CHOICE_BGIMAGE, wxDefaultPosition, wxDefaultSize, 0, choice_bgimage_choices);
+    choice_bgimage = new wxChoice(this, CD_CHOICE_BGIMAGE, wxDefaultPosition, wxDefaultSize, 0, 0);
     label_rotatehue = new wxStaticText(this, wxID_ANY, _("Rotate Hue"));
     slider_rotatehue = new wxSlider(this, CD_SLIDER_HUE, 0, 0, 360, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL|wxSL_LABELS);
     preview = new BrushDialogPreviewWidget(panel_preview, wxID_ANY, brush);
