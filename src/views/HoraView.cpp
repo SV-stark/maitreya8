@@ -72,7 +72,9 @@ protected:
 	virtual void write()
 	{
 		//printf( "WRITE JD %f\n", jd );
-		expert->update( jd - .5 );
+		// bugfix 8.2 becase HoraExpert::update changed
+		//expert->update( jd - .5 );
+		expert->update( jd  );
 		twidget->clearSheet();
 		expert->write( twidget->getSheet(), isLocaltime );
 	}
@@ -106,7 +108,10 @@ protected:
 	void OnNow( wxCommandEvent& )
 	{
 		const double timediff = config->defaultLocation->getTimeZone() + config->defaultLocation->getDST();
-		jd = MDate::getCurrentJD() + .5 - timediff / 24.0;
+
+		// bugfix 8.2 becase HoraExpert::update changed
+		//jd = MDate::getCurrentJD() + .5 - timediff / 24.0;
+		jd = MDate::getCurrentJD();
 		if ( toolbar ) toolbar->TransferDataToWindow();
 		updateView = true;
 	}
