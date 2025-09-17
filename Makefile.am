@@ -1,14 +1,22 @@
 
 SUBDIRS = po src debian 
 
-# m4 not automatically included on OS X make dist
-EXTRA_DIST = config.h autogen.sh Makefile.win maitreya8.desktop \
-	Doxyfile maitreya8.spec create_mac_release.sh MacOS/* m4/*
 
 pkgdatadir = ${datarootdir}/maitreya8
 
 dist_pkgdata_DATA = COPYING debian/changelog
 
+# start disthook
+dist-hook:
+	./mkdisthook.pl $(distdir)
+	cd $(distdir) && automake && autoconf && rm -fr autom*.cache
+
+# all: mkchangelog
+
+mkchangelog:
+	./mkchangelog.sh
+
+# end disthook
 
 all-am: echo-font-message
 
@@ -35,6 +43,9 @@ ACLOCAL_AMFLAGS = -I m4
 
 desktopdir = ${datarootdir}/applications
 desktop_DATA = maitreya8.desktop
+
+EXTRA_DIST = config.h autogen.sh Makefile.win maitreya8.desktop \
+	Doxyfile maitreya8.spec maitreya.sln create_mac_release.sh MacOS/* m4/*
 
 clean: clean-recursive
 	rm -f *~ *.bak fonts
