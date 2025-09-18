@@ -319,10 +319,16 @@ void MString::add( const MString &f )
 	}
 }
 
-// TODO maybe wrong in Ansi build
+// fix 8.2: symbols in PDF were question marks
+#ifdef __WXMSW__
+#define DEGREE_SYMBOL wxT( "°" );
+#define MINUTE_SYMBOL wxT( "'" )
+#define SECOND_SYMBOL wxT( "\"" )
+#else
 #define DEGREE_SYMBOL wxT( "\u00B0" );
 #define MINUTE_SYMBOL wxT( "\u2032" )
 #define SECOND_SYMBOL wxT( "\u2033" )
+#endif
 
 /*****************************************************
 **
