@@ -91,7 +91,7 @@ void  PrintoutTextHelper::writePrintoutHeader( const int &mode, const bool &vedi
 		{
 			if ( mode == 1 ) // normal
 			{
-				tw.setVedicObjects( OI_INNER | OI_DRAGONTAIL | OI_DRAGONHEAD );
+				tw.setVedicObjects( OI_INNER | OI_DRAGONTAIL | OI_DRAGONHEAD | OI_ASCENDANT );
 				Tc tc;
 				TcColumnSet colset( TAB_LC_PLANETS, true );
 				colset.cols.push_back( TcColumn( TAB_CT_OBJECT_NAME, true ));
