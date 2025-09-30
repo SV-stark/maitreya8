@@ -60,7 +60,7 @@
 #define PACKAGE_NAME "maitreya8"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "maitreya8 8.1"
+#define PACKAGE_STRING "maitreya8 8.2"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "maitreya8"
@@ -69,9 +69,9 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "8.1"
+#define PACKAGE_VERSION "8.2"
 
-/* Define to 1 if all of the C90 standard headers exist (not just the ones
+/* Define to 1 if all of the C89 standard headers exist (not just the ones
    required in a freestanding environment). This macro is provided for
    backward compatibility; new code need not use it. */
 #define STDC_HEADERS 1
@@ -89,7 +89,7 @@
 #define USE_WXSQLITE_BUILTIN 1
 
 /* Version number of package */
-#define VERSION "8.1"
+#define VERSION "8.2"
 
 /* CFLAGS for wxpdfdoc */
 #define WXPDFDOC_CFLAGS ""
@@ -109,6 +109,6 @@
 /* Package version of system wide wxsqlite3 */
 #define WXSQLITE_SYSTEM_VERSION "none"
 
-/* Define to 1 if `lex' declares `yytext' as a `char *' by default, not a
-   `char[]'. */
+/* Define to 1 if 'lex' declares 'yytext' as a 'char *' by default, not a
+   'char[]'. */
 #define YYTEXT_POINTER 1

@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: maitreya8 8.1\n"
+"Project-Id-Version: maitreya8 8.2\n"
 "Report-Msgid-Bugs-To: office4@saravali.de\n"
-"POT-Creation-Date: 2023-09-19 18:17+0200\n"
+"POT-Creation-Date: 2025-09-30 08:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,7 @@ msgstr ""
 msgid "Commit"
 msgstr ""
 
-#: src/base/Calculator.cpp:672 src/jyotish/Partner.cpp:512
+#: src/base/Calculator.cpp:672 src/jyotish/Partner.cpp:515
 msgid "Total"
 msgstr ""
 
@@ -165,7 +165,7 @@ msgid "Ascendant"
 msgstr ""
 
 #: src/base/Commands.cpp:144 src/base/Commands.cpp:154
-#: src/base/Commands.cpp:254 src/dialogs/StyleManagerDialog.cpp:52
+#: src/base/Commands.cpp:254 src/dialogs/StyleManagerDialog.cpp:51
 #: src/gui/MenuProvider.cpp:184
 msgid "New"
 msgstr ""
@@ -198,7 +198,7 @@ msgstr ""
 msgid "Exit"
 msgstr ""
 
-#: src/base/Commands.cpp:261 src/dialogs/StyleManagerDialog.cpp:58
+#: src/base/Commands.cpp:261 src/dialogs/StyleManagerDialog.cpp:57
 msgid "Close"
 msgstr ""
 
@@ -336,7 +336,7 @@ msgid "Graphical Dasa"
 msgstr ""
 
 #: src/base/Commands.cpp:294 src/base/VargaBase.cpp:72
-#: src/dialogs/VedicCalculationPanel.cpp:115 src/jyotish/Hora.cpp:170
+#: src/dialogs/VedicCalculationPanel.cpp:115 src/jyotish/Hora.cpp:171
 #: src/views/HoraView.cpp:68
 msgid "Hora"
 msgstr ""
@@ -512,11 +512,11 @@ msgstr ""
 msgid "Zoom Out"
 msgstr ""
 
-#: src/base/Commands.cpp:338 src/dialogs/StyleManagerDialog.cpp:56
+#: src/base/Commands.cpp:338 src/dialogs/StyleManagerDialog.cpp:55
 msgid "Up"
 msgstr ""
 
-#: src/base/Commands.cpp:339 src/dialogs/StyleManagerDialog.cpp:57
+#: src/base/Commands.cpp:339 src/dialogs/StyleManagerDialog.cpp:56
 msgid "Down"
 msgstr ""
 
@@ -539,12 +539,12 @@ msgid "Location"
 msgstr ""
 
 #: src/base/DataSet.cpp:202 src/dialogs/AtlasDialog.cpp:225
-#: src/dialogs/AtlasDialog.cpp:271 src/dialogs/AtlasEditDialog.cpp:67
+#: src/dialogs/AtlasDialog.cpp:271 src/dialogs/AtlasEditDialog.cpp:65
 #: src/dialogs/DataDialog.cpp:101 src/dialogs/GeneralPanel.cpp:108
 #: src/dialogs/VedicCalculationPanel.cpp:142 src/jyotish/ArabicParts.cpp:596
 #: src/jyotish/GenericTableWriter.cpp:483
 #: src/jyotish/GenericTableWriter.cpp:1017 src/jyotish/Nakshatra.cpp:229
-#: src/jyotish/Nakshatra.cpp:323 src/jyotish/Partner.cpp:654
+#: src/jyotish/Nakshatra.cpp:323 src/jyotish/Partner.cpp:657
 #: src/jyotish/TextHelper.cpp:341 src/jyotish/TextHelper.cpp:418
 #: src/jyotish/TextHelper.cpp:471 src/jyotish/TextHelper.cpp:539
 #: src/jyotish/TextHelper.cpp:632
@@ -552,7 +552,7 @@ msgid "Longitude"
 msgstr ""
 
 #: src/base/DataSet.cpp:203 src/dialogs/AtlasDialog.cpp:222
-#: src/dialogs/AtlasDialog.cpp:275 src/dialogs/AtlasEditDialog.cpp:74
+#: src/dialogs/AtlasDialog.cpp:275 src/dialogs/AtlasEditDialog.cpp:72
 #: src/dialogs/DataDialog.cpp:109 src/dialogs/GeneralPanel.cpp:115
 #: src/jyotish/GenericTableWriter.cpp:1024
 msgid "Latitude"
@@ -563,7 +563,7 @@ msgid "nn"
 msgstr ""
 
 #: src/base/DataSet.cpp:388 src/dialogs/AtlasAliasDialog.cpp:51
-#: src/dialogs/AtlasAliasDialog.cpp:167 src/dialogs/AtlasDialog.cpp:213
+#: src/dialogs/AtlasAliasDialog.cpp:166 src/dialogs/AtlasDialog.cpp:213
 #: src/dialogs/AtlasDialog.cpp:249 src/dialogs/AtlasDialog.cpp:261
 #: src/dialogs/AtlasDialog.cpp:269 src/dialogs/AtlasEditDialog.cpp:55
 #: src/dialogs/DataDialog.cpp:99 src/dialogs/DataDialog.cpp:515
@@ -580,7 +580,7 @@ msgid "Local Time"
 msgstr ""
 
 #: src/base/DataSet.cpp:393 src/dialogs/AtlasDialog.cpp:279
-#: src/dialogs/AtlasEditDialog.cpp:81 src/dialogs/DataDialog.cpp:119
+#: src/dialogs/AtlasEditDialog.cpp:79 src/dialogs/DataDialog.cpp:119
 #: src/dialogs/DataDialog.cpp:505 src/gui/ToolPanel.cpp:420
 #: src/jyotish/GenericTableWriter.cpp:1031
 msgid "Time Zone"
@@ -2182,7 +2182,7 @@ msgstr ""
 #: src/dialogs/AtlasDialog.cpp:276 src/dialogs/AtlasDialog.cpp:278
 #: src/dialogs/AtlasDialog.cpp:280 src/dialogs/AtlasDialog.cpp:282
 #: src/dialogs/AtlasDialog.cpp:284 src/dialogs/AtlasDialog.cpp:286
-#: src/dialogs/AtlasDialog.cpp:288 src/dialogs/AtlasEditDialog.cpp:85
+#: src/dialogs/AtlasDialog.cpp:288 src/dialogs/AtlasEditDialog.cpp:82
 #: src/dialogs/AtlasImportDialog.cpp:53 src/dialogs/ColorPanel.cpp:379
 #: src/dialogs/ColorPanel.cpp:380 src/dialogs/ColorPanel.cpp:381
 #: src/dialogs/ColorPanel.cpp:382 src/dialogs/ColorPanel.cpp:383
@@ -2260,9 +2260,9 @@ msgstr ""
 msgid "Currently running on"
 msgstr ""
 
-#: src/dialogs/AboutDialog.cpp:212 src/dialogs/AtlasAliasDialog.cpp:58
-#: src/dialogs/AtlasDialog.cpp:295 src/dialogs/AtlasEditDialog.cpp:89
-#: src/dialogs/BrushDialog.cpp:167 src/dialogs/ConfigDialog.cpp:115
+#: src/dialogs/AboutDialog.cpp:212 src/dialogs/AtlasAliasDialog.cpp:57
+#: src/dialogs/AtlasDialog.cpp:295 src/dialogs/AtlasEditDialog.cpp:86
+#: src/dialogs/BrushDialog.cpp:166 src/dialogs/ConfigDialog.cpp:115
 #: src/dialogs/DataDialog.cpp:132 src/dialogs/ExportDialog.cpp:53
 #: src/dialogs/ObjectFilterDialog.cpp:56 src/dialogs/PenDialog.cpp:140
 #: src/gui/guibase.cpp:161
@@ -2364,42 +2364,42 @@ msgstr ""
 msgid "Aspect Type"
 msgstr ""
 
-#: src/dialogs/AtlasAliasDialog.cpp:47 src/dialogs/AtlasAliasDialog.cpp:162
+#: src/dialogs/AtlasAliasDialog.cpp:47 src/dialogs/AtlasAliasDialog.cpp:161
 msgid "Edit Aliases"
 msgstr ""
 
-#: src/dialogs/AtlasAliasDialog.cpp:54 src/dialogs/AtlasAliasDialog.cpp:78
+#: src/dialogs/AtlasAliasDialog.cpp:53 src/dialogs/AtlasAliasDialog.cpp:77
 msgid "Add Entry"
 msgstr ""
 
-#: src/dialogs/AtlasAliasDialog.cpp:55 src/dialogs/AtlasAliasDialog.cpp:102
+#: src/dialogs/AtlasAliasDialog.cpp:54 src/dialogs/AtlasAliasDialog.cpp:101
 #: src/dialogs/AtlasDialog.cpp:292
 msgid "Edit Entry"
 msgstr ""
 
-#: src/dialogs/AtlasAliasDialog.cpp:56 src/dialogs/AtlasDialog.cpp:293
+#: src/dialogs/AtlasAliasDialog.cpp:55 src/dialogs/AtlasDialog.cpp:293
 msgid "Delete Entry"
 msgstr ""
 
-#: src/dialogs/AtlasAliasDialog.cpp:59 src/dialogs/AtlasDialog.cpp:296
-#: src/dialogs/AtlasEditDialog.cpp:90 src/dialogs/AtlasImportDialog.cpp:54
-#: src/dialogs/BrushDialog.cpp:168 src/dialogs/ConfigDialog.cpp:118
+#: src/dialogs/AtlasAliasDialog.cpp:58 src/dialogs/AtlasDialog.cpp:296
+#: src/dialogs/AtlasEditDialog.cpp:87 src/dialogs/AtlasImportDialog.cpp:54
+#: src/dialogs/BrushDialog.cpp:167 src/dialogs/ConfigDialog.cpp:118
 #: src/dialogs/DataDialog.cpp:134 src/dialogs/ExportDialog.cpp:54
 #: src/dialogs/ObjectFilterDialog.cpp:57 src/dialogs/PenDialog.cpp:141
 #: src/gui/guibase.cpp:166
 msgid "Cancel"
 msgstr ""
 
-#: src/dialogs/AtlasAliasDialog.cpp:78 src/dialogs/AtlasAliasDialog.cpp:102
+#: src/dialogs/AtlasAliasDialog.cpp:77 src/dialogs/AtlasAliasDialog.cpp:101
 msgid "Alias"
 msgstr ""
 
-#: src/dialogs/AtlasAliasDialog.cpp:124
+#: src/dialogs/AtlasAliasDialog.cpp:123
 #, c-format
 msgid "Do you want to delete the item %s?"
 msgstr ""
 
-#: src/dialogs/AtlasAliasDialog.cpp:193 src/dialogs/AtlasEditDialog.cpp:86
+#: src/dialogs/AtlasAliasDialog.cpp:192 src/dialogs/AtlasEditDialog.cpp:83
 msgid "Aliases"
 msgstr ""
 
@@ -2429,15 +2429,15 @@ msgstr ""
 msgid "Alias Name"
 msgstr ""
 
-#: src/dialogs/AtlasDialog.cpp:281 src/dialogs/AtlasEditDialog.cpp:62
+#: src/dialogs/AtlasDialog.cpp:281 src/dialogs/AtlasEditDialog.cpp:61
 msgid "Admin Code"
 msgstr ""
 
-#: src/dialogs/AtlasDialog.cpp:283 src/dialogs/AtlasEditDialog.cpp:84
+#: src/dialogs/AtlasDialog.cpp:283 src/dialogs/AtlasEditDialog.cpp:81
 msgid "TZ Hours"
 msgstr ""
 
-#: src/dialogs/AtlasDialog.cpp:285 src/dialogs/AtlasEditDialog.cpp:65
+#: src/dialogs/AtlasDialog.cpp:285 src/dialogs/AtlasEditDialog.cpp:63
 msgid "Population"
 msgstr ""
 
@@ -2449,7 +2449,7 @@ msgstr ""
 msgid "Alias Names"
 msgstr ""
 
-#: src/dialogs/AtlasDialog.cpp:291 src/dialogs/StyleManagerDialog.cpp:170
+#: src/dialogs/AtlasDialog.cpp:291 src/dialogs/StyleManagerDialog.cpp:169
 msgid "New Entry"
 msgstr ""
 
@@ -2482,39 +2482,39 @@ msgid ""
 "for single character wildcards"
 msgstr ""
 
-#: src/dialogs/AtlasDialog.cpp:746 src/dialogs/StyleManagerDialog.cpp:326
+#: src/dialogs/AtlasDialog.cpp:746 src/dialogs/StyleManagerDialog.cpp:325
 msgid "Actions"
 msgstr ""
 
-#: src/dialogs/AtlasEditDialog.cpp:70 src/dialogs/DataDialog.cpp:105
+#: src/dialogs/AtlasEditDialog.cpp:68 src/dialogs/DataDialog.cpp:105
 #: src/dialogs/DataDialog.cpp:123 src/dialogs/GeneralPanel.cpp:111
 msgid "East"
 msgstr ""
 
-#: src/dialogs/AtlasEditDialog.cpp:71 src/dialogs/DataDialog.cpp:106
+#: src/dialogs/AtlasEditDialog.cpp:69 src/dialogs/DataDialog.cpp:106
 #: src/dialogs/DataDialog.cpp:124 src/dialogs/GeneralPanel.cpp:112
 msgid "West"
 msgstr ""
 
-#: src/dialogs/AtlasEditDialog.cpp:77 src/dialogs/DataDialog.cpp:113
+#: src/dialogs/AtlasEditDialog.cpp:75 src/dialogs/DataDialog.cpp:113
 #: src/dialogs/GeneralPanel.cpp:118
 msgid "North"
 msgstr ""
 
-#: src/dialogs/AtlasEditDialog.cpp:78 src/dialogs/DataDialog.cpp:114
+#: src/dialogs/AtlasEditDialog.cpp:76 src/dialogs/DataDialog.cpp:114
 #: src/dialogs/GeneralPanel.cpp:119
 msgid "South"
 msgstr ""
 
-#: src/dialogs/AtlasEditDialog.cpp:87
+#: src/dialogs/AtlasEditDialog.cpp:84
 msgid "Edit Aliases ..."
 msgstr ""
 
-#: src/dialogs/AtlasEditDialog.cpp:276
+#: src/dialogs/AtlasEditDialog.cpp:273
 msgid "Edit Atlas Entry"
 msgstr ""
 
-#: src/dialogs/AtlasEditDialog.cpp:295 src/dialogs/BrushDialog.cpp:317
+#: src/dialogs/AtlasEditDialog.cpp:292 src/dialogs/BrushDialog.cpp:316
 #: src/dialogs/PenDialog.cpp:211
 msgid "Attributes"
 msgstr ""
@@ -2537,63 +2537,63 @@ msgstr ""
 msgid "Start Import"
 msgstr ""
 
-#: src/dialogs/AtlasPanel.cpp:75
+#: src/dialogs/AtlasPanel.cpp:74
 msgid "Change Countries ..."
 msgstr ""
 
-#: src/dialogs/AtlasPanel.cpp:119
+#: src/dialogs/AtlasPanel.cpp:118
 msgid "Select database file"
 msgstr ""
 
-#: src/dialogs/AtlasPanel.cpp:149
+#: src/dialogs/AtlasPanel.cpp:148
 msgid "File not found"
 msgstr ""
 
-#: src/dialogs/AtlasPanel.cpp:154
+#: src/dialogs/AtlasPanel.cpp:153
 msgid "File not readable"
 msgstr ""
 
-#: src/dialogs/AtlasPanel.cpp:159
+#: src/dialogs/AtlasPanel.cpp:158
 msgid "File size zero"
 msgstr ""
 
-#: src/dialogs/AtlasPanel.cpp:163
+#: src/dialogs/AtlasPanel.cpp:162
 msgid "Ok"
 msgstr ""
 
-#: src/dialogs/AtlasPanel.cpp:183
+#: src/dialogs/AtlasPanel.cpp:182
 msgid "Database error"
 msgstr ""
 
-#: src/dialogs/AtlasPanel.cpp:198
+#: src/dialogs/AtlasPanel.cpp:197
 msgid "Select import file"
 msgstr ""
 
-#: src/dialogs/AtlasPanel.cpp:223
+#: src/dialogs/AtlasPanel.cpp:222
 msgid "Import was successfull"
 msgstr ""
 
-#: src/dialogs/AtlasPanel.cpp:227
+#: src/dialogs/AtlasPanel.cpp:226
 msgid "Import was canceled"
 msgstr ""
 
-#: src/dialogs/AtlasPanel.cpp:232
+#: src/dialogs/AtlasPanel.cpp:231
 msgid "Import had errors"
 msgstr ""
 
-#: src/dialogs/AtlasPanel.cpp:297
+#: src/dialogs/AtlasPanel.cpp:296
 msgid "Choose Favourite Countries"
 msgstr ""
 
-#: src/dialogs/AtlasPanel.cpp:360
+#: src/dialogs/AtlasPanel.cpp:359
 msgid "Manage Favourite Countries"
 msgstr ""
 
-#: src/dialogs/AtlasPanel.cpp:362
+#: src/dialogs/AtlasPanel.cpp:361
 msgid "Database  Import"
 msgstr ""
 
-#: src/dialogs/AtlasPanel.cpp:364
+#: src/dialogs/AtlasPanel.cpp:363
 msgid "Database File"
 msgstr ""
 
@@ -2643,19 +2643,19 @@ msgstr ""
 msgid "Stipple"
 msgstr ""
 
-#: src/dialogs/BrushDialog.cpp:163
+#: src/dialogs/BrushDialog.cpp:162
 msgid "Rotate Hue"
 msgstr ""
 
-#: src/dialogs/BrushDialog.cpp:300
+#: src/dialogs/BrushDialog.cpp:299
 msgid "Select Brush"
 msgstr ""
 
-#: src/dialogs/BrushDialog.cpp:301
+#: src/dialogs/BrushDialog.cpp:300
 msgid "Background images can be used with option 'Stipple'"
 msgstr ""
 
-#: src/dialogs/BrushDialog.cpp:318
+#: src/dialogs/BrushDialog.cpp:317
 msgid "Brush Preview"
 msgstr ""
 
@@ -3105,7 +3105,7 @@ msgstr ""
 #: src/dialogs/DialogElements.cpp:322 src/dialogs/VedicPanel.cpp:86
 #: src/gui/MenuProvider.cpp:604 src/jyotish/GenericTableWriter.cpp:622
 #: src/jyotish/Nakshatra.cpp:230 src/jyotish/Nakshatra.cpp:324
-#: src/jyotish/Partner.cpp:528 src/jyotish/Partner.cpp:558
+#: src/jyotish/Partner.cpp:531 src/jyotish/Partner.cpp:561
 #: src/jyotish/TextHelper.cpp:542 src/jyotish/TextHelper.cpp:594
 msgid "Nakshatra"
 msgstr ""
@@ -3788,40 +3788,40 @@ msgstr ""
 msgid "Table Cells"
 msgstr ""
 
-#: src/dialogs/StyleManagerDialog.cpp:53
+#: src/dialogs/StyleManagerDialog.cpp:52
 msgid "Copy"
 msgstr ""
 
-#: src/dialogs/StyleManagerDialog.cpp:54
+#: src/dialogs/StyleManagerDialog.cpp:53
 msgid "Rename"
 msgstr ""
 
-#: src/dialogs/StyleManagerDialog.cpp:55
+#: src/dialogs/StyleManagerDialog.cpp:54
 msgid "Delete"
 msgstr ""
 
-#: src/dialogs/StyleManagerDialog.cpp:170
+#: src/dialogs/StyleManagerDialog.cpp:169
 msgid "Enter Name"
 msgstr ""
 
-#: src/dialogs/StyleManagerDialog.cpp:246
+#: src/dialogs/StyleManagerDialog.cpp:245
 msgid "Enter New Name"
 msgstr ""
 
-#: src/dialogs/StyleManagerDialog.cpp:246
+#: src/dialogs/StyleManagerDialog.cpp:245
 msgid "Rename Entry"
 msgstr ""
 
-#: src/dialogs/StyleManagerDialog.cpp:282
+#: src/dialogs/StyleManagerDialog.cpp:281
 #, c-format
 msgid "Do you want to delete the entry %s?"
 msgstr ""
 
-#: src/dialogs/StyleManagerDialog.cpp:309
+#: src/dialogs/StyleManagerDialog.cpp:308
 msgid "Manage Styles"
 msgstr ""
 
-#: src/dialogs/StyleManagerDialog.cpp:327
+#: src/dialogs/StyleManagerDialog.cpp:326
 msgid "Styles"
 msgstr ""
 
@@ -4151,7 +4151,7 @@ msgstr ""
 #: src/dialogs/VedicCalculationPanel.cpp:157 src/jyotish/Ashtakavarga.cpp:184
 #: src/jyotish/Ephemeris.cpp:443 src/jyotish/GenericTableWriter.cpp:573
 #: src/jyotish/Jaimini.cpp:200 src/jyotish/Nakshatra.cpp:228
-#: src/jyotish/Nakshatra.cpp:322 src/jyotish/Partner.cpp:653
+#: src/jyotish/Nakshatra.cpp:322 src/jyotish/Partner.cpp:656
 #: src/jyotish/TextHelper.cpp:340 src/jyotish/TextHelper.cpp:417
 #: src/jyotish/TextHelper.cpp:470 src/jyotish/TextHelper.cpp:538
 #: src/jyotish/TextHelper.cpp:631 src/jyotish/TextHelper.cpp:683
@@ -4195,8 +4195,8 @@ msgstr ""
 
 #: src/dialogs/VedicCalculationPanel.cpp:181 src/jyotish/Dasa.cpp:154
 #: src/jyotish/DasaTool.cpp:511 src/jyotish/Ephemeris.cpp:306
-#: src/jyotish/GenericTableWriter.cpp:644 src/jyotish/Hora.cpp:173
-#: src/jyotish/Hora.cpp:177 src/jyotish/SolarChart.cpp:113
+#: src/jyotish/GenericTableWriter.cpp:644 src/jyotish/Hora.cpp:174
+#: src/jyotish/Hora.cpp:178 src/jyotish/SolarChart.cpp:113
 #: src/views/DasaView.cpp:88
 msgid "Lord"
 msgstr ""
@@ -4217,8 +4217,8 @@ msgstr ""
 msgid "Middle"
 msgstr ""
 
-#: src/dialogs/VedicCalculationPanel.cpp:198 src/jyotish/Hora.cpp:174
-#: src/jyotish/Hora.cpp:178
+#: src/dialogs/VedicCalculationPanel.cpp:198 src/jyotish/Hora.cpp:175
+#: src/jyotish/Hora.cpp:179
 msgid "End"
 msgstr ""
 
@@ -4935,7 +4935,7 @@ msgstr ""
 msgid "Order of Planets"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:61 src/jyotish/Partner.cpp:316
+#: src/dialogs/YogaEditorPanel.cpp:61 src/jyotish/Partner.cpp:319
 #: src/jyotish/Yoga.cpp:181
 msgid "Description"
 msgstr ""
@@ -4944,93 +4944,93 @@ msgstr ""
 msgid "Group"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:67 src/jyotish/Yoga.cpp:185
+#: src/dialogs/YogaEditorPanel.cpp:66 src/jyotish/Yoga.cpp:185
 msgid "Source"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:71
+#: src/dialogs/YogaEditorPanel.cpp:69
 msgid "Allow Higher Vargas"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:75
+#: src/dialogs/YogaEditorPanel.cpp:73
 msgid "Parse Rule"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:76
+#: src/dialogs/YogaEditorPanel.cpp:74
 msgid "Evaluate"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:77
+#: src/dialogs/YogaEditorPanel.cpp:75
 msgid "Clear Chart"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:406
+#: src/dialogs/YogaEditorPanel.cpp:404
 #, c-format
 msgid "Do you want to delete the Yoga %s?"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:537
+#: src/dialogs/YogaEditorPanel.cpp:535
 msgid "Move current Yoga up"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:539
+#: src/dialogs/YogaEditorPanel.cpp:537
 msgid "Move current Yoga down"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:541
+#: src/dialogs/YogaEditorPanel.cpp:539
 msgid "Insert new Yoga at current position"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:543
+#: src/dialogs/YogaEditorPanel.cpp:541
 msgid "Delete current Yoga"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:545
+#: src/dialogs/YogaEditorPanel.cpp:543
 msgid "Copy current Yoga"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:551
+#: src/dialogs/YogaEditorPanel.cpp:549
 msgid "Create a new group"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:555
+#: src/dialogs/YogaEditorPanel.cpp:553
 msgid "Create a new source"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:556
+#: src/dialogs/YogaEditorPanel.cpp:554
 msgid "Check this to include the Yoga only in Rasi chart"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:560
+#: src/dialogs/YogaEditorPanel.cpp:558
 msgid "Parse the current rule for syntactical correctness"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:561
+#: src/dialogs/YogaEditorPanel.cpp:559
 msgid "Evaluate the rule in the chart"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:562
+#: src/dialogs/YogaEditorPanel.cpp:560
 msgid "Remove all objects from the chart"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:576
+#: src/dialogs/YogaEditorPanel.cpp:574
 msgid "Properties of Selected Yoga"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:578
+#: src/dialogs/YogaEditorPanel.cpp:576
 msgid "Drag and Drop Chart"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:580 src/jyotish/ArabicParts.cpp:598
+#: src/dialogs/YogaEditorPanel.cpp:578 src/jyotish/ArabicParts.cpp:598
 #: src/jyotish/Transit.cpp:337
 msgid "Rule"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:581 src/jyotish/Yoga.cpp:183
+#: src/dialogs/YogaEditorPanel.cpp:579 src/jyotish/Yoga.cpp:183
 msgid "Effect"
 msgstr ""
 
-#: src/dialogs/YogaEditorPanel.cpp:584 src/views/YogaView.cpp:63
+#: src/dialogs/YogaEditorPanel.cpp:582 src/views/YogaView.cpp:63
 msgid "Yogas"
 msgstr ""
 
@@ -6305,7 +6305,7 @@ msgstr ""
 msgid "Lord of cusp"
 msgstr ""
 
-#: src/jyotish/ArabicParts.cpp:594 src/jyotish/Partner.cpp:314
+#: src/jyotish/ArabicParts.cpp:594 src/jyotish/Partner.cpp:317
 msgid "No."
 msgstr ""
 
@@ -6322,7 +6322,7 @@ msgstr ""
 msgid "Pinda"
 msgstr ""
 
-#: src/jyotish/Ashtakavarga.cpp:186 src/jyotish/Partner.cpp:377
+#: src/jyotish/Ashtakavarga.cpp:186 src/jyotish/Partner.cpp:380
 msgid "Graha"
 msgstr ""
 
@@ -6671,8 +6671,8 @@ msgstr ""
 msgid "Signification"
 msgstr ""
 
-#: src/jyotish/GenericTableWriter.cpp:729 src/jyotish/Partner.cpp:464
-#: src/jyotish/Partner.cpp:525 src/jyotish/Partner.cpp:555
+#: src/jyotish/GenericTableWriter.cpp:729 src/jyotish/Partner.cpp:467
+#: src/jyotish/Partner.cpp:528 src/jyotish/Partner.cpp:558
 #: src/jyotish/TextHelper.cpp:570 src/jyotish/TextHelper.cpp:591
 msgid "Quality"
 msgstr ""
@@ -6727,35 +6727,35 @@ msgstr ""
 msgid "Western Ayanamsa"
 msgstr ""
 
-#: src/jyotish/GenericTableWriter.cpp:1089 src/jyotish/Partner.cpp:325
-#: src/jyotish/Partner.cpp:467 src/jyotish/Partner.cpp:532
-#: src/jyotish/Partner.cpp:561 src/jyotish/TextHelper.cpp:575
+#: src/jyotish/GenericTableWriter.cpp:1089 src/jyotish/Partner.cpp:328
+#: src/jyotish/Partner.cpp:470 src/jyotish/Partner.cpp:535
+#: src/jyotish/Partner.cpp:564 src/jyotish/TextHelper.cpp:575
 msgid "Varna"
 msgstr ""
 
 #: src/jyotish/GenericTableWriter.cpp:1093 src/jyotish/Nakshatra.cpp:232
-#: src/jyotish/Partner.cpp:385 src/jyotish/Partner.cpp:492
-#: src/jyotish/Partner.cpp:539 src/jyotish/Partner.cpp:568
+#: src/jyotish/Partner.cpp:388 src/jyotish/Partner.cpp:495
+#: src/jyotish/Partner.cpp:542 src/jyotish/Partner.cpp:571
 #: src/jyotish/TextHelper.cpp:582
 msgid "Gana"
 msgstr ""
 
 #: src/jyotish/GenericTableWriter.cpp:1099 src/jyotish/Nakshatra.cpp:231
-#: src/jyotish/Partner.cpp:482 src/jyotish/Partner.cpp:536
-#: src/jyotish/Partner.cpp:565 src/jyotish/TextHelper.cpp:579
+#: src/jyotish/Partner.cpp:485 src/jyotish/Partner.cpp:539
+#: src/jyotish/Partner.cpp:568 src/jyotish/TextHelper.cpp:579
 msgid "Yoni"
 msgstr ""
 
 #: src/jyotish/GenericTableWriter.cpp:1104 src/jyotish/Nakshatra.cpp:233
-#: src/jyotish/Partner.cpp:406 src/jyotish/Partner.cpp:502
-#: src/jyotish/Partner.cpp:542 src/jyotish/Partner.cpp:571
+#: src/jyotish/Partner.cpp:409 src/jyotish/Partner.cpp:505
+#: src/jyotish/Partner.cpp:545 src/jyotish/Partner.cpp:574
 #: src/jyotish/TextHelper.cpp:585
 msgid "Nadi"
 msgstr ""
 
 #: src/jyotish/GenericTableWriter.cpp:1110 src/jyotish/Nakshatra.cpp:235
-#: src/jyotish/Partner.cpp:418 src/jyotish/Partner.cpp:507
-#: src/jyotish/Partner.cpp:545 src/jyotish/Partner.cpp:574
+#: src/jyotish/Partner.cpp:421 src/jyotish/Partner.cpp:510
+#: src/jyotish/Partner.cpp:548 src/jyotish/Partner.cpp:577
 msgid "Rajju"
 msgstr ""
 
@@ -6783,19 +6783,19 @@ msgstr ""
 msgid "Varsha Lord"
 msgstr ""
 
-#: src/jyotish/Hora.cpp:172 src/jyotish/Hora.cpp:176
+#: src/jyotish/Hora.cpp:173 src/jyotish/Hora.cpp:177
 msgid "Begin"
 msgstr ""
 
-#: src/jyotish/Hora.cpp:201
+#: src/jyotish/Hora.cpp:202
 msgid "Lord of the day"
 msgstr ""
 
-#: src/jyotish/Hora.cpp:203
+#: src/jyotish/Hora.cpp:204
 msgid "Lord of the month"
 msgstr ""
 
-#: src/jyotish/Hora.cpp:205
+#: src/jyotish/Hora.cpp:206
 msgid "Lord of the year"
 msgstr ""
 
@@ -6926,107 +6926,111 @@ msgstr ""
 msgid "Nakshatras"
 msgstr ""
 
-#: src/jyotish/Nakshatra.cpp:234 src/jyotish/Partner.cpp:477
+#: src/jyotish/Nakshatra.cpp:234 src/jyotish/Partner.cpp:480
 msgid "Tara"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:315
+#: src/jyotish/Partner.cpp:318
 msgid "Koota"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:317
+#: src/jyotish/Partner.cpp:320
 msgid "Criterium"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:318 src/jyotish/Partner.cpp:457
-#: src/jyotish/Partner.cpp:521
+#: src/jyotish/Partner.cpp:321 src/jyotish/Partner.cpp:460
+#: src/jyotish/Partner.cpp:524
 msgid "Groom"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:319 src/jyotish/Partner.cpp:459
-#: src/jyotish/Partner.cpp:551
+#: src/jyotish/Partner.cpp:322 src/jyotish/Partner.cpp:462
+#: src/jyotish/Partner.cpp:554
 msgid "Bride"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:320
+#: src/jyotish/Partner.cpp:323
 msgid "Result"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:326
+#: src/jyotish/Partner.cpp:329
 msgid "Social matching"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:327
+#: src/jyotish/Partner.cpp:330
 msgid "Caste associated with the Moon's sign"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:340 src/jyotish/Partner.cpp:472
+#: src/jyotish/Partner.cpp:343 src/jyotish/Partner.cpp:475
 msgid "Vashya"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:341
-msgid "control, amenability"
+#: src/jyotish/Partner.cpp:344
+msgid "Control, amenability"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:342
+#: src/jyotish/Partner.cpp:345
 msgid "Vashya of Moon's sign"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:378
-msgid "mental affection"
+#: src/jyotish/Partner.cpp:381
+msgid "Mental affection"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:379
+#: src/jyotish/Partner.cpp:382
 msgid "Mutual friendship of the Moon's sign lords"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:386
-msgid "character matching"
+#: src/jyotish/Partner.cpp:389
+msgid "Character matching"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:387 src/jyotish/Partner.cpp:420
+#: src/jyotish/Partner.cpp:390 src/jyotish/Partner.cpp:423
 msgid "Moon's Nakshatra"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:397
+#: src/jyotish/Partner.cpp:400
 msgid "Rasi (Bha)"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:398 src/jyotish/Partner.cpp:419
-msgid "general indications"
+#: src/jyotish/Partner.cpp:401
+msgid "Love, affection"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:399
+#: src/jyotish/Partner.cpp:402
 msgid "Difference between the Moon's signs"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:407
-msgid "physiological matching, offspring"
+#: src/jyotish/Partner.cpp:410
+msgid "Physiological matching, offspring"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:408
+#: src/jyotish/Partner.cpp:411
 msgid "Moon's sign"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:465
+#: src/jyotish/Partner.cpp:422
+msgid "General indications"
+msgstr ""
+
+#: src/jyotish/Partner.cpp:468
 msgid "Points"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:487
+#: src/jyotish/Partner.cpp:490
 msgid "Graha Maitri"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:497
+#: src/jyotish/Partner.cpp:500
 msgid "Bhakoota"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:526 src/jyotish/Partner.cpp:556
+#: src/jyotish/Partner.cpp:529 src/jyotish/Partner.cpp:559
 #: src/jyotish/TextHelper.cpp:369 src/jyotish/TextHelper.cpp:571
 #: src/jyotish/TextHelper.cpp:592
 msgid "Value"
 msgstr ""
 
-#: src/jyotish/Partner.cpp:652
+#: src/jyotish/Partner.cpp:655
 msgid "Composite Planets"
 msgstr ""
 
@@ -7459,11 +7463,11 @@ msgstr ""
 msgid "Partner View"
 msgstr ""
 
-#: src/views/PartnerView.cpp:400
+#: src/views/PartnerView.cpp:401
 msgid "No chart opened"
 msgstr ""
 
-#: src/views/PartnerView.cpp:404
+#: src/views/PartnerView.cpp:405
 msgid "Charts identical"
 msgstr ""
 

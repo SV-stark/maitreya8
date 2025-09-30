@@ -5,7 +5,7 @@ dnl  File: configure.ac
 dnl
 dnl
 
-AC_INIT([maitreya8], 8.1.1)
+AC_INIT([maitreya8], 8.2)
 AM_INIT_AUTOMAKE()
 
 dnl should be included according to documentation, but not supported by older versions of automake
@@ -31,6 +31,8 @@ AC_PROG_EGREP
 
 
 AM_GNU_GETTEXT([external])
+dnl AM_GNU_GETTEXT([no-libtool])
+dnl AM_GNU_GETTEXT
 
 
 dnl

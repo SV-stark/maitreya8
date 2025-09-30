@@ -6,17 +6,6 @@ pkgdatadir = ${datarootdir}/maitreya8
 
 dist_pkgdata_DATA = COPYING debian/changelog
 
-# start disthook
-dist-hook:
-	./mkdisthook.pl $(distdir)
-	cd $(distdir) && automake && autoconf && rm -fr autom*.cache
-
-# all: mkchangelog
-
-mkchangelog:
-	./mkchangelog.sh
-
-# end disthook
 
 all-am: echo-font-message
 
