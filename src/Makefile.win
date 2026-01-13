@@ -3,7 +3,7 @@ MAKEFILE = Makefile.win
 all:
 	for dir in swe base dialogs views wxpdfdoc wxJSON wxsqlite3 jyotish gui; do \
 		cd $$dir; \
-		mingw32-make -f $(MAKEFILE); \
+		mingw32-make -f $(MAKEFILE) || exit 1; \
 		cd ..; \
 	done
 

@@ -18,35 +18,22 @@ jobs:
       with:
         msystem: MINGW64
         update: true
+        cache: true
         install: >-
           mingw-w64-x86_64-wxwidgets3.2-msw
           mingw-w64-x86_64-gcc
           mingw-w64-x86_64-make
-          mingw-w64-x86_64-ccache
           make
           zip
           dos2unix
-
-    - name: Cache ccache
-      uses: actions/cache@v4
-      with:
-        path: .ccache
-        key: ${{ runner.os }}-ccache-${{ github.ref }}-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-ccache-${{ github.ref }}-
-          ${{ runner.os }}-ccache-
 
     - name: Install Inno Setup
       run: choco install innosetup
 
     - name: Compiling source code
       shell: msys2 {0}
-      env:
-        CCACHE_DIR: ../.ccache
       run: |
-        ccache -s
-        mingw32-make -f Makefile.win release CPP="ccache g++"
-        ccache -s
+        mingw32-make -f Makefile.win release
         
     - name: Copy dependencies
       shell: msys2 {0}
