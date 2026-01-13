@@ -21,6 +21,9 @@
 #include "PdfPainter.h"
 #include "PdfBase.h"
 
+#include <wx/brush.h>
+#include <wx/pen.h>
+
 #include "Conf.h"
 #include "FontProvider.h"
 #include "ImageProvider.h"
@@ -29,7 +32,6 @@
 #include "SymbolProvider.h"
 #include "guibase.h"
 #include "maitreya.h"
-
 
 #include <wx/log.h>
 
