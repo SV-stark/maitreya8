@@ -175,6 +175,11 @@ public:
   virtual void drawBitmap(const wxBitmap &bitmap, const double &x0,
                           const double &y0, const bool &transparent);
 
+  // gradients
+  virtual void drawLinearGradient(const MRect &r, const wxColour &startColor,
+                                  const wxColour &endColor,
+                                  const int &direction);
+
   // text
   virtual void drawTextFormatted(const MRect &, const wxString &,
                                  const int &align);
