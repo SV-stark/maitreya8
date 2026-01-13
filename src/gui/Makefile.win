@@ -40,7 +40,7 @@ $(MAITREYA_PROG) : $(OBS)
 
 maitreya_resources.o : maitreya8.rc
 	windres -i maitreya8.rc -o maitreya_resources.o \
-	--include-dir /usr/local/include/wx-3.0 --define __WIN32__ 
+	`wx-config --cppflags`
 
 clean:
 	$(RM) *.o $(MAITREYA_PROG) *.core

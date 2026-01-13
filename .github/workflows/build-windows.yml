@@ -1,0 +1,60 @@
+name: Build Windows Installer
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup MSYS2
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: MINGW64
+        update: true
+        install: >-
+          mingw-w64-x86_64-wxwidgets3.2-msw
+          mingw-w64-x86_64-gcc
+          mingw-w64-x86_64-make
+          make
+          zip
+          dos2unix
+
+    - name: Install Inno Setup
+      run: choco install innosetup
+
+    - name: Compiling source code
+      shell: msys2 {0}
+      run: |
+        mingw32-make release
+        
+    - name: Copy dependencies
+      shell: msys2 {0}
+      run: |
+        cp /mingw64/bin/libgcc_s_seh-1.dll release_v8/
+        cp /mingw64/bin/libstdc++-6.dll release_v8/
+        cp /mingw64/bin/libwinpthread-1.dll release_v8/
+        cp /mingw64/bin/wxbase32u_gcc*.dll release_v8/
+        cp /mingw64/bin/wxmsw32u_core_gcc*.dll release_v8/
+        cp /mingw64/bin/wxmsw32u_aui_gcc*.dll release_v8/
+        cp /mingw64/bin/wxmsw32u_html_gcc*.dll release_v8/
+        cp /mingw64/bin/wxmsw32u_adv_gcc*.dll release_v8/
+        cp /mingw64/bin/wxmsw32u_richtext_gcc*.dll release_v8/
+        # Check if other DLLs are needed
+        ls release_v8/
+
+    - name: Build Installer
+      run: |
+        "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
+
+    - name: Upload Installer
+      uses: actions/upload-artifact@v4
+      with:
+        name: Maitreya8_Setup
+        path: installers/Maitreya8_Setup.exe
