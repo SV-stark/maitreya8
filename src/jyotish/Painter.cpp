@@ -31,7 +31,6 @@
 #include "maitreya.h"
 #include "mathbase.h"
 
-
 #include <wx/dc.h>
 #include <wx/log.h>
 #include <wx/stopwatch.h>
@@ -423,10 +422,11 @@ void DcPainter::setBrush(const MBrush &brush) {
     case wxHORIZONTAL_HATCH:
     case wxVERTICAL_HATCH:
       if (brush.color.IsOk()) {
-        dc->SetBrush(wxBrush(brush.color, brush.style));
+        dc->SetBrush(wxBrush(brush.color, (wxBrushStyle)brush.style));
       } else {
         if (config->colors) {
-          dc->SetBrush(wxBrush(config->colors->bgColor, brush.style));
+          dc->SetBrush(
+              wxBrush(config->colors->bgColor, (wxBrushStyle)brush.style));
         } else {
           wxLogError(wxT("DcPainter::setBrush: cannot set fallback background "
                          "color, config is NULL, using white instead"));
@@ -494,7 +494,7 @@ void DcPainter::setPen(const wxPen &p) {
 **
 ******************************************************/
 wxPen DcPainter::getDefaultPen() {
-  return wxPen(colorcfg->fgColor, 1, wxSOLID);
+  return wxPen(colorcfg->fgColor, 1, wxPENSTYLE_SOLID);
 }
 
 /*****************************************************
@@ -639,7 +639,7 @@ void DcPainter::setPenColor(const wxColour &c) {
     if (currentPen.IsOk()) {
       dc->SetPen(wxPen(c, currentPen.GetWidth(), currentPen.GetStyle()));
     } else
-      dc->SetPen(wxPen(c, 1, wxSOLID));
+      dc->SetPen(wxPen(c, 1, wxPENSTYLE_SOLID));
   }
 }
 
