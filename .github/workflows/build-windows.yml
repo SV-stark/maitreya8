@@ -9,9 +9,33 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+      contents: write
 
     steps:
     - uses: actions/checkout@v4
+
+<... existing steps ...>
+
+    - name: Upload Installer
+      uses: actions/upload-artifact@v4
+      with:
+        name: Maitreya8_Setup
+        path: installers/Maitreya8_Setup.exe
+
+    - name: Nightly Release
+      uses: ncipollo/release-action@v1
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      with:
+        artifacts: "installers/Maitreya8_Setup.exe"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag: "nightly"
+        name: "Nightly Build"
+        body: "Automatic nightly build. Valid for testing."
+        allowUpdates: true
+        removeArtifacts: true
+        replacesArtifacts: true
+        prerelease: true
 
     - name: Setup MSYS2
       uses: msys2/setup-msys2@v2
