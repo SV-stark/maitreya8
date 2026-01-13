@@ -15,10 +15,10 @@ RESOURCES_DIR = src/resources
 LOCATION_DIR = src/atlas
 
 all:
-	cd src; make -f $(MAKEFILE); cd ..
+	cd src; mingw32-make -f $(MAKEFILE); cd ..
 
 clean:
-	cd src; make -f $(MAKEFILE) clean; cd ..
+	cd src; mingw32-make -f $(MAKEFILE) clean; cd ..
 
 release: all
 	$(MKDIR) $(RELEASE_DIR)

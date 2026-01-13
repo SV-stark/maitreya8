@@ -140,12 +140,23 @@ private:
 * \brief general configuration for colors
 *
 ******************************************************/
+
+enum ThemePreset {
+    THEME_CLASSIC,
+    THEME_MODERN_LIGHT,
+    THEME_MODERN_DARK
+};
+
 class ColorConfig : public ConfigBase
 {
 public:
+	ThemePreset theme;
+
 	ColorConfig();
 	virtual void load( wxJSONValue&, wxString = wxEmptyString );
 	virtual void save( wxJSONValue&, wxString = wxEmptyString );
+
+	void setTheme(ThemePreset preset);
 
 	wxColour fgColor;
 	wxColour bgColor;

@@ -345,16 +345,45 @@ BarDiagramStyle::BarDiagramStyle()
 ******************************************************/
 ColorConfig::ColorConfig()
 {
-	// Base Colors
-	fgColor = wxColour( DEFAULT_FG_COLOR );
-	bgColor = wxColour( DEFAULT_BG_COLOR );
-	sbcMarkedFieldsBgColor = wxColour( DEFAULT_SBC_MARKED_FIELDS_COLOR );
-	beneficFgColor = wxColour( DEFAULT_SBC_BENEFIC_COLOR );
-	maleficFgColor = wxColour( DEFAULT_SBC_MALEFIC_COLOR );
-	transitFgColor = wxColour( DEFAULT_TRANSIT_COLOR );
-	errorBgColor = wxColour( DEFAULT_ERROR_BG_COLOR );
-	chartMarkupBgColor = wxColour( DEFAULT_ERROR_BG_COLOR );
+	setTheme(THEME_CLASSIC); // Default to classic
+}
 
+void ColorConfig::setTheme(ThemePreset preset)
+{
+	theme = preset;
+	switch(theme) {
+		case THEME_MODERN_DARK:
+			fgColor = wxColour( "#E2E8F0" ); // Slate-200
+			bgColor = wxColour( "#1E293B" ); // Slate-800
+			sbcMarkedFieldsBgColor = wxColour( "#334155" ); // Slate-700
+			beneficFgColor = wxColour( "#4ADE80" ); // Green-400
+			maleficFgColor = wxColour( "#F87171" ); // Red-400
+			transitFgColor = wxColour( "#60A5FA" ); // Blue-400
+			errorBgColor = wxColour( "#991B1B" ); // Red-800
+			chartMarkupBgColor = wxColour( "#991B1B" );
+			break;
+		case THEME_MODERN_LIGHT:
+			fgColor = wxColour( "#334155" ); // Slate-700
+			bgColor = wxColour( "#F8FAFC" ); // Slate-50
+			sbcMarkedFieldsBgColor = wxColour( "#FEF3C7" ); // Amber-100
+			beneficFgColor = wxColour( "#15803D" ); // Green-700
+			maleficFgColor = wxColour( "#B91C1C" ); // Red-700
+			transitFgColor = wxColour( "#2563EB" ); // Blue-600
+			errorBgColor = wxColour( "#FECACA" ); // Red-100
+			chartMarkupBgColor = wxColour( "#FECACA" );
+			break;
+		case THEME_CLASSIC:
+		default:
+			fgColor = wxColour( DEFAULT_FG_COLOR );
+			bgColor = wxColour( DEFAULT_BG_COLOR );
+			sbcMarkedFieldsBgColor = wxColour( DEFAULT_SBC_MARKED_FIELDS_COLOR );
+			beneficFgColor = wxColour( DEFAULT_SBC_BENEFIC_COLOR );
+			maleficFgColor = wxColour( DEFAULT_SBC_MALEFIC_COLOR );
+			transitFgColor = wxColour( DEFAULT_TRANSIT_COLOR );
+			errorBgColor = wxColour( DEFAULT_ERROR_BG_COLOR );
+			chartMarkupBgColor = wxColour( DEFAULT_ERROR_BG_COLOR );
+			break;
+	}
 }
 
 /*****************************************************

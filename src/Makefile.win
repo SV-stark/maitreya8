@@ -3,14 +3,14 @@ MAKEFILE = Makefile.win
 all:
 	for dir in swe base dialogs views wxpdfdoc wxJSON wxsqlite3 jyotish gui; do \
 		cd $$dir; \
-		make -f $(MAKEFILE); \
+		mingw32-make -f $(MAKEFILE); \
 		cd ..; \
 	done
 
 clean:
 	for dir in swe base dialogs views wxpdfdoc wxJSON wxsqlite3 jyotish gui; do \
 		cd $$dir; \
-		make -f $(MAKEFILE) clean; \
+		mingw32-make -f $(MAKEFILE) clean; \
 		cd ..; \
 	done
 
