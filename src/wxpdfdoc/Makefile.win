@@ -6,7 +6,7 @@ CPP = g++
 AR = ar r
 RM = rm -f
 
-CPPFLAGS = -g -c -I. -w `wx-config --cppflags`
+CPPFLAGS = -g -c -I. -w `wx-config --cppflags` -DWXMAKINGLIB_PDFDOC
 
 LDLIBS = `wx-config --libs` 
 
