@@ -376,15 +376,6 @@ wxImage ImageProvider::getImage(const wxString &s) {
 **   ImageProvider   ---   getBitmap
 **
 ******************************************************/
-if (rotateHue) {
-  // printf( "ROTATE NOW %d\n", rotateHue );
-  wxImage image(bmp);
-  image.RotateHue(rotateHue / 360);
-  return wxBitmap(image);
-
-} else
-  return wxBitmap(bmp);
-}
 
 /*****************************************************
 **
