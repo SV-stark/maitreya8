@@ -28,8 +28,9 @@
 #include "Conf.h"
 #include "DialogElements.h"
 #include "Lang.h"
-#include "mvalidator.h"
 #include "ObjectFilterDialog.h"
+#include "mvalidator.h"
+
 
 #include <wx/button.h>
 #include <wx/checkbox.h>
@@ -40,61 +41,75 @@
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
 
-DEFINE_EVENT_TYPE( COMMAND_UPANEL_CHANGED )
+const wxEventType COMMAND_UPANEL_CHANGED = wxID_HIGHEST + 7641;
 
-#define FILTER_EXLUDE_LIST OI_DESCENDANT | OI_IMUMCOELI | OI_DRAGONTAIL | OI_4_HOUSES | OI_ALL_HOUSES 
+#define FILTER_EXLUDE_LIST                                                     \
+  OI_DESCENDANT | OI_IMUMCOELI | OI_DRAGONTAIL | OI_4_HOUSES | OI_ALL_HOUSES
 
 /*****************************************************
 **
 **   UranianParamPanel   ---   Constructor
 **
 ******************************************************/
-UranianParamPanel::UranianParamPanel( wxWindow* parent, int id, ChartProperties *chartprops, double *orbis )
-	: wxPanel( parent, id, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL),
-		props( chartprops ),
-		orbis( orbis )
-{
-	iorbis = (int)(*orbis * 60.0 );
+UranianParamPanel::UranianParamPanel(wxWindow *parent, int id,
+                                     ChartProperties *chartprops, double *orbis)
+    : wxPanel(parent, id, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL),
+      props(chartprops), orbis(orbis) {
+  iorbis = (int)(*orbis * 60.0);
 
-    // begin wxGlade: UranianParamPanel::UranianParamPanel
-    panel_filter = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER|wxTAB_TRAVERSAL);
-    choice_gradkreis = new GradkreisChoice(this, wxID_ANY);
-    choice_sort = new SortChoice(this, wxID_ANY);
-    spin_orbis = new wxSpinCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER|wxTE_PROCESS_TAB, 0, 600);
-    check_include_midpoints = new wxCheckBox(this, wxID_ANY, _("Midpoints"));
-    check_include_reflectionpoints = new wxCheckBox(this, wxID_ANY, _("Reflection Points"));
-    check_include_sums = new wxCheckBox(this, wxID_ANY, _("Sums"));
-    check_include_differences = new wxCheckBox(this, wxID_ANY, _("Differences"));
-    label_filter = new wxStaticText(panel_filter, wxID_ANY, _("No Filter"));
-    button_filter = new wxButton(this, CMD_FILTER, _("Set Filter ..."));
-    button_clear_filter = new wxButton(this, CMD_CLEAR_FILTER, _("Clear Filter"));
+  // begin wxGlade: UranianParamPanel::UranianParamPanel
+  panel_filter = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize,
+                             wxSUNKEN_BORDER | wxTAB_TRAVERSAL);
+  choice_gradkreis = new GradkreisChoice(this, wxID_ANY);
+  choice_sort = new SortChoice(this, wxID_ANY);
+  spin_orbis =
+      new wxSpinCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize,
+                     wxTE_PROCESS_ENTER | wxTE_PROCESS_TAB, 0, 600);
+  check_include_midpoints = new wxCheckBox(this, wxID_ANY, _("Midpoints"));
+  check_include_reflectionpoints =
+      new wxCheckBox(this, wxID_ANY, _("Reflection Points"));
+  check_include_sums = new wxCheckBox(this, wxID_ANY, _("Sums"));
+  check_include_differences = new wxCheckBox(this, wxID_ANY, _("Differences"));
+  label_filter = new wxStaticText(panel_filter, wxID_ANY, _("No Filter"));
+  button_filter = new wxButton(this, CMD_FILTER, _("Set Filter ..."));
+  button_clear_filter = new wxButton(this, CMD_CLEAR_FILTER, _("Clear Filter"));
 
-    set_properties();
-    do_layout();
-    // end wxGlade
+  set_properties();
+  do_layout();
+  // end wxGlade
 
-	UranianConfig &uconfig = props->getUranianConfig();
-	choice_gradkreis->SetValidator( MChoiceValidator( (int*)&uconfig.gradkreis ));
-	choice_sort->SetValidator( MChoiceValidator( (int*)&uconfig.sortOrder ));
-	spin_orbis->SetValidator( MSpinValidator( &iorbis ));
+  UranianConfig &uconfig = props->getUranianConfig();
+  choice_gradkreis->SetValidator(MChoiceValidator((int *)&uconfig.gradkreis));
+  choice_sort->SetValidator(MChoiceValidator((int *)&uconfig.sortOrder));
+  spin_orbis->SetValidator(MSpinValidator(&iorbis));
 
-	check_include_midpoints->SetValidator( MCheckValidator( &uconfig.eventsIncludeMidpoints ));
-	check_include_reflectionpoints->SetValidator( MCheckValidator( &uconfig.eventsIncludeReflectionPoints ));
-	check_include_sums->SetValidator( MCheckValidator( &uconfig.eventsIncludeSums ));
-	check_include_differences->SetValidator( MCheckValidator( &uconfig.eventsIncludeDifferences ));
-	//check_include_triples->SetValidator( MCheckValidator( &uconfig.eventsIncludeTriples ));
-	//check_include_antiscia->SetValidator( MCheckValidator( &uconfig.eventsIncludeAntiscia ));
+  check_include_midpoints->SetValidator(
+      MCheckValidator(&uconfig.eventsIncludeMidpoints));
+  check_include_reflectionpoints->SetValidator(
+      MCheckValidator(&uconfig.eventsIncludeReflectionPoints));
+  check_include_sums->SetValidator(MCheckValidator(&uconfig.eventsIncludeSums));
+  check_include_differences->SetValidator(
+      MCheckValidator(&uconfig.eventsIncludeDifferences));
+  // check_include_triples->SetValidator( MCheckValidator(
+  // &uconfig.eventsIncludeTriples )); check_include_antiscia->SetValidator(
+  // MCheckValidator( &uconfig.eventsIncludeAntiscia ));
 
-	updateFilterLabel();
-	Connect( wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( UranianParamPanel::OnCommand ));
-	Connect( wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( UranianParamPanel::OnSpin ));
-	Connect( wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( UranianParamPanel::OnCommand ));
-	Connect( wxID_ANY, wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( UranianParamPanel::OnCommand ));
+  updateFilterLabel();
+  Connect(wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,
+          wxCommandEventHandler(UranianParamPanel::OnCommand));
+  Connect(wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,
+          wxSpinEventHandler(UranianParamPanel::OnSpin));
+  Connect(wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,
+          wxCommandEventHandler(UranianParamPanel::OnCommand));
+  Connect(wxID_ANY, wxEVT_COMMAND_TEXT_ENTER,
+          wxCommandEventHandler(UranianParamPanel::OnCommand));
 
-	Connect( CMD_FILTER, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( UranianParamPanel::OnFilter ));
-	Connect( CMD_CLEAR_FILTER, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( UranianParamPanel::OnClearFilter ));
+  Connect(CMD_FILTER, wxEVT_COMMAND_BUTTON_CLICKED,
+          wxCommandEventHandler(UranianParamPanel::OnFilter));
+  Connect(CMD_CLEAR_FILTER, wxEVT_COMMAND_BUTTON_CLICKED,
+          wxCommandEventHandler(UranianParamPanel::OnClearFilter));
 
-	InitDialog();
+  InitDialog();
 }
 
 /*****************************************************
@@ -102,10 +117,9 @@ UranianParamPanel::UranianParamPanel( wxWindow* parent, int id, ChartProperties 
 **   UranianParamPanel   ---   Destructor
 **
 ******************************************************/
-UranianParamPanel::~UranianParamPanel()
-{
-	*orbis = (double)iorbis / 60.0;
-	//printf( "UranianParamPanel::Destructor orbis %f\n", *orbis );
+UranianParamPanel::~UranianParamPanel() {
+  *orbis = (double)iorbis / 60.0;
+  // printf( "UranianParamPanel::Destructor orbis %f\n", *orbis );
 }
 
 /*****************************************************
@@ -113,12 +127,11 @@ UranianParamPanel::~UranianParamPanel()
 **   UranianParamPanel   ---   OnCommand
 **
 ******************************************************/
-void UranianParamPanel::OnCommand( wxCommandEvent &event )
-{
-	event.Skip();
-	*orbis = (double)iorbis / 60.0;
-	//printf( "UranianParamPanel::OnCommand\n" );
-	emitChangeEvent();
+void UranianParamPanel::OnCommand(wxCommandEvent &event) {
+  event.Skip();
+  *orbis = (double)iorbis / 60.0;
+  // printf( "UranianParamPanel::OnCommand\n" );
+  emitChangeEvent();
 }
 
 /*****************************************************
@@ -126,12 +139,11 @@ void UranianParamPanel::OnCommand( wxCommandEvent &event )
 **   UranianParamPanel   ---   OnSpin
 **
 ******************************************************/
-void UranianParamPanel::OnSpin( wxSpinEvent &event )
-{
-	event.Skip();
-	*orbis = (double)iorbis / 60.0;
-	//printf( "UranianParamPanel::OnSpin orbis %f iorbis %d\n", *orbis, iorbis );
-	emitChangeEvent();
+void UranianParamPanel::OnSpin(wxSpinEvent &event) {
+  event.Skip();
+  *orbis = (double)iorbis / 60.0;
+  // printf( "UranianParamPanel::OnSpin orbis %f iorbis %d\n", *orbis, iorbis );
+  emitChangeEvent();
 }
 
 /*****************************************************
@@ -139,19 +151,17 @@ void UranianParamPanel::OnSpin( wxSpinEvent &event )
 **   UranianParamPanel   ---   OnFilter
 **
 ******************************************************/
-void UranianParamPanel::OnFilter( wxCommandEvent& )
-{
-	//printf( "UranianParamPanel::OnFilter\n" );
-	std::vector<ObjectId> planets = props->getPlanetList( FILTER_EXLUDE_LIST );
+void UranianParamPanel::OnFilter(wxCommandEvent &) {
+  // printf( "UranianParamPanel::OnFilter\n" );
+  std::vector<ObjectId> planets = props->getPlanetList(FILTER_EXLUDE_LIST);
 
-	ObjectFilterDialog dialog( this, planets, props->getObjectFilter() );
-	if ( dialog.ShowModal() == wxID_OK )
-	{
-		ObjectFilter filter = dialog.getFilter();
-		props->setObjectFilter( filter );
-		updateFilterLabel();
-		emitChangeEvent();
-	}
+  ObjectFilterDialog dialog(this, planets, props->getObjectFilter());
+  if (dialog.ShowModal() == wxID_OK) {
+    ObjectFilter filter = dialog.getFilter();
+    props->setObjectFilter(filter);
+    updateFilterLabel();
+    emitChangeEvent();
+  }
 }
 
 /*****************************************************
@@ -159,12 +169,11 @@ void UranianParamPanel::OnFilter( wxCommandEvent& )
 **   UranianParamPanel   ---   OnClearFilter
 **
 ******************************************************/
-void UranianParamPanel::OnClearFilter( wxCommandEvent& )
-{
-	//printf( "UranianParamPanel::OnClearFilter\n" );
-	props->setObjectFilter( ObjectFilter());
-	updateFilterLabel();
-	emitChangeEvent();
+void UranianParamPanel::OnClearFilter(wxCommandEvent &) {
+  // printf( "UranianParamPanel::OnClearFilter\n" );
+  props->setObjectFilter(ObjectFilter());
+  updateFilterLabel();
+  emitChangeEvent();
 }
 
 /*****************************************************
@@ -172,11 +181,10 @@ void UranianParamPanel::OnClearFilter( wxCommandEvent& )
 **   UranianParamPanel   ---   emitChangeEvent
 **
 ******************************************************/
-void UranianParamPanel::emitChangeEvent()
-{
-	//printf( "EMIT\n" );
-	wxCommandEvent e( COMMAND_UPANEL_CHANGED, GetId());
-	wxPostEvent( GetParent(), e );
+void UranianParamPanel::emitChangeEvent() {
+  // printf( "EMIT\n" );
+  wxCommandEvent e(COMMAND_UPANEL_CHANGED, GetId());
+  wxPostEvent(GetParent(), e);
 }
 
 /*****************************************************
@@ -184,37 +192,30 @@ void UranianParamPanel::emitChangeEvent()
 **   UranianParamPanel   ---   updateFilterLabel
 **
 ******************************************************/
-void UranianParamPanel::updateFilterLabel()
-{
-	Lang lang;
-	ObjectFilter filter = props->getObjectFilter();
-	const uint fmax = props->getPlanetList( FILTER_EXLUDE_LIST ).size();
+void UranianParamPanel::updateFilterLabel() {
+  Lang lang;
+  ObjectFilter filter = props->getObjectFilter();
+  const uint fmax = props->getPlanetList(FILTER_EXLUDE_LIST).size();
 
-	button_clear_filter->Enable( filter.size() != 0 && filter.size() != fmax ) ;
+  button_clear_filter->Enable(filter.size() != 0 && filter.size() != fmax);
 
-	if ( filter.size() == 0 || filter.size() == fmax ) 
-	{
-		label_filter->SetLabel( _( "No Filter" ));
-	}
-	else if ( filter.size() == 1 )
-	{
-		label_filter->SetLabel( lang.getObjectName( *filter.begin(), TF_LONG ));
-	}
-	else if ( filter.size() <  6 )
-	{
-		wxString s;
-		uint i = 0;
-		for( std::set<ObjectId>::iterator iter = filter.begin(); iter != filter.end(); iter++ )
-		{
-			s << lang.getObjectName( *iter, TF_MEDIUM );
-			if ( ++i < filter.size()) s << wxT( "," );
-		}
-		label_filter->SetLabel( s );
-	}
-	else
-	{
-		label_filter->SetLabel( wxString::Format( wxT( "%u/%u" ), filter.size(), fmax ));
-	}
+  if (filter.size() == 0 || filter.size() == fmax) {
+    label_filter->SetLabel(_("No Filter"));
+  } else if (filter.size() == 1) {
+    label_filter->SetLabel(lang.getObjectName(*filter.begin(), TF_LONG));
+  } else if (filter.size() < 6) {
+    wxString s;
+    uint i = 0;
+    for (std::set<ObjectId>::iterator iter = filter.begin();
+         iter != filter.end(); iter++) {
+      s << lang.getObjectName(*iter, TF_MEDIUM);
+      if (++i < filter.size())
+        s << wxT(",");
+    }
+    label_filter->SetLabel(s);
+  } else {
+    label_filter->SetLabel(wxString::Format(wxT("%u/%u"), filter.size(), fmax));
+  }
 }
 
 /*****************************************************
@@ -222,10 +223,9 @@ void UranianParamPanel::updateFilterLabel()
 **   UranianParamPanel   ---   set_properties
 **
 ******************************************************/
-void UranianParamPanel::set_properties()
-{
-    // begin wxGlade: UranianParamPanel::set_properties
-    // end wxGlade
+void UranianParamPanel::set_properties() {
+  // begin wxGlade: UranianParamPanel::set_properties
+  // end wxGlade
 }
 
 /*****************************************************
@@ -233,35 +233,38 @@ void UranianParamPanel::set_properties()
 **   UranianParamPanel   ---   do_layout
 **
 ******************************************************/
-void UranianParamPanel::do_layout()
-{
-    // begin wxGlade: UranianParamPanel::do_layout
-    wxBoxSizer* sizer_main = new wxBoxSizer(wxVERTICAL);
-    wxStaticBoxSizer* sizer_filter = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Filter")), wxVERTICAL);
-    wxBoxSizer* sizer_1 = new wxBoxSizer(wxHORIZONTAL);
-    wxStaticBoxSizer* sizer_include = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Include")), wxVERTICAL);
-    wxStaticBoxSizer* sizer_orbis = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Orbis")), wxVERTICAL);
-    wxStaticBoxSizer* sizer_sort = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Order")), wxVERTICAL);
-    wxStaticBoxSizer* sizer_gradkreis = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Gradkreis")), wxVERTICAL);
-    sizer_gradkreis->Add(choice_gradkreis, 1, wxALL|wxEXPAND, 3);
-    sizer_main->Add(sizer_gradkreis, 0, wxALL|wxEXPAND, 3);
-    sizer_sort->Add(choice_sort, 1, wxALL|wxEXPAND, 3);
-    sizer_main->Add(sizer_sort, 0, wxALL|wxEXPAND, 3);
-    sizer_orbis->Add(spin_orbis, 0, wxALL|wxEXPAND, 3);
-    sizer_main->Add(sizer_orbis, 0, wxALL|wxEXPAND, 3);
-    sizer_include->Add(check_include_midpoints, 0, wxALL, 3);
-    sizer_include->Add(check_include_reflectionpoints, 0, wxALL, 3);
-    sizer_include->Add(check_include_sums, 0, wxALL, 3);
-    sizer_include->Add(check_include_differences, 0, wxALL, 3);
-    sizer_main->Add(sizer_include, 0, wxALL|wxEXPAND, 3);
-    sizer_1->Add(label_filter, 0, wxALIGN_CENTER_VERTICAL|wxALL, 3);
-    panel_filter->SetSizer(sizer_1);
-    sizer_filter->Add(panel_filter, 1, wxALL|wxEXPAND, 3);
-    sizer_filter->Add(button_filter, 0, wxALL|wxEXPAND, 3);
-    sizer_filter->Add(button_clear_filter, 0, wxALL|wxEXPAND, 3);
-    sizer_main->Add(sizer_filter, 0, wxALL|wxEXPAND, 3);
-    SetSizer(sizer_main);
-    sizer_main->Fit(this);
-    // end wxGlade
+void UranianParamPanel::do_layout() {
+  // begin wxGlade: UranianParamPanel::do_layout
+  wxBoxSizer *sizer_main = new wxBoxSizer(wxVERTICAL);
+  wxStaticBoxSizer *sizer_filter = new wxStaticBoxSizer(
+      new wxStaticBox(this, wxID_ANY, _("Filter")), wxVERTICAL);
+  wxBoxSizer *sizer_1 = new wxBoxSizer(wxHORIZONTAL);
+  wxStaticBoxSizer *sizer_include = new wxStaticBoxSizer(
+      new wxStaticBox(this, wxID_ANY, _("Include")), wxVERTICAL);
+  wxStaticBoxSizer *sizer_orbis = new wxStaticBoxSizer(
+      new wxStaticBox(this, wxID_ANY, _("Orbis")), wxVERTICAL);
+  wxStaticBoxSizer *sizer_sort = new wxStaticBoxSizer(
+      new wxStaticBox(this, wxID_ANY, _("Order")), wxVERTICAL);
+  wxStaticBoxSizer *sizer_gradkreis = new wxStaticBoxSizer(
+      new wxStaticBox(this, wxID_ANY, _("Gradkreis")), wxVERTICAL);
+  sizer_gradkreis->Add(choice_gradkreis, 1, wxALL | wxEXPAND, 3);
+  sizer_main->Add(sizer_gradkreis, 0, wxALL | wxEXPAND, 3);
+  sizer_sort->Add(choice_sort, 1, wxALL | wxEXPAND, 3);
+  sizer_main->Add(sizer_sort, 0, wxALL | wxEXPAND, 3);
+  sizer_orbis->Add(spin_orbis, 0, wxALL | wxEXPAND, 3);
+  sizer_main->Add(sizer_orbis, 0, wxALL | wxEXPAND, 3);
+  sizer_include->Add(check_include_midpoints, 0, wxALL, 3);
+  sizer_include->Add(check_include_reflectionpoints, 0, wxALL, 3);
+  sizer_include->Add(check_include_sums, 0, wxALL, 3);
+  sizer_include->Add(check_include_differences, 0, wxALL, 3);
+  sizer_main->Add(sizer_include, 0, wxALL | wxEXPAND, 3);
+  sizer_1->Add(label_filter, 0, wxALIGN_CENTER_VERTICAL | wxALL, 3);
+  panel_filter->SetSizer(sizer_1);
+  sizer_filter->Add(panel_filter, 1, wxALL | wxEXPAND, 3);
+  sizer_filter->Add(button_filter, 0, wxALL | wxEXPAND, 3);
+  sizer_filter->Add(button_clear_filter, 0, wxALL | wxEXPAND, 3);
+  sizer_main->Add(sizer_filter, 0, wxALL | wxEXPAND, 3);
+  SetSizer(sizer_main);
+  sizer_main->Fit(this);
+  // end wxGlade
 }
-

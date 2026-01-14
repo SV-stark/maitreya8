@@ -31,39 +31,38 @@ class wxButton;
 class wxCheckBox;
 class wxWindow;
 
-#define DEFAULT_DIALOG_STYLE wxRESIZE_BORDER|wxSYSTEM_MENU|wxMAXIMIZE_BOX|wxCLOSE_BOX|wxCAPTION
+#define DEFAULT_DIALOG_STYLE                                                   \
+  wxRESIZE_BORDER | wxSYSTEM_MENU | wxMAXIMIZE_BOX | wxCLOSE_BOX | wxCAPTION
 
-BEGIN_DECLARE_EVENT_TYPES()
-DECLARE_EVENT_TYPE( TOOLPANEL_CHANGED, wxID_HIGHEST + 1000 )
-DECLARE_EVENT_TYPE( TOOLPANEL_CREATEDOC, wxID_HIGHEST + 1001 )
-DECLARE_EVENT_TYPE( SHOW_EPHEM_FILE_WARNING, wxID_HIGHEST + 1003 )
-DECLARE_EVENT_TYPE( CREATE_ENTRY_CHART, wxID_HIGHEST + 1004 )
-END_DECLARE_EVENT_TYPES()
+// BEGIN_DECLARE_EVENT_TYPES()
+extern const wxEventType TOOLPANEL_CHANGED;
+extern const wxEventType TOOLPANEL_CREATEDOC;
+extern const wxEventType SHOW_EPHEM_FILE_WARNING;
+extern const wxEventType CREATE_ENTRY_CHART;
+// END_DECLARE_EVENT_TYPES()
 
-wxString createImageHash( wxImage* );
+wxString createImageHash(wxImage *);
 
-int doMessageBox( wxWindow *parent, const wxString message, const long style = wxOK | wxICON_INFORMATION );
+int doMessageBox(wxWindow *parent, const wxString message,
+                 const long style = wxOK | wxICON_INFORMATION);
 
-void showHelpPopup( wxWindow *parent, wxString header, wxString contents );
+void showHelpPopup(wxWindow *parent, wxString header, wxString contents);
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class DoNotShowAgainDialog : public wxDialog
-{
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class DoNotShowAgainDialog : public wxDialog {
 public:
-	DoNotShowAgainDialog( wxWindow *parent, wxString message, bool *item, const int style = wxOK );
+  DoNotShowAgainDialog(wxWindow *parent, wxString message, bool *item,
+                       const int style = wxOK);
 
 private:
+  void OnButton(wxCommandEvent &);
 
-	void OnButton( wxCommandEvent& );
-
-	wxCheckBox *check_not_ask_again;
-	bool *cfgitem;
+  wxCheckBox *check_not_ask_again;
+  bool *cfgitem;
 };
 
-
 #endif
-

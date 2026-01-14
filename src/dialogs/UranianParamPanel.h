@@ -26,12 +26,10 @@
 #include "maitreya.h"
 
 #ifndef APP_CATALOG
-#define APP_CATALOG "app"  // replace with the appropriate catalog name
+#define APP_CATALOG "app" // replace with the appropriate catalog name
 #endif
 
-BEGIN_DECLARE_EVENT_TYPES()
-DECLARE_EVENT_TYPE( COMMAND_UPANEL_CHANGED, wxID_HIGHEST + 7641 )
-END_DECLARE_EVENT_TYPES()
+extern const wxEventType COMMAND_UPANEL_CHANGED;
 
 class wxButton;
 class wxCheckBox;
@@ -46,54 +44,52 @@ class GradkreisChoice;
 class SortChoice;
 class UranianConfig;
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class UranianParamPanel: public wxPanel
-{
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class UranianParamPanel : public wxPanel {
 public:
-    // begin wxGlade: UranianParamPanel::ids
-    // end wxGlade
+  // begin wxGlade: UranianParamPanel::ids
+  // end wxGlade
 
-	UranianParamPanel( wxWindow* parent, int id, ChartProperties*, double *orbis );
-	~UranianParamPanel();
+  UranianParamPanel(wxWindow *parent, int id, ChartProperties *, double *orbis);
+  ~UranianParamPanel();
 
 private:
-    // begin wxGlade: UranianParamPanel::methods
-    void set_properties();
-    void do_layout();
-    // end wxGlade
+  // begin wxGlade: UranianParamPanel::methods
+  void set_properties();
+  void do_layout();
+  // end wxGlade
 
-	void OnCommand( wxCommandEvent &event );
-	void OnSpin( wxSpinEvent &event );
-	void OnFilter( wxCommandEvent& );
-	void OnClearFilter( wxCommandEvent& );
+  void OnCommand(wxCommandEvent &event);
+  void OnSpin(wxSpinEvent &event);
+  void OnFilter(wxCommandEvent &);
+  void OnClearFilter(wxCommandEvent &);
 
-	void emitChangeEvent();
-	void updateFilterLabel();
+  void emitChangeEvent();
+  void updateFilterLabel();
 
-	ChartProperties *props;
+  ChartProperties *props;
 
-	int iorbis;
-	double *orbis;
+  int iorbis;
+  double *orbis;
 
 protected:
-    // begin wxGlade: UranianParamPanel::attributes
-    GradkreisChoice* choice_gradkreis;
-    SortChoice* choice_sort;
-    wxSpinCtrl* spin_orbis;
-    wxCheckBox* check_include_midpoints;
-    wxCheckBox* check_include_reflectionpoints;
-    wxCheckBox* check_include_sums;
-    wxCheckBox* check_include_differences;
-    wxStaticText* label_filter;
-    wxPanel* panel_filter;
-    wxButton* button_filter;
-    wxButton* button_clear_filter;
-    // end wxGlade
+  // begin wxGlade: UranianParamPanel::attributes
+  GradkreisChoice *choice_gradkreis;
+  SortChoice *choice_sort;
+  wxSpinCtrl *spin_orbis;
+  wxCheckBox *check_include_midpoints;
+  wxCheckBox *check_include_reflectionpoints;
+  wxCheckBox *check_include_sums;
+  wxCheckBox *check_include_differences;
+  wxStaticText *label_filter;
+  wxPanel *panel_filter;
+  wxButton *button_filter;
+  wxButton *button_clear_filter;
+  // end wxGlade
 }; // wxGlade: end class
-
 
 #endif // URANIANPARAMPANEL_H

@@ -21,89 +21,83 @@
 #ifndef _DASATREEWIDGET_H_
 #define _DASATREEWIDGET_H_
 
-#include "Dasa.h"
 #include "BasicWidget.h"
+#include "Dasa.h"
 #include "TreeWidget.h"
+
 
 class Horoscope;
 
-DECLARE_EVENT_TYPE( DASATREE_CHANGED, wxID_HIGHEST + 1630 )
+extern const wxEventType DASATREE_CHANGED;
 
-/*************************************************//**
-*
-* \brief holds all relevant astrological data in a tree item
-*
-******************************************************/
-class DasaTreeItemClientData : public TreeItemClientData
-{
+/*************************************************/ /**
+                                                     *
+                                                     * \brief holds all relevant
+                                                     * astrological data in a
+                                                     * tree item
+                                                     *
+                                                     ******************************************************/
+class DasaTreeItemClientData : public TreeItemClientData {
 public:
+  DasaTreeItemClientData(DasaExpert *expert, Dasa *dasa)
+      : expert(expert), dasa(dasa) {}
 
-	DasaTreeItemClientData( DasaExpert *expert, Dasa *dasa ) : expert( expert ), dasa( dasa )
-	{
-	} 
+  ~DasaTreeItemClientData() {
+    if (dasa)
+      delete dasa;
+  }
 
-	~DasaTreeItemClientData()
-	{
-		if ( dasa ) delete dasa;
-	}
+  bool isRootItem() { return dasa == (Dasa *)NULL; }
 
-	bool isRootItem() { return dasa == (Dasa*)NULL; }
+  DasaExpert *getExpert() const { return expert; }
+  DasaId getDasaId() const {
+    assert(expert);
+    return expert->getDasaId();
+  }
 
-	DasaExpert *getExpert() const { return expert; }
-	DasaId getDasaId() const
-	{
-		assert( expert );
-		return expert->getDasaId();
-	}
-
-	Dasa *getDasa() const { return dasa; }
-	void setDasa( Dasa *d ) { dasa = d; }
+  Dasa *getDasa() const { return dasa; }
+  void setDasa(Dasa *d) { dasa = d; }
 
 protected:
-	DasaExpert *expert;
-	Dasa *dasa;
+  DasaExpert *expert;
+  Dasa *dasa;
 };
 
-
-/*************************************************//**
-*
-*
-*
-******************************************************/
-class DasaTreeWidget : public BasicWidget
-{
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class DasaTreeWidget : public BasicWidget {
 public:
-	DasaTreeWidget( wxWindow *parent, ChartProperties*, wxWindowID id, Horoscope* );
-	~DasaTreeWidget();
+  DasaTreeWidget(wxWindow *parent, ChartProperties *, wxWindowID id,
+                 Horoscope *);
+  ~DasaTreeWidget();
 
-	void OnDataChanged();
+  void OnDataChanged();
 
-	double getCurrentJD() const { return currentjd; }
+  double getCurrentJD() const { return currentjd; }
 
 protected:
+  wxString getItemLabel(DasaTreeItemClientData *);
+  void expand(MyTreeEvent &);
+  void collapse(MyTreeEvent &);
+  void OnSelChanging(MyTreeEvent &);
+  void updateDasa(const wxTreeItemId &);
+  void emitItemChanged(DasaTreeItemClientData *);
 
-	wxString getItemLabel( DasaTreeItemClientData* );
-	void expand( MyTreeEvent& );
-	void collapse( MyTreeEvent& );
-	void OnSelChanging( MyTreeEvent& );
-	void updateDasa( const wxTreeItemId& );
-	void emitItemChanged( DasaTreeItemClientData* );
+  virtual void HandleMouseWheelEvent(wxMouseEvent &);
+  virtual void doPaint(const wxRect &, const bool eraseBackground = true);
 
-	virtual void HandleMouseWheelEvent( wxMouseEvent& );
-	virtual void doPaint( const wxRect&, const bool eraseBackground = true );
-
-	TreeWidget *twidget;
-	Horoscope *horoscope;
-	wxTreeItemId rootid, baseid, specialid, conditionalid;
-	double currentjd;
-	ChartProperties *props;
-	DasaExpert *experts[MAX_DASAEXPERTS];
+  TreeWidget *twidget;
+  Horoscope *horoscope;
+  wxTreeItemId rootid, baseid, specialid, conditionalid;
+  double currentjd;
+  ChartProperties *props;
+  DasaExpert *experts[MAX_DASAEXPERTS];
 
 private:
-
-	DECLARE_CLASS( DasaTreeWidget )
+  DECLARE_CLASS(DasaTreeWidget)
 };
 
-
 #endif
-

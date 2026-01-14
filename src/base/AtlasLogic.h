@@ -29,79 +29,70 @@
 #include <vector>
 #include <wx/event.h>
 
-BEGIN_DECLARE_EVENT_TYPES()
-DECLARE_EVENT_TYPE( ATLAS_COUNT_HASNEWS, wxID_HIGHEST + 1500 )
-DECLARE_EVENT_TYPE( ATLAS_FETCH_HASNEWS, wxID_HIGHEST + 1501 )
-END_DECLARE_EVENT_TYPES()
+extern const wxEventType ATLAS_COUNT_HASNEWS;
+extern const wxEventType ATLAS_FETCH_HASNEWS;
 
-/*************************************************//**
-*
-*
-*
-******************************************************/
-class AtlasLogic
-{
-	friend class AtlasLogicWorker;
-	friend class AtlasLogicCountWorker;
-	friend class AtlasLogicFetchWorker;
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class AtlasLogic {
+  friend class AtlasLogicWorker;
+  friend class AtlasLogicCountWorker;
+  friend class AtlasLogicFetchWorker;
 
 public:
+  AtlasLogic(const bool runWorkerThreads = false);
+  ~AtlasLogic();
 
-	AtlasLogic( const bool runWorkerThreads = false );
-	~AtlasLogic();
+  std::list<AtlasCountry> getAllCountries();
+  std::list<AtlasCountry> getFavouriteCountries(std::vector<wxString>);
+  wxString getCountryCodeForName(wxString name);
 
-	std::list<AtlasCountry> getAllCountries();
-	std::list<AtlasCountry> getFavouriteCountries( std::vector<wxString> );
-	wxString getCountryCodeForName( wxString name );
+  std::list<TimezoneEntry> getAllTimezones();
 
-	std::list<TimezoneEntry> getAllTimezones();
+  std::list<wxString> getAllAdminNamesForCountry(const wxString &country_code);
+  wxString getAdminCodeForCountryAndName(wxString country_code, wxString name);
 
-	std::list<wxString> getAllAdminNamesForCountry( const wxString &country_code );
-	wxString getAdminCodeForCountryAndName( wxString country_code, wxString name );
+  void setFilterConditions(wxString f, wxString c, const int &m);
+  void updateFilter();
 
-	void setFilterConditions( wxString f, wxString c, const int& m );
-	void updateFilter();
+  AtlasEntry *getEntryByRowId(const int &rowid);
+  AtlasEntry getFullEntry(const int &featureid);
 
-	AtlasEntry *getEntryByRowId( const int &rowid );
-	AtlasEntry getFullEntry( const int &featureid );
+  bool countHasNews();
+  int getCount();
+  void aknowledgeCountHasNews();
 
-	bool countHasNews();
-	int getCount();
-	void aknowledgeCountHasNews();
+  bool fetchHasNews();
+  void aknowledgeFetchHasNews();
 
-	bool fetchHasNews();
-	void aknowledgeFetchHasNews();
-
-	void saveEntry( AtlasEntry& );
-	void deleteEntry( const int& id );
+  void saveEntry(AtlasEntry &);
+  void deleteEntry(const int &id);
 
 private:
+  class AtlasLogicSharedSection *sharedSection;
+  class AtlasLogicCountWorker *countWorker;
+  class AtlasLogicFetchWorker *fetchWorker;
+  class AtlasLogicLifeCycleWorker *lifeCycleWorker;
 
-	class AtlasLogicSharedSection *sharedSection;
-	class AtlasLogicCountWorker *countWorker;
-	class AtlasLogicFetchWorker *fetchWorker;
-	class AtlasLogicLifeCycleWorker *lifeCycleWorker;
+  class AtlasDao *dao;
+  std::map<wxString, wxString> countrynames;
+  std::map<wxString, wxString> featurenames;
+  std::map<wxString, wxString> adminnames;
 
-	class AtlasDao *dao;
-	std::map<wxString, wxString> countrynames;
-	std::map<wxString, wxString> featurenames;
-	std::map<wxString, wxString> adminnames;
+  wxString getCountryName(wxString iso);
+  wxString getAdminName(wxString country_code, wxString admin1_code);
+  wxString getFeatureName(wxString feature_class, wxString feature_code);
+  void resetEntries();
 
-	wxString getCountryName( wxString iso );
-	wxString getAdminName( wxString country_code, wxString admin1_code );
-	wxString getFeatureName( wxString feature_class, wxString feature_code );
-	void resetEntries();
-
-	wxString country;
-	wxString filter;
-	int mode;
-	AtlasEntry *entries[ATLAS_MAX_GRID_ELEMENTS];
+  wxString country;
+  wxString filter;
+  int mode;
+  AtlasEntry *entries[ATLAS_MAX_GRID_ELEMENTS];
 
 protected:
-
-
 };
 
-
 #endif
-

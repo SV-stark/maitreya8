@@ -21,8 +21,9 @@
 #ifndef _MVALIDATOR_H_
 #define _MVALIDATOR_H_
 
-#include <wx/validate.h>
 #include <list>
+#include <wx/validate.h>
+
 
 class wxCheckBox;
 class wxChoice;
@@ -31,381 +32,353 @@ class wxColourPickerCtrl;
 class wxSpinCtrl;
 class wxTextCtrl;
 
-BEGIN_DECLARE_EVENT_TYPES()
-DECLARE_EVENT_TYPE(COMMAND_SPIN_CHANGED, wxID_HIGHEST + 5001 )
-DECLARE_EVENT_TYPE(COMMAND_SPIN_WRAP, wxID_HIGHEST + 5002 )
-END_DECLARE_EVENT_TYPES()
+extern const wxEventType COMMAND_SPIN_CHANGED;
+extern const wxEventType COMMAND_SPIN_WRAP;
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class MBaseValidator : public wxValidator
-{
-	DECLARE_CLASS( MBaseValidator )
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class MBaseValidator : public wxValidator {
+  DECLARE_CLASS(MBaseValidator)
 
 public:
-
-	MBaseValidator();
+  MBaseValidator();
 
 protected:
+  virtual bool doValidate() { return true; }
+  virtual void doKillFocus() { TransferFromWindow(); }
 
-	virtual bool doValidate() { return true; }
-	virtual void doKillFocus() { TransferFromWindow(); }
+  void OnKillFocus(wxFocusEvent &);
+  void OnControlChanged(wxCommandEvent &);
 
-	void OnKillFocus( wxFocusEvent& );
-	void OnControlChanged( wxCommandEvent& );
+  virtual bool Validate(wxWindow *);
 
-	virtual bool Validate( wxWindow* );
-
-	void setWindowBackground( const bool& );
+  void setWindowBackground(const bool &);
 };
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class MBaseTextValidator : public MBaseValidator
-{
-	DECLARE_CLASS( MBaseTextValidator )
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class MBaseTextValidator : public MBaseValidator {
+  DECLARE_CLASS(MBaseTextValidator)
 
 public:
-	MBaseTextValidator();
+  MBaseTextValidator();
 
 protected:
+  void setIncludes(const wxString &);
+  void setIncludes(const std::list<wxChar> l) { allowedChars = l; }
 
-	void setIncludes( const wxString& );
-	void setIncludes( const std::list<wxChar> l ) { allowedChars = l; }
+  void OnChar(wxKeyEvent &);
 
-	void OnChar( wxKeyEvent& );
+  wxTextCtrl *getTextCtrl() const;
+  wxString getTextValue();
 
-	wxTextCtrl *getTextCtrl() const;
-	wxString getTextValue();
-
-	std::list<wxChar> allowedChars;
+  std::list<wxChar> allowedChars;
 };
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class MBaseDoubleValidator : public MBaseTextValidator
-{
-	DECLARE_CLASS( MBaseDoubleValidator )
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class MBaseDoubleValidator : public MBaseTextValidator {
+  DECLARE_CLASS(MBaseDoubleValidator)
 
 public:
-	MBaseDoubleValidator( double *v );
-	MBaseDoubleValidator( const MBaseDoubleValidator& );
+  MBaseDoubleValidator(double *v);
+  MBaseDoubleValidator(const MBaseDoubleValidator &);
 
-	double *getValue() const { return value; }
+  double *getValue() const { return value; }
 
 protected:
+  virtual bool readValueFromControl(double &v) = 0;
+  virtual void doKillFocus();
 
-	virtual bool readValueFromControl( double &v ) = 0;
-	virtual void doKillFocus();
-
-	double *value;
+  double *value;
 };
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class MDoubleValidator : public MBaseDoubleValidator
-{
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class MDoubleValidator : public MBaseDoubleValidator {
 public:
-	MDoubleValidator( double *v, const double &minvalue, const double &maxvalue );
-	MDoubleValidator( const MDoubleValidator& );
+  MDoubleValidator(double *v, const double &minvalue, const double &maxvalue);
+  MDoubleValidator(const MDoubleValidator &);
 
-	virtual wxObject *Clone() const { return new MDoubleValidator( *this ); }
+  virtual wxObject *Clone() const { return new MDoubleValidator(*this); }
 
-	virtual bool TransferFromWindow();
-	virtual bool TransferToWindow();
+  virtual bool TransferFromWindow();
+  virtual bool TransferToWindow();
 
 protected:
+  virtual bool readValueFromControl(double &v);
+  virtual bool doValidate();
 
-	virtual bool readValueFromControl( double &v );
-	virtual bool doValidate();
-
-	const double minvalue;
-	const double maxvalue;
+  const double minvalue;
+  const double maxvalue;
 };
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class MIntegerValidator : public MBaseTextValidator
-{
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class MIntegerValidator : public MBaseTextValidator {
 public:
-	MIntegerValidator( int *v );
-	MIntegerValidator( const MIntegerValidator& );
+  MIntegerValidator(int *v);
+  MIntegerValidator(const MIntegerValidator &);
 
-	virtual wxObject *Clone() const { return new MIntegerValidator( *this ); }
+  virtual wxObject *Clone() const { return new MIntegerValidator(*this); }
 
-	virtual bool TransferFromWindow();
-	virtual bool TransferToWindow();
+  virtual bool TransferFromWindow();
+  virtual bool TransferToWindow();
 
 protected:
+  virtual bool doValidate();
+  virtual void doKillFocus() { TransferFromWindow(); }
 
-	virtual bool doValidate();
-	virtual void doKillFocus() { TransferFromWindow(); }
-
-	int *value;
+  int *value;
 };
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class MDegreeValidator : public MBaseDoubleValidator
-{
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class MDegreeValidator : public MBaseDoubleValidator {
 public:
-	MDegreeValidator( double *v, const double &maxvalue );
-	MDegreeValidator( const MDegreeValidator& );
+  MDegreeValidator(double *v, const double &maxvalue);
+  MDegreeValidator(const MDegreeValidator &);
 
-	virtual wxObject *Clone() const { return new MDegreeValidator( *this ); }
+  virtual wxObject *Clone() const { return new MDegreeValidator(*this); }
 
-	virtual bool TransferFromWindow();
-	virtual bool TransferToWindow();
+  virtual bool TransferFromWindow();
+  virtual bool TransferToWindow();
 
-	double getMaxValue() const { return maxvalue; }
+  double getMaxValue() const { return maxvalue; }
 
 protected:
+  virtual bool readValueFromControl(double &v);
+  virtual bool doValidate();
 
-	virtual bool readValueFromControl( double &v );
-	virtual bool doValidate();
-
-	const double maxvalue;
+  const double maxvalue;
 };
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class MDateValidator : public MBaseDoubleValidator
-{
-	DECLARE_CLASS( MDateValidator )
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class MDateValidator : public MBaseDoubleValidator {
+  DECLARE_CLASS(MDateValidator)
 
 public:
-	MDateValidator( double *v );
-	MDateValidator( const MDateValidator& );
+  MDateValidator(double *v);
+  MDateValidator(const MDateValidator &);
 
-	virtual wxObject *Clone() const { return new MDateValidator( *this ); }
+  virtual wxObject *Clone() const { return new MDateValidator(*this); }
 
-	virtual bool TransferFromWindow();
-	virtual bool TransferToWindow();
+  virtual bool TransferFromWindow();
+  virtual bool TransferToWindow();
 
 protected:
-
-	virtual bool readValueFromControl( double &v );
-	virtual bool doValidate();
+  virtual bool readValueFromControl(double &v);
+  virtual bool doValidate();
 };
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class MChoiceValidator : public MBaseValidator
-{
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class MChoiceValidator : public MBaseValidator {
 public:
+  MChoiceValidator(int *c) : MBaseValidator(), choice(c) { assert(c); }
+  MChoiceValidator(const MChoiceValidator &tocopy)
+      : MBaseValidator(), choice(tocopy.choice) {
+    assert(choice);
+  }
 
-	MChoiceValidator( int *c ) : MBaseValidator(), choice( c ) { assert( c ); }
-	MChoiceValidator( const MChoiceValidator &tocopy ) : MBaseValidator(), choice( tocopy.choice ) { assert( choice ); }
-
-	virtual wxObject *Clone() const { return new MChoiceValidator( *this ); }
+  virtual wxObject *Clone() const { return new MChoiceValidator(*this); }
 
 protected:
+  wxChoice *getChoiceControl();
 
-	wxChoice *getChoiceControl();
+  virtual bool TransferFromWindow();
+  virtual bool TransferToWindow();
 
-	virtual bool TransferFromWindow();
-	virtual bool TransferToWindow();
-
-	int *choice;
+  int *choice;
 };
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class MSpinValidator : public MBaseValidator
-{
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class MSpinValidator : public MBaseValidator {
 public:
+  MSpinValidator(int *v) : MBaseValidator(), value(v) { assert(value); }
+  MSpinValidator(const MSpinValidator &tocopy)
+      : MBaseValidator(), value(tocopy.value) {}
 
-	MSpinValidator( int *v ) : MBaseValidator(), value( v ) { assert( value ); }
-	MSpinValidator( const MSpinValidator &tocopy ) : MBaseValidator(), value( tocopy.value ) {}
-
-	virtual wxObject *Clone() const { return new MSpinValidator( *this ); }
+  virtual wxObject *Clone() const { return new MSpinValidator(*this); }
 
 protected:
+  wxSpinCtrl *getSpinControl();
 
-	wxSpinCtrl *getSpinControl();
+  virtual bool TransferFromWindow();
+  virtual bool TransferToWindow();
 
-	virtual bool TransferFromWindow();
-	virtual bool TransferToWindow();
-
-	int *value;
+  int *value;
 };
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class MBaseCheckValidator : public MBaseValidator
-{
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class MBaseCheckValidator : public MBaseValidator {
 public:
-	MBaseCheckValidator() : MBaseValidator() {}
+  MBaseCheckValidator() : MBaseValidator() {}
 
 protected:
-	wxCheckBox *getCheckControl();
-
+  wxCheckBox *getCheckControl();
 };
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class MCheckValidator : public MBaseCheckValidator
-{
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class MCheckValidator : public MBaseCheckValidator {
 public:
+  MCheckValidator(bool *v) : MBaseCheckValidator(), value(v) { assert(value); }
+  MCheckValidator(const MCheckValidator &tocopy)
+      : MBaseCheckValidator(), value(tocopy.value) {}
 
-	MCheckValidator( bool *v ) : MBaseCheckValidator(), value( v ) { assert( value ); }
-	MCheckValidator( const MCheckValidator &tocopy ) : MBaseCheckValidator(), value( tocopy.value ) {}
-
-	virtual wxObject *Clone() const { return new MCheckValidator( *this ); }
+  virtual wxObject *Clone() const { return new MCheckValidator(*this); }
 
 protected:
+  virtual bool TransferFromWindow();
+  virtual bool TransferToWindow();
 
-	virtual bool TransferFromWindow();
-	virtual bool TransferToWindow();
-
-	bool *value;
+  bool *value;
 };
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class MBooleanFlagValidator : public MBaseCheckValidator
-{
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class MBooleanFlagValidator : public MBaseCheckValidator {
 public:
+  MBooleanFlagValidator(int *v, const int &sv)
+      : MBaseCheckValidator(), value(v), shiftvalue(sv) {
+    assert(value);
+    assert(shiftvalue);
+  }
+  MBooleanFlagValidator(const MBooleanFlagValidator &tocopy)
+      : MBaseCheckValidator(), value(tocopy.value),
+        shiftvalue(tocopy.shiftvalue) {}
 
-	MBooleanFlagValidator( int *v, const int &sv ) : MBaseCheckValidator(), value( v ), shiftvalue( sv ) { assert( value ); assert( shiftvalue ); }
-	MBooleanFlagValidator( const MBooleanFlagValidator &tocopy ) : MBaseCheckValidator(), value( tocopy.value ), shiftvalue( tocopy.shiftvalue ) {}
-
-	virtual wxObject *Clone() const { return new MBooleanFlagValidator( *this ); }
+  virtual wxObject *Clone() const { return new MBooleanFlagValidator(*this); }
 
 protected:
+  virtual bool TransferFromWindow();
+  virtual bool TransferToWindow();
 
-	virtual bool TransferFromWindow();
-	virtual bool TransferToWindow();
-
-	int *value;
-	const int shiftvalue;
+  int *value;
+  const int shiftvalue;
 };
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class MColourPickerValidator : public MBaseValidator
-{
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class MColourPickerValidator : public MBaseValidator {
 public:
+  MColourPickerValidator(wxColour *v) : MBaseValidator(), value(v) {
+    assert(value);
+  }
+  MColourPickerValidator(const MColourPickerValidator &tocopy)
+      : MBaseValidator(), value(tocopy.value) {}
 
-	MColourPickerValidator( wxColour *v ) : MBaseValidator(), value( v ) { assert( value ); }
-	MColourPickerValidator( const MColourPickerValidator &tocopy ) : MBaseValidator(), value( tocopy.value ) {}
-
-	virtual wxObject *Clone() const { return new MColourPickerValidator( *this ); }
+  virtual wxObject *Clone() const { return new MColourPickerValidator(*this); }
 
 protected:
+  wxColourPickerCtrl *getColourPickerControl();
 
-	wxColourPickerCtrl *getColourPickerControl();
+  virtual bool TransferFromWindow();
+  virtual bool TransferToWindow();
+  virtual bool doValidate();
 
-	virtual bool TransferFromWindow();
-	virtual bool TransferToWindow();
-	virtual bool doValidate();
-
-	wxColour *value;
+  wxColour *value;
 };
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class MTextValidator : public MBaseTextValidator
-{
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class MTextValidator : public MBaseTextValidator {
 public:
+  MTextValidator(wxString *s) : MBaseTextValidator(), value(s) {
+    assert(value);
+  }
+  MTextValidator(const MTextValidator &tocopy)
+      : MBaseTextValidator(), value(tocopy.value) {}
 
-	MTextValidator( wxString *s ) : MBaseTextValidator(), value( s ) { assert( value ); }
-	MTextValidator( const MTextValidator &tocopy ) : MBaseTextValidator(), value( tocopy.value ) {}
-
-	virtual wxObject *Clone() const { return new MTextValidator( *this ); }
+  virtual wxObject *Clone() const { return new MTextValidator(*this); }
 
 protected:
+  virtual bool TransferFromWindow();
+  virtual bool TransferToWindow();
 
-	virtual bool TransferFromWindow();
-	virtual bool TransferToWindow();
-
-	wxString *value;
+  wxString *value;
 };
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class MFilenameValidator : public MTextValidator
-{
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class MFilenameValidator : public MTextValidator {
 public:
+  MFilenameValidator(wxString *s) : MTextValidator(s) {}
+  MFilenameValidator(const MFilenameValidator &tocopy)
+      : MTextValidator(tocopy) {}
 
-	MFilenameValidator( wxString *s ) : MTextValidator( s ) {}
-	MFilenameValidator( const MFilenameValidator &tocopy ) : MTextValidator( tocopy ) {}
-
-	virtual wxObject *Clone() const { return new MFilenameValidator( *this ); }
+  virtual wxObject *Clone() const { return new MFilenameValidator(*this); }
 
 protected:
-
-	virtual bool TransferFromWindow();
-	virtual bool doValidate();
-
+  virtual bool TransferFromWindow();
+  virtual bool doValidate();
 };
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class MDirectoryValidator : public MTextValidator
-{
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class MDirectoryValidator : public MTextValidator {
 public:
+  MDirectoryValidator(wxString *s) : MTextValidator(s) {}
+  MDirectoryValidator(const MDirectoryValidator &tocopy)
+      : MTextValidator(tocopy) {}
 
-	MDirectoryValidator( wxString *s ) : MTextValidator( s ) {}
-	MDirectoryValidator( const MDirectoryValidator &tocopy ) : MTextValidator( tocopy ) {}
-
-	virtual wxObject *Clone() const { return new MDirectoryValidator( *this ); }
+  virtual wxObject *Clone() const { return new MDirectoryValidator(*this); }
 
 protected:
-
-	virtual bool TransferFromWindow();
-	virtual bool doValidate();
-
+  virtual bool TransferFromWindow();
+  virtual bool doValidate();
 };
-
 
 #endif
-

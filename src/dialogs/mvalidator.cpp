@@ -35,26 +35,31 @@
 
 extern Config *config;
 
-//#define DEBUG_MVALIDATOR
+// #define DEBUG_MVALIDATOR
 
-IMPLEMENT_CLASS( MBaseValidator, wxValidator )
-IMPLEMENT_CLASS( MBaseTextValidator, MBaseValidator )
-IMPLEMENT_CLASS( MBaseDoubleValidator, MBaseTextValidator )
-IMPLEMENT_CLASS( MDateValidator, MBaseDoubleValidator )
+IMPLEMENT_CLASS(MBaseValidator, wxValidator)
+
+const wxEventType COMMAND_SPIN_CHANGED = wxID_HIGHEST + 5001;
+const wxEventType COMMAND_SPIN_WRAP = wxID_HIGHEST + 5002;
+IMPLEMENT_CLASS(MBaseTextValidator, MBaseValidator)
+IMPLEMENT_CLASS(MBaseDoubleValidator, MBaseTextValidator)
+IMPLEMENT_CLASS(MDateValidator, MBaseDoubleValidator)
 
 /*****************************************************
 **
 **   MBaseValidator   ---   Constructor
 **
 ******************************************************/
-MBaseValidator::MBaseValidator()
- : wxValidator()
-{
-	Connect( wxEVT_KILL_FOCUS, wxFocusEventHandler( MBaseValidator::OnKillFocus ));
-	Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( MBaseValidator::OnControlChanged ));
-	Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MBaseValidator::OnControlChanged ));
-	Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler( MBaseValidator::OnControlChanged ));
-	Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( MBaseValidator::OnControlChanged ));
+MBaseValidator::MBaseValidator() : wxValidator() {
+  Connect(wxEVT_KILL_FOCUS, wxFocusEventHandler(MBaseValidator::OnKillFocus));
+  Connect(wxEVT_COMMAND_TEXT_UPDATED,
+          wxCommandEventHandler(MBaseValidator::OnControlChanged));
+  Connect(wxEVT_COMMAND_CHOICE_SELECTED,
+          wxCommandEventHandler(MBaseValidator::OnControlChanged));
+  Connect(wxEVT_COMMAND_SPINCTRL_UPDATED,
+          wxCommandEventHandler(MBaseValidator::OnControlChanged));
+  Connect(wxEVT_COMMAND_CHECKBOX_CLICKED,
+          wxCommandEventHandler(MBaseValidator::OnControlChanged));
 }
 
 /*****************************************************
@@ -62,11 +67,10 @@ MBaseValidator::MBaseValidator()
 **   MBaseValidator   ---   OnKillFocus
 **
 ******************************************************/
-void MBaseValidator::OnKillFocus( wxFocusEvent &event )
-{
-	//printf( "MBaseValidator::OnKillFocusd\n" );
-	doKillFocus();
-	event.Skip();
+void MBaseValidator::OnKillFocus(wxFocusEvent &event) {
+  // printf( "MBaseValidator::OnKillFocusd\n" );
+  doKillFocus();
+  event.Skip();
 }
 
 /*****************************************************
@@ -74,14 +78,13 @@ void MBaseValidator::OnKillFocus( wxFocusEvent &event )
 **   MBaseValidator   ---   OnControlChanged
 **
 ******************************************************/
-void MBaseValidator::OnControlChanged( wxCommandEvent &event )
-{
+void MBaseValidator::OnControlChanged(wxCommandEvent &event) {
 #ifdef DEBUG_MVALIDATOR
-	printf( "MBaseValidator::OnControlChanged\n" );
+  printf("MBaseValidator::OnControlChanged\n");
 #endif
-	doValidate();
-	TransferFromWindow();
-	event.Skip();
+  doValidate();
+  TransferFromWindow();
+  event.Skip();
 }
 
 /*****************************************************
@@ -89,28 +92,25 @@ void MBaseValidator::OnControlChanged( wxCommandEvent &event )
 **   MBaseValidator   ---   doValidate
 **
 ******************************************************/
-bool MBaseValidator::Validate( wxWindow* )
-{
-	return doValidate();
-}
+bool MBaseValidator::Validate(wxWindow *) { return doValidate(); }
 
 /*****************************************************
 **
 **   MBaseValidator   ---   setWindowBackground
 **
 ******************************************************/
-void MBaseValidator::setWindowBackground( const bool &b )
-{
-	//printf( "MBaseValidator::setWindowBackground valid %d\n", b );
-	wxWindow *w = GetWindow();
-	//wxWindow *w = getTextCtrl();
-	assert( w );
+void MBaseValidator::setWindowBackground(const bool &b) {
+  // printf( "MBaseValidator::setWindowBackground valid %d\n", b );
+  wxWindow *w = GetWindow();
+  // wxWindow *w = getTextCtrl();
+  assert(w);
 
-	w->SetBackgroundColour( b ? wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) : config->colors->errorBgColor );
+  w->SetBackgroundColour(b ? wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW)
+                           : config->colors->errorBgColor);
 
-	// must  be set, otherwise forground will be white (GTK, wx 2.8.12)
-	w->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOWTEXT ));
-	w->Refresh();
+  // must  be set, otherwise forground will be white (GTK, wx 2.8.12)
+  w->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+  w->Refresh();
 }
 
 /*****************************************************
@@ -118,10 +118,8 @@ void MBaseValidator::setWindowBackground( const bool &b )
 **   MBaseTextValidator   ---   Constructor
 **
 ******************************************************/
-MBaseTextValidator::MBaseTextValidator()
-	: MBaseValidator()
-{
-	Connect( wxEVT_CHAR, wxKeyEventHandler( MBaseTextValidator::OnChar ));
+MBaseTextValidator::MBaseTextValidator() : MBaseValidator() {
+  Connect(wxEVT_CHAR, wxKeyEventHandler(MBaseTextValidator::OnChar));
 }
 
 /*****************************************************
@@ -129,11 +127,10 @@ MBaseTextValidator::MBaseTextValidator()
 **   MBaseTextValidator   ---   getTextCtrl
 **
 ******************************************************/
-wxTextCtrl *MBaseTextValidator::getTextCtrl() const
-{
-	wxTextCtrl *c = wxDynamicCast( GetWindow(), wxTextCtrl );
-	assert( c );
-	return c;
+wxTextCtrl *MBaseTextValidator::getTextCtrl() const {
+  wxTextCtrl *c = wxDynamicCast(GetWindow(), wxTextCtrl);
+  assert(c);
+  return c;
 }
 
 /*****************************************************
@@ -141,10 +138,9 @@ wxTextCtrl *MBaseTextValidator::getTextCtrl() const
 **   MBaseTextValidator   ---   getTextValue
 **
 ******************************************************/
-wxString MBaseTextValidator::getTextValue()
-{
-	wxTextCtrl *ctrl = getTextCtrl();
-	return ctrl->GetValue();
+wxString MBaseTextValidator::getTextValue() {
+  wxTextCtrl *ctrl = getTextCtrl();
+  return ctrl->GetValue();
 }
 
 /*****************************************************
@@ -152,13 +148,11 @@ wxString MBaseTextValidator::getTextValue()
 **   MBaseTextValidator   ---   setIncludes
 **
 ******************************************************/
-void MBaseTextValidator::setIncludes( const wxString &val )
-{
-	allowedChars.clear();
-	for ( wxString::const_iterator i = val.begin(); i != val.end(); ++i )
-	{
-		allowedChars.push_back( *i );
-	}
+void MBaseTextValidator::setIncludes(const wxString &val) {
+  allowedChars.clear();
+  for (wxString::const_iterator i = val.begin(); i != val.end(); ++i) {
+    allowedChars.push_back(*i);
+  }
 }
 
 /*****************************************************
@@ -166,54 +160,47 @@ void MBaseTextValidator::setIncludes( const wxString &val )
 **   MBaseTextValidator   ---   OnChar
 **
 ******************************************************/
-void MBaseTextValidator::OnChar( wxKeyEvent &event )
-{
-	const int keycode = event.GetKeyCode();
+void MBaseTextValidator::OnChar(wxKeyEvent &event) {
+  const int keycode = event.GetKeyCode();
 #ifdef DEBUG_MVALIDATOR
-	printf( "MBaseTextValidator::OnChar %d\n", keycode );
+  printf("MBaseTextValidator::OnChar %d\n", keycode);
 #endif
-	if( allowedChars.size() == 0 )
-	{
-		// should be okay, no filter set
-		event.Skip();
-		return;
-	}
+  if (allowedChars.size() == 0) {
+    // should be okay, no filter set
+    event.Skip();
+    return;
+  }
 
-	// special handling for OS x and maybe windows
-	//if ( keycode == WXK_RETURN || keycode == WXK_TAB )
-	if ( keycode == WXK_RETURN )
-	{
-		//printf( "RETURN\n" );
-		wxCommandEvent e( wxEVT_COMMAND_TEXT_ENTER, GetWindow()->GetId());
-		wxPostEvent( GetWindow(), e );
-		TransferToWindow();
-		return;
-	}
-	else if ( keycode == WXK_TAB )
-	{
+  // special handling for OS x and maybe windows
+  // if ( keycode == WXK_RETURN || keycode == WXK_TAB )
+  if (keycode == WXK_RETURN) {
+    // printf( "RETURN\n" );
+    wxCommandEvent e(wxEVT_COMMAND_TEXT_ENTER, GetWindow()->GetId());
+    wxPostEvent(GetWindow(), e);
+    TransferToWindow();
+    return;
+  } else if (keycode == WXK_TAB) {
 #ifdef DEBUG_MVALIDATOR
-		printf( "TAB\n" );
+    printf("TAB\n");
 #endif
-		event.Skip();
-		return;
-	}
-	else if ( keycode < WXK_SPACE || keycode == WXK_DELETE || keycode >= WXK_START )
-	{
-		//printf( "SKIP MBaseTextValidator::OnChar %d\n", keycode );
-		event.ResumePropagation( wxEVENT_PROPAGATE_MAX );
-		event.Skip();
-		return;
-	}
+    event.Skip();
+    return;
+  } else if (keycode < WXK_SPACE || keycode == WXK_DELETE ||
+             keycode >= WXK_START) {
+    // printf( "SKIP MBaseTextValidator::OnChar %d\n", keycode );
+    event.ResumePropagation(wxEVENT_PROPAGATE_MAX);
+    event.Skip();
+    return;
+  }
 
-	for( std::list<wxChar>::const_iterator iter = allowedChars.begin(); iter != allowedChars.end(); iter++ )
-	{
-		if ( *iter == keycode )
-		{
-			event.Skip();
-			return;
-		}
-	}
-	//printf( "MBaseTextValidator::OnChar Wrong char %d\n", keycode );
+  for (std::list<wxChar>::const_iterator iter = allowedChars.begin();
+       iter != allowedChars.end(); iter++) {
+    if (*iter == keycode) {
+      event.Skip();
+      return;
+    }
+  }
+  // printf( "MBaseTextValidator::OnChar Wrong char %d\n", keycode );
 }
 
 /*****************************************************
@@ -221,12 +208,10 @@ void MBaseTextValidator::OnChar( wxKeyEvent &event )
 **   MBaseDoubleValidator   ---   Constructor
 **
 ******************************************************/
-MBaseDoubleValidator::MBaseDoubleValidator( double *v )
-	: MBaseTextValidator(),
-	value( v )
-{
-	//printf( "MBaseDoubleValidator::MBaseDoubleValidator value %f\n", *value );
-	assert( value );
+MBaseDoubleValidator::MBaseDoubleValidator(double *v)
+    : MBaseTextValidator(), value(v) {
+  // printf( "MBaseDoubleValidator::MBaseDoubleValidator value %f\n", *value );
+  assert(value);
 }
 
 /*****************************************************
@@ -234,13 +219,12 @@ MBaseDoubleValidator::MBaseDoubleValidator( double *v )
 **   MBaseDoubleValidator   ---   Constructor
 **
 ******************************************************/
-MBaseDoubleValidator::MBaseDoubleValidator( const MBaseDoubleValidator &tocopy )
-	: MBaseTextValidator(),
-	value ( tocopy.value )
-{
-	//printf( "MBaseDoubleValidator::MBaseDoubleValidator COPY value %f\n", *value );
-	allowedChars = tocopy.allowedChars;
-	Connect( wxEVT_CHAR, wxKeyEventHandler( MBaseDoubleValidator::OnChar ));
+MBaseDoubleValidator::MBaseDoubleValidator(const MBaseDoubleValidator &tocopy)
+    : MBaseTextValidator(), value(tocopy.value) {
+  // printf( "MBaseDoubleValidator::MBaseDoubleValidator COPY value %f\n",
+  // *value );
+  allowedChars = tocopy.allowedChars;
+  Connect(wxEVT_CHAR, wxKeyEventHandler(MBaseDoubleValidator::OnChar));
 }
 
 /*****************************************************
@@ -248,39 +232,35 @@ MBaseDoubleValidator::MBaseDoubleValidator( const MBaseDoubleValidator &tocopy )
 **   MBaseDoubleValidator   ---   doKillFocus
 **
 ******************************************************/
-void MBaseDoubleValidator::doKillFocus()
-{
-	//printf( "MBaseDoubleValidator::doKillFocus\n" );
-	double v;
-	const bool isvalid = readValueFromControl( v );
+void MBaseDoubleValidator::doKillFocus() {
+  // printf( "MBaseDoubleValidator::doKillFocus\n" );
+  double v;
+  const bool isvalid = readValueFromControl(v);
 
-	//enum  { IFV_NONE = 0, IFV_RESTORE, IFV_ADJUST };
-	switch ( config->view->inputFieldValidation )
-	{
-		case IFV_NONE:
-			if ( isvalid )
-			{
-				*value = v;
-				TransferToWindow();
-			}
-		break;
-		case IFV_RESTORE:
-			if ( isvalid )
-			{
-				*value = v;
-			}
-			TransferToWindow();
-			setWindowBackground( true );
-		break;
-		case IFV_ADJUST:
-			*value = v;
-			TransferToWindow();
-			setWindowBackground( true );
-		break;
-		default:
-			assert( false );
-		break;
-	}
+  // enum  { IFV_NONE = 0, IFV_RESTORE, IFV_ADJUST };
+  switch (config->view->inputFieldValidation) {
+  case IFV_NONE:
+    if (isvalid) {
+      *value = v;
+      TransferToWindow();
+    }
+    break;
+  case IFV_RESTORE:
+    if (isvalid) {
+      *value = v;
+    }
+    TransferToWindow();
+    setWindowBackground(true);
+    break;
+  case IFV_ADJUST:
+    *value = v;
+    TransferToWindow();
+    setWindowBackground(true);
+    break;
+  default:
+    assert(false);
+    break;
+  }
 }
 
 /*****************************************************
@@ -288,13 +268,12 @@ void MBaseDoubleValidator::doKillFocus()
 **   MDoubleValidator   ---   Constructor
 **
 ******************************************************/
-MDoubleValidator::MDoubleValidator( double *v, const double &minvalue, const double &maxvalue )
-	: MBaseDoubleValidator( v ),
-	minvalue( minvalue ),
-	maxvalue( maxvalue )
-{
-	//printf( "MDoubleValidator::MDegreeValidator value %f maxvalue %f\n", *value, maxvalue );
-	setIncludes( wxT( "0123456789,." ));
+MDoubleValidator::MDoubleValidator(double *v, const double &minvalue,
+                                   const double &maxvalue)
+    : MBaseDoubleValidator(v), minvalue(minvalue), maxvalue(maxvalue) {
+  // printf( "MDoubleValidator::MDegreeValidator value %f maxvalue %f\n",
+  // *value, maxvalue );
+  setIncludes(wxT("0123456789,."));
 }
 
 /*****************************************************
@@ -302,12 +281,11 @@ MDoubleValidator::MDoubleValidator( double *v, const double &minvalue, const dou
 **   MDoubleValidator   ---   Constructor
 **
 ******************************************************/
-MDoubleValidator::MDoubleValidator( const MDoubleValidator &tocopy )
-	: MBaseDoubleValidator( tocopy ),
-	minvalue( tocopy.minvalue ),
-	maxvalue( tocopy.maxvalue )
-{
-	//printf( "COPY MDoubleValidator::MDoubleValidator value %f maxvalue %f\n", *value, maxvalue );
+MDoubleValidator::MDoubleValidator(const MDoubleValidator &tocopy)
+    : MBaseDoubleValidator(tocopy), minvalue(tocopy.minvalue),
+      maxvalue(tocopy.maxvalue) {
+  // printf( "COPY MDoubleValidator::MDoubleValidator value %f maxvalue %f\n",
+  // *value, maxvalue );
 }
 
 /*****************************************************
@@ -315,22 +293,22 @@ MDoubleValidator::MDoubleValidator( const MDoubleValidator &tocopy )
 **   MDoubleValidator   ---   TransferFromWindow
 **
 ******************************************************/
-bool MDoubleValidator::TransferFromWindow()
-{
-	wxString s = getTextValue();
-	double v;
+bool MDoubleValidator::TransferFromWindow() {
+  wxString s = getTextValue();
+  double v;
 
-	Formatter *formatter = Formatter::get();
-	const bool isvalid = formatter->parseDoubleString( s, v, minvalue, maxvalue );
+  Formatter *formatter = Formatter::get();
+  const bool isvalid = formatter->parseDoubleString(s, v, minvalue, maxvalue);
 #ifdef DEBUG_MVALIDATOR
-	printf( "MDoubleValidator::TransferFromWindow %s minvalue %f maxvalud %f isvalid %d\n", str2char( s ), minvalue, maxvalue, isvalid );
+  printf("MDoubleValidator::TransferFromWindow %s minvalue %f maxvalud %f "
+         "isvalid %d\n",
+         str2char(s), minvalue, maxvalue, isvalid);
 #endif
 
-	if ( isvalid )
-	{
-		*value = v;
-	}
-	return isvalid;
+  if (isvalid) {
+    *value = v;
+  }
+  return isvalid;
 }
 
 /*****************************************************
@@ -338,16 +316,17 @@ bool MDoubleValidator::TransferFromWindow()
 **   MDoubleValidator   ---   TransferToWindow
 **
 ******************************************************/
-bool MDoubleValidator::TransferToWindow()
-{
-	Formatter *formatter = Formatter::get();
-	wxString s = formatter->formatDoubleString( *value, DEG_PRECISION_FLEXIBLE );
+bool MDoubleValidator::TransferToWindow() {
+  Formatter *formatter = Formatter::get();
+  wxString s = formatter->formatDoubleString(*value, DEG_PRECISION_FLEXIBLE);
 #ifdef DEBUG_MVALIDATOR
-	printf( "MDoubleValidator::TransferToWindow value %f string value %s\n", *value, str2char( s ) );
+  printf("MDoubleValidator::TransferToWindow value %f string value %s\n",
+         *value, str2char(s));
 #endif
-	wxTextCtrl *ctrl = getTextCtrl();
-	ctrl->ChangeValue( formatter->formatDoubleString( *value, DEG_PRECISION_FLEXIBLE ));
-	return true;
+  wxTextCtrl *ctrl = getTextCtrl();
+  ctrl->ChangeValue(
+      formatter->formatDoubleString(*value, DEG_PRECISION_FLEXIBLE));
+  return true;
 }
 
 /*****************************************************
@@ -355,16 +334,16 @@ bool MDoubleValidator::TransferToWindow()
 **   MDoubleValidator   ---   doValidate
 **
 ******************************************************/
-bool MDoubleValidator::doValidate()
-{
-	wxString s = getTextValue();
-	double v;
-	Formatter *formatter = Formatter::get();
-	const bool isvalid = formatter->parseDoubleString( s, v, minvalue, maxvalue );
+bool MDoubleValidator::doValidate() {
+  wxString s = getTextValue();
+  double v;
+  Formatter *formatter = Formatter::get();
+  const bool isvalid = formatter->parseDoubleString(s, v, minvalue, maxvalue);
 
-	//printf( "MDoubleValidator::doValidate text %s v %f valid %d\n", str2char( s ), v, isvalid );
-	setWindowBackground( isvalid );
-	return isvalid;
+  // printf( "MDoubleValidator::doValidate text %s v %f valid %d\n", str2char( s
+  // ), v, isvalid );
+  setWindowBackground(isvalid);
+  return isvalid;
 }
 
 /*****************************************************
@@ -372,12 +351,11 @@ bool MDoubleValidator::doValidate()
 **   MDoubleValidator   ---   readValueFromControl
 **
 ******************************************************/
-bool MDoubleValidator::readValueFromControl( double &v )
-{
-	Formatter *formatter = Formatter::get();
-	wxString s = getTextValue();
+bool MDoubleValidator::readValueFromControl(double &v) {
+  Formatter *formatter = Formatter::get();
+  wxString s = getTextValue();
 
-	return formatter->parseDoubleString( s, v, minvalue, maxvalue );
+  return formatter->parseDoubleString(s, v, minvalue, maxvalue);
 }
 
 /*****************************************************
@@ -385,11 +363,8 @@ bool MDoubleValidator::readValueFromControl( double &v )
 **   MIntegerValidator   ---   Constructor
 **
 ******************************************************/
-MIntegerValidator::MIntegerValidator( int *v )
-	: MBaseTextValidator(),
-	value( v )
-{
-	setIncludes( wxT( "0123456789" ));
+MIntegerValidator::MIntegerValidator(int *v) : MBaseTextValidator(), value(v) {
+  setIncludes(wxT("0123456789"));
 }
 
 /*****************************************************
@@ -397,11 +372,9 @@ MIntegerValidator::MIntegerValidator( int *v )
 **   MIntegerValidator   ---   Constructor
 **
 ******************************************************/
-MIntegerValidator::MIntegerValidator( const MIntegerValidator &tocopy )
-	: MBaseTextValidator(),
-	value( tocopy.value )
-{
-	allowedChars = tocopy.allowedChars;
+MIntegerValidator::MIntegerValidator(const MIntegerValidator &tocopy)
+    : MBaseTextValidator(), value(tocopy.value) {
+  allowedChars = tocopy.allowedChars;
 }
 
 /*****************************************************
@@ -409,13 +382,12 @@ MIntegerValidator::MIntegerValidator( const MIntegerValidator &tocopy )
 **   MIntegerValidator   ---   TransferFromWindow
 **
 ******************************************************/
-bool MIntegerValidator::TransferFromWindow()
-{
-	wxString s = getTextValue();
-	long l;
-	const bool b = s.ToLong( &l );
-	*value = (int)l;
-	return b;
+bool MIntegerValidator::TransferFromWindow() {
+  wxString s = getTextValue();
+  long l;
+  const bool b = s.ToLong(&l);
+  *value = (int)l;
+  return b;
 }
 
 /*****************************************************
@@ -423,11 +395,10 @@ bool MIntegerValidator::TransferFromWindow()
 **   MIntegerValidator   ---   TransferToWindow
 **
 ******************************************************/
-bool MIntegerValidator::TransferToWindow()
-{
-	wxTextCtrl *ctrl = getTextCtrl();
-	ctrl->ChangeValue( wxString::Format( wxT( "%d" ), *value ));
-	return true;
+bool MIntegerValidator::TransferToWindow() {
+  wxTextCtrl *ctrl = getTextCtrl();
+  ctrl->ChangeValue(wxString::Format(wxT("%d"), *value));
+  return true;
 }
 
 /*****************************************************
@@ -435,12 +406,11 @@ bool MIntegerValidator::TransferToWindow()
 **   MIntegerValidator   ---   doValidate
 **
 ******************************************************/
-bool MIntegerValidator::doValidate()
-{
-	wxString s = getTextValue();
-	long l;
-	const bool b = s.ToLong( &l );
-	return b;
+bool MIntegerValidator::doValidate() {
+  wxString s = getTextValue();
+  long l;
+  const bool b = s.ToLong(&l);
+  return b;
 }
 
 /*****************************************************
@@ -448,12 +418,11 @@ bool MIntegerValidator::doValidate()
 **   MDegreeValidator   ---   Constructor
 **
 ******************************************************/
-MDegreeValidator::MDegreeValidator( double *v, const double &maxvalue )
-	: MBaseDoubleValidator( v ),
-	maxvalue( maxvalue )
-{
-	//printf( "MDegreeValidator::MDegreeValidator value %f maxvalue %f\n", *value, maxvalue );
-	setIncludes( wxT( "0123456789:" ));
+MDegreeValidator::MDegreeValidator(double *v, const double &maxvalue)
+    : MBaseDoubleValidator(v), maxvalue(maxvalue) {
+  // printf( "MDegreeValidator::MDegreeValidator value %f maxvalue %f\n",
+  // *value, maxvalue );
+  setIncludes(wxT("0123456789:"));
 }
 
 /*****************************************************
@@ -461,11 +430,10 @@ MDegreeValidator::MDegreeValidator( double *v, const double &maxvalue )
 **   MDegreeValidator   ---   Constructor
 **
 ******************************************************/
-MDegreeValidator::MDegreeValidator( const MDegreeValidator &tocopy )
-	: MBaseDoubleValidator( tocopy ),
-	maxvalue( tocopy.maxvalue )
-{
-	//printf( "COPY MDegreeValidator::MDegreeValidator value %f maxvalue %f\n", *value, maxvalue );
+MDegreeValidator::MDegreeValidator(const MDegreeValidator &tocopy)
+    : MBaseDoubleValidator(tocopy), maxvalue(tocopy.maxvalue) {
+  // printf( "COPY MDegreeValidator::MDegreeValidator value %f maxvalue %f\n",
+  // *value, maxvalue );
 }
 
 /*****************************************************
@@ -473,20 +441,18 @@ MDegreeValidator::MDegreeValidator( const MDegreeValidator &tocopy )
 **   MDegreeValidator   ---   TransferFromWindow
 **
 ******************************************************/
-bool MDegreeValidator::TransferFromWindow()
-{
-	wxString s = getTextValue();
+bool MDegreeValidator::TransferFromWindow() {
+  wxString s = getTextValue();
 #ifdef DEBUG_MVALIDATOR
-	printf( "MDegreeValidator::TransferFromWindow %s\n", str2char( s ) );
+  printf("MDegreeValidator::TransferFromWindow %s\n", str2char(s));
 #endif
-	double v;
-	Formatter *formatter = Formatter::get();
-	const bool isvalid = formatter->parseDegreeString( s, v, maxvalue );
-	if ( isvalid )
-	{
-		*value = v;
-	}
-	return isvalid;
+  double v;
+  Formatter *formatter = Formatter::get();
+  const bool isvalid = formatter->parseDegreeString(s, v, maxvalue);
+  if (isvalid) {
+    *value = v;
+  }
+  return isvalid;
 }
 
 /*****************************************************
@@ -494,17 +460,18 @@ bool MDegreeValidator::TransferFromWindow()
 **   MDegreeValidator   ---   TransferToWindow
 **
 ******************************************************/
-bool MDegreeValidator::TransferToWindow()
-{
-	Formatter *formatter = Formatter::get();
-	wxString s = formatter->formatDegreeString( *value, DEG_PRECISION_FLEXIBLE );
+bool MDegreeValidator::TransferToWindow() {
+  Formatter *formatter = Formatter::get();
+  wxString s = formatter->formatDegreeString(*value, DEG_PRECISION_FLEXIBLE);
 #ifdef DEBUG_MVALIDATOR
-	printf( "MDegreeValidator::TransferToWindow value %f string value %s\n", *value, str2char( s ) );
+  printf("MDegreeValidator::TransferToWindow value %f string value %s\n",
+         *value, str2char(s));
 #endif
-	wxTextCtrl *ctrl = getTextCtrl();
+  wxTextCtrl *ctrl = getTextCtrl();
 
-	ctrl->ChangeValue( formatter->formatDegreeString( *value, DEG_PRECISION_FLEXIBLE ));
-	return true;
+  ctrl->ChangeValue(
+      formatter->formatDegreeString(*value, DEG_PRECISION_FLEXIBLE));
+  return true;
 }
 
 /*****************************************************
@@ -512,16 +479,16 @@ bool MDegreeValidator::TransferToWindow()
 **   MDegreeValidator   ---   doValidate
 **
 ******************************************************/
-bool MDegreeValidator::doValidate()
-{
-	wxString s = getTextValue();
-	double v;
-	Formatter *formatter = Formatter::get();
-	const bool isvalid = formatter->parseDegreeString( s, v, maxvalue );
+bool MDegreeValidator::doValidate() {
+  wxString s = getTextValue();
+  double v;
+  Formatter *formatter = Formatter::get();
+  const bool isvalid = formatter->parseDegreeString(s, v, maxvalue);
 
-	//printf( "MDegreeValidator::doValidate text %s v %f valid %d\n", str2char( s ), v, isvalid );
-	setWindowBackground( isvalid );
-	return isvalid;
+  // printf( "MDegreeValidator::doValidate text %s v %f valid %d\n", str2char( s
+  // ), v, isvalid );
+  setWindowBackground(isvalid);
+  return isvalid;
 }
 
 /*****************************************************
@@ -529,12 +496,11 @@ bool MDegreeValidator::doValidate()
 **   MDegreeValidator   ---   readValueFromControl
 **
 ******************************************************/
-bool MDegreeValidator::readValueFromControl( double &v )
-{
-	Formatter *formatter = Formatter::get();
-	wxString s = getTextValue();
+bool MDegreeValidator::readValueFromControl(double &v) {
+  Formatter *formatter = Formatter::get();
+  wxString s = getTextValue();
 
-	return formatter->parseDegreeString( s, v, maxvalue );
+  return formatter->parseDegreeString(s, v, maxvalue);
 }
 
 /*****************************************************
@@ -542,11 +508,9 @@ bool MDegreeValidator::readValueFromControl( double &v )
 **   MDateValidator   ---   Constructor
 **
 ******************************************************/
-MDateValidator::MDateValidator( double *v )
-	: MBaseDoubleValidator( v )
-{
-	//printf( "MDateValidator::MDateValidator value %f\n", *value );
-	setIncludes( wxT( "0123456789-" ));
+MDateValidator::MDateValidator(double *v) : MBaseDoubleValidator(v) {
+  // printf( "MDateValidator::MDateValidator value %f\n", *value );
+  setIncludes(wxT("0123456789-"));
 }
 
 /*****************************************************
@@ -554,31 +518,28 @@ MDateValidator::MDateValidator( double *v )
 **   MDateValidator   ---   Constructor
 **
 ******************************************************/
-MDateValidator::MDateValidator( const MDateValidator &tocopy )
-	: MBaseDoubleValidator( tocopy )
-{
-}
+MDateValidator::MDateValidator(const MDateValidator &tocopy)
+    : MBaseDoubleValidator(tocopy) {}
 
 /*****************************************************
 **
 **   MDateValidator   ---   TransferFromWindow
 **
 ******************************************************/
-bool MDateValidator::TransferFromWindow()
-{
-	wxString s = getTextValue();
-	double v;
-	DateTimeFormatter *formatter = DateTimeFormatter::get();
-	const bool isvalid =  formatter->parseDateString( s, v );
+bool MDateValidator::TransferFromWindow() {
+  wxString s = getTextValue();
+  double v;
+  DateTimeFormatter *formatter = DateTimeFormatter::get();
+  const bool isvalid = formatter->parseDateString(s, v);
 
 #ifdef DEBUG_MVALIDATOR
-	printf( "MDateValidator::TransferFromWindow new value %f valid %d\n", v, isvalid );
+  printf("MDateValidator::TransferFromWindow new value %f valid %d\n", v,
+         isvalid);
 #endif
-	if ( isvalid )
-	{
-		*value = v;
-	}
-	return isvalid;
+  if (isvalid) {
+    *value = v;
+  }
+  return isvalid;
 }
 
 /*****************************************************
@@ -586,16 +547,15 @@ bool MDateValidator::TransferFromWindow()
 **   MDateValidator   ---   TransferToWindow
 **
 ******************************************************/
-bool MDateValidator::TransferToWindow()
-{
+bool MDateValidator::TransferToWindow() {
 #ifdef DEBUG_MVALIDATOR
-	printf( "MDateValidator::TransferToWindow value %f\n", *value );
+  printf("MDateValidator::TransferToWindow value %f\n", *value);
 #endif
-	wxTextCtrl *ctrl = getTextCtrl();
+  wxTextCtrl *ctrl = getTextCtrl();
 
-	DateTimeFormatter *formatter = DateTimeFormatter::get();
-	ctrl->ChangeValue( formatter->formatDateString( *value ));
-	return true;
+  DateTimeFormatter *formatter = DateTimeFormatter::get();
+  ctrl->ChangeValue(formatter->formatDateString(*value));
+  return true;
 }
 
 /*****************************************************
@@ -603,18 +563,18 @@ bool MDateValidator::TransferToWindow()
 **   MDateValidator   ---   doValidate
 **
 ******************************************************/
-bool MDateValidator::doValidate()
-{
-	wxString s = getTextValue();
-	double v;
-	DateTimeFormatter *formatter = DateTimeFormatter::get();
-	const bool isvalid =  formatter->parseDateString( s, v );
+bool MDateValidator::doValidate() {
+  wxString s = getTextValue();
+  double v;
+  DateTimeFormatter *formatter = DateTimeFormatter::get();
+  const bool isvalid = formatter->parseDateString(s, v);
 
 #ifdef DEBUG_MVALIDATOR
-	printf( "MDateValidator::doValidate text %s v %f valid %d\n", str2char( s ), v, isvalid );
+  printf("MDateValidator::doValidate text %s v %f valid %d\n", str2char(s), v,
+         isvalid);
 #endif
-	setWindowBackground( isvalid );
-	return isvalid;
+  setWindowBackground(isvalid);
+  return isvalid;
 }
 
 /*****************************************************
@@ -622,17 +582,17 @@ bool MDateValidator::doValidate()
 **   MDateValidator   ---   readValueFromControl
 **
 ******************************************************/
-bool MDateValidator::readValueFromControl( double &v )
-{
-	DateTimeFormatter *formatter = DateTimeFormatter::get();
-	wxString s = getTextValue();
+bool MDateValidator::readValueFromControl(double &v) {
+  DateTimeFormatter *formatter = DateTimeFormatter::get();
+  wxString s = getTextValue();
 
-	const bool isvalid = formatter->parseDateString( s, v );
+  const bool isvalid = formatter->parseDateString(s, v);
 #ifdef DEBUG_MVALIDATOR
-	printf( "MDateValidator::readValueFromControl text %s v %f valid %d\n", str2char( s ), v, isvalid );
+  printf("MDateValidator::readValueFromControl text %s v %f valid %d\n",
+         str2char(s), v, isvalid);
 #endif
 
-	return isvalid;
+  return isvalid;
 }
 
 /*****************************************************
@@ -640,11 +600,10 @@ bool MDateValidator::readValueFromControl( double &v )
 **   MChoiceValidator   ---   getChoiceControl
 **
 ******************************************************/
-wxChoice *MChoiceValidator::getChoiceControl()
-{
-	wxChoice *c = wxDynamicCast( GetWindow(), wxChoice );
-	assert( c );
-	return c;
+wxChoice *MChoiceValidator::getChoiceControl() {
+  wxChoice *c = wxDynamicCast(GetWindow(), wxChoice);
+  assert(c);
+  return c;
 }
 
 /*****************************************************
@@ -652,11 +611,10 @@ wxChoice *MChoiceValidator::getChoiceControl()
 **   MChoiceValidator   ---   TransferFromWindow
 **
 ******************************************************/
-bool MChoiceValidator::TransferFromWindow()
-{
-	*choice = getChoiceControl()->GetSelection();
-	//printf( "MChoiceValidator::TransferFromWindow choice %d\n", *choice );
-	return true;
+bool MChoiceValidator::TransferFromWindow() {
+  *choice = getChoiceControl()->GetSelection();
+  // printf( "MChoiceValidator::TransferFromWindow choice %d\n", *choice );
+  return true;
 }
 
 /*****************************************************
@@ -664,11 +622,10 @@ bool MChoiceValidator::TransferFromWindow()
 **   MChoiceValidator   ---   TransferToWindow
 **
 ******************************************************/
-bool MChoiceValidator::TransferToWindow()
-{
-	//printf( "MChoiceValidator::TransferToWindow choice %d\n", *choice );
-	getChoiceControl()->SetSelection( *choice );
-	return true;
+bool MChoiceValidator::TransferToWindow() {
+  // printf( "MChoiceValidator::TransferToWindow choice %d\n", *choice );
+  getChoiceControl()->SetSelection(*choice);
+  return true;
 }
 
 /*****************************************************
@@ -676,11 +633,10 @@ bool MChoiceValidator::TransferToWindow()
 **   MSpinValidator   ---   getSpinControl
 **
 ******************************************************/
-wxSpinCtrl *MSpinValidator::getSpinControl()
-{
-	wxSpinCtrl *c = wxDynamicCast( GetWindow(), wxSpinCtrl );
-	assert( c );
-	return c;
+wxSpinCtrl *MSpinValidator::getSpinControl() {
+  wxSpinCtrl *c = wxDynamicCast(GetWindow(), wxSpinCtrl);
+  assert(c);
+  return c;
 }
 
 /*****************************************************
@@ -688,11 +644,10 @@ wxSpinCtrl *MSpinValidator::getSpinControl()
 **   MSpinValidator   ---   TransferFromWindow
 **
 ******************************************************/
-bool MSpinValidator::TransferFromWindow()
-{
-	*value = getSpinControl()->GetValue();
-	//printf( "MSpinValidator::TransferFromWindow value %d\n", *value );
-	return true;
+bool MSpinValidator::TransferFromWindow() {
+  *value = getSpinControl()->GetValue();
+  // printf( "MSpinValidator::TransferFromWindow value %d\n", *value );
+  return true;
 }
 
 /*****************************************************
@@ -700,11 +655,10 @@ bool MSpinValidator::TransferFromWindow()
 **   MSpinValidator   ---   TransferToWindow
 **
 ******************************************************/
-bool MSpinValidator::TransferToWindow()
-{
-	//printf( "MSpinValidator::TransferToWindow value %d\n", *value );
-	getSpinControl()->SetValue( *value );
-	return true;
+bool MSpinValidator::TransferToWindow() {
+  // printf( "MSpinValidator::TransferToWindow value %d\n", *value );
+  getSpinControl()->SetValue(*value);
+  return true;
 }
 
 /*****************************************************
@@ -712,11 +666,10 @@ bool MSpinValidator::TransferToWindow()
 **   MBaseCheckValidator   ---   getCheckControl
 **
 ******************************************************/
-wxCheckBox *MBaseCheckValidator::getCheckControl()
-{
-	wxCheckBox *c = wxDynamicCast( GetWindow(), wxCheckBox );
-	assert( c );
-	return c;
+wxCheckBox *MBaseCheckValidator::getCheckControl() {
+  wxCheckBox *c = wxDynamicCast(GetWindow(), wxCheckBox);
+  assert(c);
+  return c;
 }
 
 /*****************************************************
@@ -724,11 +677,10 @@ wxCheckBox *MBaseCheckValidator::getCheckControl()
 **   MCheckValidator   ---   TransferFromWindow
 **
 ******************************************************/
-bool MCheckValidator::TransferFromWindow()
-{
-	*value = getCheckControl()->GetValue();
-	//printf( "MCheckValidator::TransferFromWindow value %d\n", *value );
-	return true;
+bool MCheckValidator::TransferFromWindow() {
+  *value = getCheckControl()->GetValue();
+  // printf( "MCheckValidator::TransferFromWindow value %d\n", *value );
+  return true;
 }
 
 /*****************************************************
@@ -736,11 +688,10 @@ bool MCheckValidator::TransferFromWindow()
 **   MCheckValidator   ---   TransferToWindow
 **
 ******************************************************/
-bool MCheckValidator::TransferToWindow()
-{
-	//printf( "MCheckValidator::TransferToWindow value %d\n", *value );
-	getCheckControl()->SetValue( *value );
-	return true;
+bool MCheckValidator::TransferToWindow() {
+  // printf( "MCheckValidator::TransferToWindow value %d\n", *value );
+  getCheckControl()->SetValue(*value);
+  return true;
 }
 
 /*****************************************************
@@ -748,19 +699,17 @@ bool MCheckValidator::TransferToWindow()
 **   MBooleanFlagValidator   ---   TransferFromWindow
 **
 ******************************************************/
-bool MBooleanFlagValidator::TransferFromWindow()
-{
-	//printf( "MBooleanFlagValidator::TransferFromWindow value %d shiftvalue %d\n", *value, shiftvalue );
-	if ( getCheckControl()->GetValue() )
-	{
-		*value |= shiftvalue;
-	}
-	else
-	{
-		*value &= ~shiftvalue;
-	}
-	//printf( "AFTER MBooleanFlagValidator::TransferFromWindow value %d shiftvalue %d\n", *value, shiftvalue );
-	return true;
+bool MBooleanFlagValidator::TransferFromWindow() {
+  // printf( "MBooleanFlagValidator::TransferFromWindow value %d shiftvalue
+  // %d\n", *value, shiftvalue );
+  if (getCheckControl()->GetValue()) {
+    *value |= shiftvalue;
+  } else {
+    *value &= ~shiftvalue;
+  }
+  // printf( "AFTER MBooleanFlagValidator::TransferFromWindow value %d
+  // shiftvalue %d\n", *value, shiftvalue );
+  return true;
 }
 
 /*****************************************************
@@ -768,11 +717,10 @@ bool MBooleanFlagValidator::TransferFromWindow()
 **   MBooleanFlagValidator   ---   TransferToWindow
 **
 ******************************************************/
-bool MBooleanFlagValidator::TransferToWindow()
-{
-	//printf( "MBooleanFlagValidator::TransferToWindow value %d\n", *value );
-	getCheckControl()->SetValue( *value & shiftvalue );
-	return true;
+bool MBooleanFlagValidator::TransferToWindow() {
+  // printf( "MBooleanFlagValidator::TransferToWindow value %d\n", *value );
+  getCheckControl()->SetValue(*value & shiftvalue);
+  return true;
 }
 
 /*****************************************************
@@ -780,11 +728,10 @@ bool MBooleanFlagValidator::TransferToWindow()
 **   MColourPickerValidator   ---   getColourPickerControl
 **
 ******************************************************/
-wxColourPickerCtrl *MColourPickerValidator::getColourPickerControl()
-{
-	wxColourPickerCtrl *c = wxDynamicCast( GetWindow(), wxColourPickerCtrl );
-	assert( c );
-	return c;
+wxColourPickerCtrl *MColourPickerValidator::getColourPickerControl() {
+  wxColourPickerCtrl *c = wxDynamicCast(GetWindow(), wxColourPickerCtrl);
+  assert(c);
+  return c;
 }
 
 /*****************************************************
@@ -792,12 +739,13 @@ wxColourPickerCtrl *MColourPickerValidator::getColourPickerControl()
 **   MColourPickerValidator   ---   TransferFromWindow
 **
 ******************************************************/
-bool MColourPickerValidator::TransferFromWindow()
-{
-	wxString color = getColourPickerControl()->GetColour().GetAsString(  wxC2S_CSS_SYNTAX );
-	//printf( "MColourPickerValidator::TransferFromWindow color %s\n", str2char( color ));
-	*value = getColourPickerControl()->GetColour();
-	return true;
+bool MColourPickerValidator::TransferFromWindow() {
+  wxString color =
+      getColourPickerControl()->GetColour().GetAsString(wxC2S_CSS_SYNTAX);
+  // printf( "MColourPickerValidator::TransferFromWindow color %s\n", str2char(
+  // color ));
+  *value = getColourPickerControl()->GetColour();
+  return true;
 }
 
 /*****************************************************
@@ -805,12 +753,13 @@ bool MColourPickerValidator::TransferFromWindow()
 **   MColourPickerValidator   ---   TransferToWindow
 **
 ******************************************************/
-bool MColourPickerValidator::TransferToWindow()
-{
-	wxString color = getColourPickerControl()->GetColour().GetAsString(  wxC2S_CSS_SYNTAX );
-	//printf( "MColourPickerValidator::TransferToWindow color %s\n", str2char( color ));
-	getColourPickerControl()->SetColour( *value );
-	return true;
+bool MColourPickerValidator::TransferToWindow() {
+  wxString color =
+      getColourPickerControl()->GetColour().GetAsString(wxC2S_CSS_SYNTAX);
+  // printf( "MColourPickerValidator::TransferToWindow color %s\n", str2char(
+  // color ));
+  getColourPickerControl()->SetColour(*value);
+  return true;
 }
 
 /*****************************************************
@@ -818,10 +767,9 @@ bool MColourPickerValidator::TransferToWindow()
 **   MColourPickerValidator   ---   doValidate
 **
 ******************************************************/
-bool MColourPickerValidator::doValidate()
-{
-	return getColourPickerControl()->GetColour().IsOk();
-	return true;
+bool MColourPickerValidator::doValidate() {
+  return getColourPickerControl()->GetColour().IsOk();
+  return true;
 }
 
 /*****************************************************
@@ -829,11 +777,11 @@ bool MColourPickerValidator::doValidate()
 **   MTextValidator   ---   TransferFromWindow
 **
 ******************************************************/
-bool MTextValidator::TransferFromWindow()
-{
-	*value = getTextCtrl()->GetValue();
-	//printf( "MTextValidator::TransferFromWindow value %s\n", str2char( (*value) ));
-	return true;
+bool MTextValidator::TransferFromWindow() {
+  *value = getTextCtrl()->GetValue();
+  // printf( "MTextValidator::TransferFromWindow value %s\n", str2char( (*value)
+  // ));
+  return true;
 }
 
 /*****************************************************
@@ -841,11 +789,11 @@ bool MTextValidator::TransferFromWindow()
 **   MTextValidator   ---   TransferToWindow
 **
 ******************************************************/
-bool MTextValidator::TransferToWindow()
-{
-	//printf( "MTextValidator::TransferToWindow value %s\n", str2char( (*value) ));
-	getTextCtrl()->ChangeValue( *value );
-	return true;
+bool MTextValidator::TransferToWindow() {
+  // printf( "MTextValidator::TransferToWindow value %s\n", str2char( (*value)
+  // ));
+  getTextCtrl()->ChangeValue(*value);
+  return true;
 }
 
 /*****************************************************
@@ -853,15 +801,13 @@ bool MTextValidator::TransferToWindow()
 **   MFilenameValidator   ---   TransferFromWindow
 **
 ******************************************************/
-bool MFilenameValidator::TransferFromWindow()
-{
-	wxString filename = getTextValue();
-	const bool isvalid = doValidate();
-	if ( isvalid )
-	{
-		*value = filename;
-	}
-	return isvalid;
+bool MFilenameValidator::TransferFromWindow() {
+  wxString filename = getTextValue();
+  const bool isvalid = doValidate();
+  if (isvalid) {
+    *value = filename;
+  }
+  return isvalid;
 }
 
 /*****************************************************
@@ -869,16 +815,14 @@ bool MFilenameValidator::TransferFromWindow()
 **   MFilenameValidator   ---   doValidate
 **
 ******************************************************/
-bool MFilenameValidator::doValidate()
-{
-	wxString filename = getTextValue();
-	bool isvalid = wxFileName::FileExists( filename );
-	if ( isvalid && ! wxFileName::IsFileReadable( filename ))
-	{
-		isvalid = false;
-	}
-	setWindowBackground( isvalid );
-	return isvalid;
+bool MFilenameValidator::doValidate() {
+  wxString filename = getTextValue();
+  bool isvalid = wxFileName::FileExists(filename);
+  if (isvalid && !wxFileName::IsFileReadable(filename)) {
+    isvalid = false;
+  }
+  setWindowBackground(isvalid);
+  return isvalid;
 }
 
 /*****************************************************
@@ -886,17 +830,16 @@ bool MFilenameValidator::doValidate()
 **   MDirectoryValidator   ---   TransferFromWindow
 **
 ******************************************************/
-bool MDirectoryValidator::TransferFromWindow()
-{
-	wxString dirname = getTextValue();
-	const bool isvalid = ( dirname.IsEmpty() || wxDir::Exists( dirname ));
-	//printf( "MDirectoryValidator::TransferFromWindow isvalid %d config->view->inputFieldValidations %d= IFV_ADJUST %d\n",
-		//config->view->inputFieldValidation, IFV_ADJUST, isvalid );
-	if ( isvalid || config->view->inputFieldValidation != IFV_RESTORE )
-	{
-		*value = dirname;
-	}
-	return isvalid;
+bool MDirectoryValidator::TransferFromWindow() {
+  wxString dirname = getTextValue();
+  const bool isvalid = (dirname.IsEmpty() || wxDir::Exists(dirname));
+  // printf( "MDirectoryValidator::TransferFromWindow isvalid %d
+  // config->view->inputFieldValidations %d= IFV_ADJUST %d\n",
+  // config->view->inputFieldValidation, IFV_ADJUST, isvalid );
+  if (isvalid || config->view->inputFieldValidation != IFV_RESTORE) {
+    *value = dirname;
+  }
+  return isvalid;
 }
 
 /*****************************************************
@@ -904,13 +847,10 @@ bool MDirectoryValidator::TransferFromWindow()
 **   MDirectoryValidator   ---   doValidate
 **
 ******************************************************/
-bool MDirectoryValidator::doValidate()
-{
-	wxString dirname = getTextValue();
-	const bool isvalid = ( dirname.IsEmpty() || wxDir::Exists( dirname ));
-	//printf( "MDirectoryValidator::doValidate isvalid %d\n", isvalid );
-	setWindowBackground( isvalid );
-	return isvalid;
+bool MDirectoryValidator::doValidate() {
+  wxString dirname = getTextValue();
+  const bool isvalid = (dirname.IsEmpty() || wxDir::Exists(dirname));
+  // printf( "MDirectoryValidator::doValidate isvalid %d\n", isvalid );
+  setWindowBackground(isvalid);
+  return isvalid;
 }
-
-

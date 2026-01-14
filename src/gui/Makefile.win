@@ -21,7 +21,7 @@ CPPFLAGS = -g -c -I. -I../.. -I../base -I../jyotish -I../dialogs -I../swe -I../w
 	-I../swe `wx-config --cppflags` 
 
 LDLIBS = -lstdc++ $(VIEW_LIB) $(JYOTISH_LIB) $(DIALOG_LIB) $(BASE_LIB) $(SWE_LIB) $(DB_LIB)\
-	$(JSON_LIB) $(PDF_LIB) `wx-config --libs` 
+	$(JSON_LIB) $(PDF_LIB) `wx-config --libs` -lgdi32 -lmsimg32 
 
 OBS = ApplicationWindow.o BarDiagram.o BasicSheetWidget.o BasicVedicChart.o BasicView.o \
 	BasicWesternChart.o BasicWidget.o ChartField.o ChildWindow.o ChildWindowListCtrl.o \

@@ -43,9 +43,8 @@
 #include "guibase.h"
 #include "mspin.h"
 
-
-DEFINE_EVENT_TYPE(TOOLPANEL_CHANGED)
-DEFINE_EVENT_TYPE(TOOLPANEL_CREATEDOC)
+const wxEventType TOOLPANEL_CHANGED = wxID_HIGHEST + 1000;
+const wxEventType TOOLPANEL_CREATEDOC = wxID_HIGHEST + 1001;
 
 extern Config *config;
 

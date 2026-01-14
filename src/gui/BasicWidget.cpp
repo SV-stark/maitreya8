@@ -29,7 +29,6 @@
 #include <wx/graphics.h> // Enable GraphicsContext
 #include <wx/log.h>
 
-
 #include "ChartProperties.h"
 #include "Conf.h"
 #include "ExportDialog.h"
@@ -39,7 +38,7 @@
 
 extern Config *config;
 
-DEFINE_EVENT_TYPE(COMMAND_CHART_SKIN_CHANGED)
+const wxEventType COMMAND_CHART_SKIN_CHANGED = wxID_HIGHEST + 6001;
 
 IMPLEMENT_CLASS2(BasicWidget, wxScrolledWindow, KeyEventObserver)
 

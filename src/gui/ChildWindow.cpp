@@ -26,55 +26,60 @@
 
 #include <wx/app.h>
 #include <wx/imaglist.h>
-#include <wx/notebook.h>
 #include <wx/log.h>
 #include <wx/menu.h>
+#include <wx/notebook.h>
 #include <wx/panel.h>
 #include <wx/sizer.h>
 #include <wx/splitter.h>
+
 
 #include "ChartProperties.h"
 #include "Commands.h"
 #include "Conf.h"
 #include "Document.h"
-#include "guibase.h"
 #include "IdConverter.h"
 #include "ImageProvider.h"
 #include "ViewNode.h"
+#include "guibase.h"
+
 
 extern Config *config;
 
-IMPLEMENT_CLASS( ChildWindow, wxFrame )
-IMPLEMENT_CLASS( SimpleChildWindow, ChildWindow )
+IMPLEMENT_CLASS(ChildWindow, wxFrame)
+IMPLEMENT_CLASS(SimpleChildWindow, ChildWindow)
 
-DEFINE_EVENT_TYPE( CHILD_ADDTORECENT )
-DEFINE_EVENT_TYPE( CHILD_SETACTIVE )
-DEFINE_EVENT_TYPE( CHILD_CLOSED )
-DEFINE_EVENT_TYPE( CHILD_ADDED )
-DEFINE_EVENT_TYPE( SHOW_EPHEM_FILE_WARNING )
+const wxEventType CHILD_ADDTORECENT = wxID_HIGHEST + 1100;
+const wxEventType CHILD_SETACTIVE = wxID_HIGHEST + 1101;
+const wxEventType CHILD_CLOSED = wxID_HIGHEST + 1102;
+const wxEventType CHILD_ADDED = wxID_HIGHEST + 1103;
+const wxEventType SHOW_EPHEM_FILE_WARNING = wxID_HIGHEST + 1003;
 
 /*****************************************************
 **
 **   ChildWindow   ---   Constructor
 **
 ******************************************************/
-ChildWindow::ChildWindow( wxFrame *parent, Document *document, const BitmapId &bid, const wxSize &size, const bool ismain )
-		: wxFrame( parent, -1, wxT( "childwindow" ), wxDefaultPosition, size ),
-		doc( document ),
-		bmpId( bid )
-{
-	isvalid = true;
-	ismainwindow = false;
-	setMainWindow( ismain );
-	if ( doc && ! ismain ) doc->addChildWindow( this );
-	SetMinSize( wxSize( 200, 200 ));
-	props = new ChartProperties;
-	SetIcon( ImageProvider::get()->getIcon( bmpId ));
+ChildWindow::ChildWindow(wxFrame *parent, Document *document,
+                         const BitmapId &bid, const wxSize &size,
+                         const bool ismain)
+    : wxFrame(parent, -1, wxT("childwindow"), wxDefaultPosition, size),
+      doc(document), bmpId(bid) {
+  isvalid = true;
+  ismainwindow = false;
+  setMainWindow(ismain);
+  if (doc && !ismain)
+    doc->addChildWindow(this);
+  SetMinSize(wxSize(200, 200));
+  props = new ChartProperties;
+  SetIcon(ImageProvider::get()->getIcon(bmpId));
 
-	Connect( wxEVT_ACTIVATE, wxActivateEventHandler( ChildWindow::OnActivate ));
-	Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( ChildWindow::OnClose ));
-	Connect( wxID_ANY, SHOW_EPHEM_FILE_WARNING, wxCommandEventHandler( ChildWindow::OnEphemFileWarning ));
-	//Connect( CMD_FIRST+1, CMD_GRAPHIC_STYLE+100, wxCommandEventHandler( ChildWindow::OnCommand ));
+  Connect(wxEVT_ACTIVATE, wxActivateEventHandler(ChildWindow::OnActivate));
+  Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(ChildWindow::OnClose));
+  Connect(wxID_ANY, SHOW_EPHEM_FILE_WARNING,
+          wxCommandEventHandler(ChildWindow::OnEphemFileWarning));
+  // Connect( CMD_FIRST+1, CMD_GRAPHIC_STYLE+100, wxCommandEventHandler(
+  // ChildWindow::OnCommand ));
 }
 
 /*****************************************************
@@ -82,10 +87,10 @@ ChildWindow::ChildWindow( wxFrame *parent, Document *document, const BitmapId &b
 **   ChildWindow   ---   Destructor
 **
 ******************************************************/
-ChildWindow::~ChildWindow()
-{
-	if ( ismainwindow ) delete doc;
-	delete props;
+ChildWindow::~ChildWindow() {
+  if (ismainwindow)
+    delete doc;
+  delete props;
 }
 
 /*****************************************************
@@ -93,23 +98,22 @@ ChildWindow::~ChildWindow()
 **   ChildWindow   ---   OnEphemFileWarning
 **
 ******************************************************/
-void ChildWindow::OnEphemFileWarning( wxCommandEvent& /*event*/ )
-{
-	// show only once a session
-	static bool shown = false;
+void ChildWindow::OnEphemFileWarning(wxCommandEvent & /*event*/) {
+  // show only once a session
+  static bool shown = false;
 
-	if ( ! shown )
-	{
-		//if ( ! config->viewprefs->doNotShowAgainWarningEphemFiles )
-		if ( config->ephem->showEphemWarning )
-		{
-			wxString message = 
-				_( "Some items could not be calculated properly. Please check if you configured Swiss Ephemeris data files in Configuration/Ephemeris correctly." );
-			DoNotShowAgainDialog dialog( this, message, &config->ephem->showEphemWarning );
-			dialog.ShowModal();
-		}
-		shown = true;
-	}
+  if (!shown) {
+    // if ( ! config->viewprefs->doNotShowAgainWarningEphemFiles )
+    if (config->ephem->showEphemWarning) {
+      wxString message = _("Some items could not be calculated properly. "
+                           "Please check if you configured Swiss Ephemeris "
+                           "data files in Configuration/Ephemeris correctly.");
+      DoNotShowAgainDialog dialog(this, message,
+                                  &config->ephem->showEphemWarning);
+      dialog.ShowModal();
+    }
+    shown = true;
+  }
 }
 
 /*****************************************************
@@ -117,9 +121,8 @@ void ChildWindow::OnEphemFileWarning( wxCommandEvent& /*event*/ )
 **   ChildWindow   ---   getViewListImageId
 **
 ******************************************************/
-int ChildWindow::getViewListImageId() const
-{
-	return ImageProvider::get()->getViewImageListIndex4BitmapId( bmpId );
+int ChildWindow::getViewListImageId() const {
+  return ImageProvider::get()->getViewImageListIndex4BitmapId(bmpId);
 }
 
 /*****************************************************
@@ -127,30 +130,29 @@ int ChildWindow::getViewListImageId() const
 **   ChildWindow   ---   OnClose
 **
 ******************************************************/
-void ChildWindow::OnClose( wxCloseEvent &event )
-{
-	wxLogMessage( wxT( "ChildWindow::OnClose classname %s" ), GetClassInfo()->GetClassName());
+void ChildWindow::OnClose(wxCloseEvent &event) {
+  wxLogMessage(wxT("ChildWindow::OnClose classname %s"),
+               GetClassInfo()->GetClassName());
 
-	if ( ismainwindow )
-	{
-		if ( ! doc->queryClose())
-		{
-			event.Veto();
-			return;
-		}
-		doc->closeDependentChildWindows();
-	}
-	wxCommandEvent e( CHILD_CLOSED, GetId() );
-	e.SetEventObject( this );
+  if (ismainwindow) {
+    if (!doc->queryClose()) {
+      event.Veto();
+      return;
+    }
+    doc->closeDependentChildWindows();
+  }
+  wxCommandEvent e(CHILD_CLOSED, GetId());
+  e.SetEventObject(this);
 
-	// Issue 3.0
-	//GetParent()->ProcessWindowEvent( e );
-	//GetParent()->ProcessEvent( e );
-	wxPostEvent( GetParent(), e );
+  // Issue 3.0
+  // GetParent()->ProcessWindowEvent( e );
+  // GetParent()->ProcessEvent( e );
+  wxPostEvent(GetParent(), e);
 
-	if ( doc ) doc->releaseChildWindow( this );
-	Destroy();
-	isvalid = false;
+  if (doc)
+    doc->releaseChildWindow(this);
+  Destroy();
+  isvalid = false;
 }
 
 /*****************************************************
@@ -158,12 +160,11 @@ void ChildWindow::OnClose( wxCloseEvent &event )
 **   ChildWindow   ---   OnActivate
 **
 ******************************************************/
-void ChildWindow::OnActivate( wxActivateEvent& )
-{
-	setTitle();
-	wxCommandEvent e( CHILD_SETACTIVE, GetId() );
-	e.SetEventObject( this );
-	wxPostEvent( GetParent(), e );
+void ChildWindow::OnActivate(wxActivateEvent &) {
+  setTitle();
+  wxCommandEvent e(CHILD_SETACTIVE, GetId());
+  e.SetEventObject(this);
+  wxPostEvent(GetParent(), e);
 }
 
 /*****************************************************
@@ -171,50 +172,54 @@ void ChildWindow::OnActivate( wxActivateEvent& )
 **   ChildWindow   ---   dispatchCommand
 **
 ******************************************************/
-bool ChildWindow::dispatchCommand( const int& command )
-{
-	switch ( command )
-	{
-	case CMD_CLOSE:
-		Close();
-		break;
-	case CMD_CLOSE_DOC:
-		if ( doc ) doc->getMainWindow()->Close();
-		else Close();
-		break;
-	case CMD_SAVE:
-		if ( doc ) doc->save();
-		break;
-	case CMD_SAVEAS:
-		if ( doc ) doc->saveAs();
-		break;
-	case CMD_QUICKPRINT:
-		if ( doc ) doc->doQuickPrint();
-		break;
-	case CMD_PRINT:
-		if ( doc ) doc->doPrint();
-		break;
-	case CMD_EDITDATA:
-		if ( doc ) doc->editData();
-		break;
-	case CMD_EXPORT_TEXT:
-	case CMD_EXPORT_HTML:
-	case CMD_EXPORT_PDF:
-	case CMD_EXPORT_IMAGE:
-			printf( "EXPORT\n" );
-	break;
-	case CMD_ANIMATE:
-		if ( doc )
-		{
-			props->setAnimated( ! doc->isAnimated());
-			doc->StartTimer( props->isAnimated());
-		}
-		break;
-	default:
-		return false;
-		break;
-	}
-	return true;
+bool ChildWindow::dispatchCommand(const int &command) {
+  switch (command) {
+  case CMD_CLOSE:
+    Close();
+    break;
+  case CMD_CLOSE_DOC:
+    if (doc)
+      doc->getMainWindow()->Close();
+    else
+      Close();
+    break;
+  case CMD_SAVE:
+    if (doc)
+      doc->save();
+    break;
+  case CMD_SAVEAS:
+    if (doc)
+      doc->saveAs();
+    break;
+  case CMD_QUICKPRINT:
+    if (doc)
+      doc->doQuickPrint();
+    break;
+  case CMD_PRINT:
+    if (doc)
+      doc->doPrint();
+    break;
+  case CMD_EDITDATA:
+    if (doc)
+      doc->editData();
+    break;
+  case CMD_EXPORT_TEXT:
+  case CMD_EXPORT_HTML:
+  case CMD_EXPORT_PDF:
+  case CMD_EXPORT_IMAGE:
+    printf("EXPORT\n");
+    break;
+  case CMD_ANIMATE:
+    if (doc) {
+      props->setAnimated(!doc->isAnimated());
+      doc->StartTimer(props->isAnimated());
+    }
+    break;
+  default:
+    return false;
+    break;
+  }
+  return true;
 }
 
 /*****************************************************
@@ -222,36 +227,37 @@ bool ChildWindow::dispatchCommand( const int& command )
 **   ChildWindow   ---   OnCommand
 **
 ******************************************************/
-void ChildWindow::OnCommand( wxCommandEvent &event )
-{
-	if ( ! isvalid ) return; // nothing to do for closing views
+void ChildWindow::OnCommand(wxCommandEvent &event) {
+  if (!isvalid)
+    return; // nothing to do for closing views
 
-	const int command = event.GetId();
-	//printf( "ChildWindow::OnCommand command is %d\n", command );
+  const int command = event.GetId();
+  // printf( "ChildWindow::OnCommand command is %d\n", command );
 
-	/*
-	wxObject *obj = event.GetEventObject();
-	if ( obj )
-	{
-		wxString cname = obj->GetClassInfo()->GetClassName();
-		printf( "CLASSNAME %s\n", str2char( cname ));
-	}
-	else printf( "CLASS NADA\n" );
-	*/
+  /*
+  wxObject *obj = event.GetEventObject();
+  if ( obj )
+  {
+          wxString cname = obj->GetClassInfo()->GetClassName();
+          printf( "CLASSNAME %s\n", str2char( cname ));
+  }
+  else printf( "CLASS NADA\n" );
+  */
 
-	//if (IS_NAVIGATION_KEY_COMMAND( event.GetId())) printf( "NAVIGATION KAY COMMAND\n" );
+  // if (IS_NAVIGATION_KEY_COMMAND( event.GetId())) printf( "NAVIGATION KAY
+  // COMMAND\n" );
 
-	if ( command >= CMD_NEW_TEXT && command <= CMD_NEW_RASI+30 )
-	{
-		event.Skip(); // Delegate to parent
-	}
-	else
-	{
-		bool ret = props->dispatchWidgetPropertyCommand( command );
-		//printf( "ChildWindow::dispatchCommand dispatchWidgetPropertyCommand return is %d\n", ret );
-		if ( ret ) OnDataChanged();
-		else dispatchCommand( event.GetId() );
-	}
+  if (command >= CMD_NEW_TEXT && command <= CMD_NEW_RASI + 30) {
+    event.Skip(); // Delegate to parent
+  } else {
+    bool ret = props->dispatchWidgetPropertyCommand(command);
+    // printf( "ChildWindow::dispatchCommand dispatchWidgetPropertyCommand
+    // return is %d\n", ret );
+    if (ret)
+      OnDataChanged();
+    else
+      dispatchCommand(event.GetId());
+  }
 }
 
 /*****************************************************
@@ -259,10 +265,10 @@ void ChildWindow::OnCommand( wxCommandEvent &event )
 **   ChildWindow   ---   setMainWindow
 **
 ******************************************************/
-void ChildWindow::setMainWindow( const bool &b )
-{
-	ismainwindow = b;
-	if ( b ) doc->setMainWindow( this );
+void ChildWindow::setMainWindow(const bool &b) {
+  ismainwindow = b;
+  if (b)
+    doc->setMainWindow(this);
 }
 
 /*****************************************************
@@ -270,13 +276,15 @@ void ChildWindow::setMainWindow( const bool &b )
 **   SimpleChildWindow   ---   Constructor
 **
 ******************************************************/
-SimpleChildWindow::SimpleChildWindow( wxFrame *parent, Document *doc, const BitmapId &bmpId, const wxSize &size, const bool ismain )
-		: ChildWindow( parent, doc, bmpId, size, ismain )
-{
-	view = 0;
-	Connect( wxEVT_ACTIVATE, wxActivateEventHandler( SimpleChildWindow::OnActivate ));
-	Connect( wxEVT_SIZE, wxSizeEventHandler( SimpleChildWindow::OnSize ));
-	Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( SimpleChildWindow::OnClose ));
+SimpleChildWindow::SimpleChildWindow(wxFrame *parent, Document *doc,
+                                     const BitmapId &bmpId, const wxSize &size,
+                                     const bool ismain)
+    : ChildWindow(parent, doc, bmpId, size, ismain) {
+  view = 0;
+  Connect(wxEVT_ACTIVATE,
+          wxActivateEventHandler(SimpleChildWindow::OnActivate));
+  Connect(wxEVT_SIZE, wxSizeEventHandler(SimpleChildWindow::OnSize));
+  Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(SimpleChildWindow::OnClose));
 }
 
 /*****************************************************
@@ -284,19 +292,18 @@ SimpleChildWindow::SimpleChildWindow( wxFrame *parent, Document *doc, const Bitm
 **   SimpleChildWindow   ---   Destructor
 **
 ******************************************************/
-SimpleChildWindow::~SimpleChildWindow()
-{
-}
+SimpleChildWindow::~SimpleChildWindow() {}
 
 /*****************************************************
 **
 **   SimpleChildWindow   ---   setTitle
 **
 ******************************************************/
-void SimpleChildWindow::setTitle()
-{
-	if ( view ) SetTitle( view->getTitle() );
-	else SetTitle( wxT( "empty" ));
+void SimpleChildWindow::setTitle() {
+  if (view)
+    SetTitle(view->getTitle());
+  else
+    SetTitle(wxT("empty"));
 }
 
 /*****************************************************
@@ -304,26 +311,26 @@ void SimpleChildWindow::setTitle()
 **   SimpleChildWindow   ---   dispatchCommand
 **
 ******************************************************/
-bool SimpleChildWindow::dispatchCommand( const int& command )
-{
-	bool ret = false;
-	assert( view );
+bool SimpleChildWindow::dispatchCommand(const int &command) {
+  bool ret = false;
+  assert(view);
 
-	//if ( view )
-	//printf( "SimpleChildWindow::dispatchCommand VIEWID %d\n", view->getViewId() );
-	//else assert( false );
+  // if ( view )
+  // printf( "SimpleChildWindow::dispatchCommand VIEWID %d\n", view->getViewId()
+  // ); else assert( false );
 
-	if ( view ) ret = view->dispatchCommand( command );
-	else wxLogError( wxT( "SimpleChildWindow::dispatchCommand - view not set" ));
+  if (view)
+    ret = view->dispatchCommand(command);
+  else
+    wxLogError(wxT("SimpleChildWindow::dispatchCommand - view not set"));
 
-	if ( ret )
-	{
-		// required e.g. for ew toggle because text views do not update otherwise
-		view->OnDataChanged();
-		view->Refresh();
-		return ret;
-	}
-	else return ChildWindow::dispatchCommand( command );
+  if (ret) {
+    // required e.g. for ew toggle because text views do not update otherwise
+    view->OnDataChanged();
+    view->Refresh();
+    return ret;
+  } else
+    return ChildWindow::dispatchCommand(command);
 }
 
 /*****************************************************
@@ -331,10 +338,9 @@ bool SimpleChildWindow::dispatchCommand( const int& command )
 **   SimpleChildWindow   ---   insertView
 **
 ******************************************************/
-void SimpleChildWindow::insertView( BasicView *v )
-{
-	view = v;
-	setTitle();
+void SimpleChildWindow::insertView(BasicView *v) {
+  view = v;
+  setTitle();
 }
 
 /*****************************************************
@@ -342,11 +348,10 @@ void SimpleChildWindow::insertView( BasicView *v )
 **   SimpleChildWindow   ---   postCreate
 **
 ******************************************************/
-void SimpleChildWindow::postCreate()
-{
-	assert( view );
-	view->postCreate();
-	//view->Layout();
+void SimpleChildWindow::postCreate() {
+  assert(view);
+  view->postCreate();
+  // view->Layout();
 }
 
 /*****************************************************
@@ -354,14 +359,12 @@ void SimpleChildWindow::postCreate()
 **   SimpleChildWindow   ---   OnClose
 **
 ******************************************************/
-void SimpleChildWindow::OnClose( wxCloseEvent &event )
-{
-	assert( view );
-	if ( ! view->queryClose() )
-	{
-		event.Veto();
-	}
-	else ChildWindow::OnClose( event );
+void SimpleChildWindow::OnClose(wxCloseEvent &event) {
+  assert(view);
+  if (!view->queryClose()) {
+    event.Veto();
+  } else
+    ChildWindow::OnClose(event);
 }
 
 /*****************************************************
@@ -369,10 +372,9 @@ void SimpleChildWindow::OnClose( wxCloseEvent &event )
 **   SimpleChildWindow   ---   OnDataChanged
 **
 ******************************************************/
-void SimpleChildWindow::OnDataChanged()
-{
-	view->OnDataChanged();
-	setTitle();
+void SimpleChildWindow::OnDataChanged() {
+  view->OnDataChanged();
+  setTitle();
 }
 
 /*****************************************************
@@ -380,14 +382,15 @@ void SimpleChildWindow::OnDataChanged()
 **   SimpleChildWindow   ---   OnActivate
 **
 ******************************************************/
-void SimpleChildWindow::OnActivate( wxActivateEvent &event )
-{
-	// attention: wx3.2 GTK will cause infinite loop of child focus events if the line below is used.
-	// nevertheless e.g. windows build needs the focus because otherwise keyboard shortcuts do not work properly
-#if ! defined __WXGTK__  || wxMAJOR_VERSION < 3
-	if ( view )	view->SetFocus();
+void SimpleChildWindow::OnActivate(wxActivateEvent &event) {
+  // attention: wx3.2 GTK will cause infinite loop of child focus events if the
+  // line below is used. nevertheless e.g. windows build needs the focus because
+  // otherwise keyboard shortcuts do not work properly
+#if !defined __WXGTK__ || wxMAJOR_VERSION < 3
+  if (view)
+    view->SetFocus();
 #endif
-	ChildWindow::OnActivate( event );
+  ChildWindow::OnActivate(event);
 }
 
 /*****************************************************
@@ -395,11 +398,12 @@ void SimpleChildWindow::OnActivate( wxActivateEvent &event )
 **   SimpleChildWindow   ---   OnSize
 **
 ******************************************************/
-void SimpleChildWindow::OnSize( wxSizeEvent &event )
-{
-	wxSize size = event.GetSize();
-	if ( view ) IdConverter::get()->setConfigSizeForViewId( view->getViewId(), size, props->isVedic());
-	event.Skip();
+void SimpleChildWindow::OnSize(wxSizeEvent &event) {
+  wxSize size = event.GetSize();
+  if (view)
+    IdConverter::get()->setConfigSizeForViewId(view->getViewId(), size,
+                                               props->isVedic());
+  event.Skip();
 }
 
 /**************************************************************
@@ -407,17 +411,17 @@ void SimpleChildWindow::OnSize( wxSizeEvent &event )
 **   ChildWindowFactory   ---   createPartnerWindow
 ***
 ***************************************************************/
-ChildWindow *ChildWindowFactory::createPartnerWindow( wxFrame *parent )
-{
-	IdConverter *idc = IdConverter::get();
-	const wxSize size = idc->getSizeForViewId( VIEW_PARTNER, config->preferVedic );
-	const BitmapId bmpId = idc->viewId2BitmapId( VIEW_PARTNER );
+ChildWindow *ChildWindowFactory::createPartnerWindow(wxFrame *parent) {
+  IdConverter *idc = IdConverter::get();
+  const wxSize size = idc->getSizeForViewId(VIEW_PARTNER, config->preferVedic);
+  const BitmapId bmpId = idc->viewId2BitmapId(VIEW_PARTNER);
 
-	SimpleChildWindow *child = new SimpleChildWindow( parent, 0, bmpId, size , false );
-	BasicView *mview = ViewFactory().createPartnerView( child, child );
-	mview->doLayout();
-	child->insertView( mview );
-	return child;
+  SimpleChildWindow *child =
+      new SimpleChildWindow(parent, 0, bmpId, size, false);
+  BasicView *mview = ViewFactory().createPartnerView(child, child);
+  mview->doLayout();
+  child->insertView(mview);
+  return child;
 }
 
 /**************************************************************
@@ -425,21 +429,22 @@ ChildWindow *ChildWindowFactory::createPartnerWindow( wxFrame *parent )
 **   ChildWindowFactory   ---   createSingleMainWindow
 ***
 ***************************************************************/
-ChildWindow *ChildWindowFactory::createSingleMainWindow( wxFrame *parent, Document *doc )
-{
-	WidgetNode node( CMD_NEW_MAINVIEW );
+ChildWindow *ChildWindowFactory::createSingleMainWindow(wxFrame *parent,
+                                                        Document *doc) {
+  WidgetNode node(CMD_NEW_MAINVIEW);
 
-	IdConverter *idc = IdConverter::get();
-	const wxSize size = idc->getSizeForViewId( node.viewId, node.vedic );
-	const BitmapId bmpId = idc->viewId2BitmapId( node.viewId, node.vedic );
-	SimpleChildWindow *child = new SimpleChildWindow( parent, doc, bmpId, size, true );
+  IdConverter *idc = IdConverter::get();
+  const wxSize size = idc->getSizeForViewId(node.viewId, node.vedic);
+  const BitmapId bmpId = idc->viewId2BitmapId(node.viewId, node.vedic);
+  SimpleChildWindow *child =
+      new SimpleChildWindow(parent, doc, bmpId, size, true);
 
-	BasicView *view = ViewFactory().createView( child, child, &node );
-	assert( view );
-	child->insertView( view );
-	view->doLayout();
-	doc->setMainWindow( child );
-	return child;
+  BasicView *view = ViewFactory().createView(child, child, &node);
+  assert(view);
+  child->insertView(view);
+  view->doLayout();
+  doc->setMainWindow(child);
+  return child;
 }
 
 /**************************************************************
@@ -447,23 +452,23 @@ ChildWindow *ChildWindowFactory::createSingleMainWindow( wxFrame *parent, Docume
 **   ChildWindowFactory   ---   createChild
 ***
 ***************************************************************/
-ChildWindow *ChildWindowFactory::createChild( wxFrame *parent, Document *doc, const int id )
-{
-	WidgetNode node( id );
+ChildWindow *ChildWindowFactory::createChild(wxFrame *parent, Document *doc,
+                                             const int id) {
+  WidgetNode node(id);
 
-	IdConverter *idc = IdConverter::get();
-	const wxSize size = idc->getSizeForViewId( node.viewId, node.vedic );
-	const BitmapId bmpId = idc->viewId2BitmapId( node.viewId, node.vedic, (Varga)node.varga );
+  IdConverter *idc = IdConverter::get();
+  const wxSize size = idc->getSizeForViewId(node.viewId, node.vedic);
+  const BitmapId bmpId =
+      idc->viewId2BitmapId(node.viewId, node.vedic, (Varga)node.varga);
 
-	SimpleChildWindow *child = new SimpleChildWindow( parent, doc, bmpId, size, false );
-	child->getProps()->setVedic( node.vedic );
-	assert( child );
+  SimpleChildWindow *child =
+      new SimpleChildWindow(parent, doc, bmpId, size, false);
+  child->getProps()->setVedic(node.vedic);
+  assert(child);
 
-	BasicView *view = ViewFactory().createView( child, child, &node );
-	child->insertView( view );
-	view->doLayout();
+  BasicView *view = ViewFactory().createView(child, child, &node);
+  child->insertView(view);
+  view->doLayout();
 
-	return child;
+  return child;
 }
-
-

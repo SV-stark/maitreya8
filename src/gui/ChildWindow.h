@@ -23,8 +23,9 @@
 
 #include <wx/frame.h>
 
-#include "maitreya.h"
 #include "ImageProvider.h"
+#include "maitreya.h"
+
 
 class BasicView;
 class ChartProperties;
@@ -32,108 +33,114 @@ class Document;
 class DocumentManager;
 struct ViewNode;
 
-BEGIN_DECLARE_EVENT_TYPES()
-DECLARE_EVENT_TYPE( CHILD_ADDTORECENT, wxID_HIGHEST + 1100 )
-DECLARE_EVENT_TYPE( CHILD_SETACTIVE, wxID_HIGHEST + 1101 )
-DECLARE_EVENT_TYPE( CHILD_CLOSED, wxID_HIGHEST + 1102 )
-DECLARE_EVENT_TYPE( CHILD_ADDED, wxID_HIGHEST + 1103 )
-END_DECLARE_EVENT_TYPES()
+// BEGIN_DECLARE_EVENT_TYPES()
+extern const wxEventType CHILD_ADDTORECENT;
+extern const wxEventType CHILD_SETACTIVE;
+extern const wxEventType CHILD_CLOSED;
+extern const wxEventType CHILD_ADDED;
+// END_DECLARE_EVENT_TYPES()
 
-/*************************************************//**
-*
-* \brief base class for child window based upon wxFrame
-*
-******************************************************/
-class ChildWindow : public wxFrame
-{
-	DECLARE_CLASS( ChildWindow )
+/*************************************************/ /**
+                                                     *
+                                                     * \brief base class for
+                                                     * child window based upon
+                                                     * wxFrame
+                                                     *
+                                                     ******************************************************/
+class ChildWindow : public wxFrame {
+  DECLARE_CLASS(ChildWindow)
 public:
-	ChildWindow( wxFrame *parent, Document *doc, const BitmapId&, const wxSize& size = wxDefaultSize, const bool ismain = false );
-	~ChildWindow();
+  ChildWindow(wxFrame *parent, Document *doc, const BitmapId &,
+              const wxSize &size = wxDefaultSize, const bool ismain = false);
+  ~ChildWindow();
 
-	// is called by children: GraphicView on ew change and TextView onToolbarCommand
-	virtual void setTitle() = 0;
+  // is called by children: GraphicView on ew change and TextView
+  // onToolbarCommand
+  virtual void setTitle() = 0;
 
-	virtual bool isMultiple() const { return false; }
+  virtual bool isMultiple() const { return false; }
 
-	ChartProperties *getProps() const { return props; }
+  ChartProperties *getProps() const { return props; }
 
-	Document *getDoc() const { return doc; }
+  Document *getDoc() const { return doc; }
 
-	int getViewListImageId() const;
+  int getViewListImageId() const;
 
-	// determines if doc is owned, i.e. doc must be deleted including other children
-	void setMainWindow( const bool& );
-	bool isMainWindow() { return ismainwindow; }
+  // determines if doc is owned, i.e. doc must be deleted including other
+  // children
+  void setMainWindow(const bool &);
+  bool isMainWindow() { return ismainwindow; }
 
-	virtual void OnDataChanged() = 0;
-	virtual void postCreate() = 0;
+  virtual void OnDataChanged() = 0;
+  virtual void postCreate() = 0;
 
-	virtual void OnCommand( wxCommandEvent &event );
-	virtual bool dispatchCommand( const int& command );
+  virtual void OnCommand(wxCommandEvent &event);
+  virtual bool dispatchCommand(const int &command);
 
-	// send signal for ApplicationWindow list control (change of selection)
-	void OnActivate( wxActivateEvent& );
+  // send signal for ApplicationWindow list control (change of selection)
+  void OnActivate(wxActivateEvent &);
 
 protected:
-	ChartProperties *props;
-	Document *doc;
-	const BitmapId bmpId;
+  ChartProperties *props;
+  Document *doc;
+  const BitmapId bmpId;
 
-	virtual void OnClose( wxCloseEvent &event );
+  virtual void OnClose(wxCloseEvent &event);
 
 private:
+  void OnEphemFileWarning(wxCommandEvent &);
 
-	void OnEphemFileWarning( wxCommandEvent& );
-
-	bool ismainwindow, isvalid;
+  bool ismainwindow, isvalid;
 };
 
-/*************************************************//**
-*
-* \brief child window containing a single BasicView
-*
-******************************************************/
-class SimpleChildWindow : public ChildWindow
-{
-	DECLARE_CLASS( SimpleChildWindow )
+/*************************************************/ /**
+                                                     *
+                                                     * \brief child window
+                                                     * containing a single
+                                                     * BasicView
+                                                     *
+                                                     ******************************************************/
+class SimpleChildWindow : public ChildWindow {
+  DECLARE_CLASS(SimpleChildWindow)
 public:
+  SimpleChildWindow(wxFrame *parent, Document *doc, const BitmapId &,
+                    const wxSize &size = wxDefaultSize,
+                    const bool ismain = false);
+  ~SimpleChildWindow();
 
-	SimpleChildWindow( wxFrame *parent, Document *doc, const BitmapId&, const wxSize& size = wxDefaultSize, const bool ismain = false );
-	~SimpleChildWindow();
+  void insertView(BasicView *);
+  BasicView *getView() const { return view; }
 
-	void insertView( BasicView* );
-	BasicView *getView() const { return view; }
-
-	virtual void OnDataChanged();
-	virtual void postCreate();
-	virtual void setTitle();
-	virtual bool dispatchCommand( const int& command );
+  virtual void OnDataChanged();
+  virtual void postCreate();
+  virtual void setTitle();
+  virtual bool dispatchCommand(const int &command);
 
 protected:
-
-	virtual void OnClose( wxCloseEvent &event );
-	void OnActivate( wxActivateEvent& );
-	void OnSize( wxSizeEvent& );
+  virtual void OnClose(wxCloseEvent &event);
+  void OnActivate(wxActivateEvent &);
+  void OnSize(wxSizeEvent &);
 
 private:
-	BasicView *view;
+  BasicView *view;
 };
 
-/*************************************************//**
-*
-* \brief encapsulates creation of a ChildWindow.
-*
-******************************************************/
-class ChildWindowFactory
-{
+/*************************************************/ /**
+                                                     *
+                                                     * \brief encapsulates
+                                                     * creation of a
+                                                     * ChildWindow.
+                                                     *
+                                                     ******************************************************/
+class ChildWindowFactory {
 public:
-	ChildWindow *createPartnerWindow( wxFrame* );
-	ChildWindow *createSingleMainWindow( wxFrame *parent, Document *doc );
-	ChildWindow *createMultipleMainWindow( wxFrame *parent, Document *doc, int = 0 );
-	ChildWindow *createMainWindow( wxFrame*, Document*, const bool&, const int = 0 );
-	ChildWindow *createChild( wxFrame *parent, Document *doc, const int id );
+  ChildWindow *createPartnerWindow(wxFrame *);
+  ChildWindow *createSingleMainWindow(wxFrame *parent, Document *doc);
+  ChildWindow *createMultipleMainWindow(wxFrame *parent, Document *doc,
+                                        int = 0);
+  ChildWindow *createMainWindow(wxFrame *, Document *, const bool &,
+                                const int = 0);
+  ChildWindow *createChild(wxFrame *parent, Document *doc, const int id);
 };
 
 #endif
-

@@ -25,241 +25,226 @@
 #include "maitreya.h"
 #include "mathbase.h"
 
-#include <wx/timer.h>
 #include <wx/thread.h>
+#include <wx/timer.h>
+
 
 extern Config *config;
 
-DEFINE_EVENT_TYPE( ATLAS_COUNT_HASNEWS )
-DEFINE_EVENT_TYPE( ATLAS_FETCH_HASNEWS )
+const wxEventType ATLAS_COUNT_HASNEWS = wxID_HIGHEST + 1500;
+const wxEventType ATLAS_FETCH_HASNEWS = wxID_HIGHEST + 1501;
 
 #define COUNT_THREAD_SLEEP_MILLISEC 50
 #define FETCH_THREAD_SLEEP_MILLISEC 50
 #define LIFECYCLE_THREAD_SLEEP_MILLISEC 5
 
-//#define DEB_ATLAS_LOGIC
+// #define DEB_ATLAS_LOGIC
 
 static wxMutex theMutex;
 
-/*************************************************//**
-*
-*
-*
-******************************************************/
-class AtlasLogicSharedSection
-{
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class AtlasLogicSharedSection {
 public:
-	AtlasLogicSharedSection()
-	{
-		init();
-	}
+  AtlasLogicSharedSection() { init(); }
 
-	void init()
-	{
-		countHasNews = countHasOrder = false;
-		fetchHasNews = fetchHasOrder = false;
-		count = 0;
-		fetchOffset = 0;
-		fetchIsWorking = false;
-		doExit = false;
-	}
+  void init() {
+    countHasNews = countHasOrder = false;
+    fetchHasNews = fetchHasOrder = false;
+    count = 0;
+    fetchOffset = 0;
+    fetchIsWorking = false;
+    doExit = false;
+  }
 
-	bool countHasNews;
-	bool countHasOrder;
-	int count;
+  bool countHasNews;
+  bool countHasOrder;
+  int count;
 
-	bool fetchHasNews;
-	bool fetchHasOrder;
-	bool fetchIsWorking;
-	int fetchOffset;
+  bool fetchHasNews;
+  bool fetchHasOrder;
+  bool fetchIsWorking;
+  int fetchOffset;
 
-	bool doExit;
+  bool doExit;
 };
 
-/*************************************************//**
-*
-*
-*
-******************************************************/
-class AtlasLogicWorker : public wxThread
-{
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class AtlasLogicWorker : public wxThread {
 public:
+  AtlasLogicWorker(AtlasLogic *logic)
+      : wxThread(wxTHREAD_JOINABLE), logic(logic) {
+    this->sharedSection = logic->sharedSection;
+    assert(sharedSection);
+    this->dao = new AtlasDao();
+    // SetPriority( WXTHREAD_DEFAULT_PRIORITY );
+  }
 
-	AtlasLogicWorker( AtlasLogic *logic )
-		: wxThread( wxTHREAD_JOINABLE  ),
-			logic( logic )
-	{
-		this->sharedSection = logic->sharedSection;
-		assert( sharedSection );
-		this->dao = new AtlasDao();
-		//SetPriority( WXTHREAD_DEFAULT_PRIORITY );
-	}
-
-	~AtlasLogicWorker() {
-		delete this->dao;
-	}
+  ~AtlasLogicWorker() { delete this->dao; }
 
 protected:
-	AtlasLogic *logic;
+  AtlasLogic *logic;
 
-	AtlasLogicSharedSection *sharedSection;
-	AtlasDao *dao;
+  AtlasLogicSharedSection *sharedSection;
+  AtlasDao *dao;
 };
 
-/*************************************************//**
-*
-*   Worker for grid table entry calculation
-*
-******************************************************/
-class AtlasLogicFetchWorker : public AtlasLogicWorker
-{
+/*************************************************/ /**
+                                                     *
+                                                     *   Worker for grid table
+                                                     * entry calculation
+                                                     *
+                                                     ******************************************************/
+class AtlasLogicFetchWorker : public AtlasLogicWorker {
 public:
-	AtlasLogicFetchWorker( AtlasLogic *logic ) : AtlasLogicWorker( logic ) {}
+  AtlasLogicFetchWorker(AtlasLogic *logic) : AtlasLogicWorker(logic) {}
 
-	/*****************************************************
-	**
-	**   AtlasLogicFetchWorker   ---   Entry
-	**
-	******************************************************/
-	ExitCode Entry()
-	{
-		while ( sharedSection->doExit == false )
-		{
-			Sleep( FETCH_THREAD_SLEEP_MILLISEC );
-			if ( sharedSection->fetchHasOrder )
-			{
-				sharedSection->fetchIsWorking = true;
+  /*****************************************************
+  **
+  **   AtlasLogicFetchWorker   ---   Entry
+  **
+  ******************************************************/
+  ExitCode Entry() {
+    while (sharedSection->doExit == false) {
+      Sleep(FETCH_THREAD_SLEEP_MILLISEC);
+      if (sharedSection->fetchHasOrder) {
+        sharedSection->fetchIsWorking = true;
 #ifdef DEB_ATLAS_LOGIC
-				printf( "AtlasLogicFetchWorker: location fetch started, filter \"%s\", country \"%s\", mode %d offset %d\n",
-					str2char( logic->filter ), str2char( logic->country ), logic->mode, sharedSection->fetchOffset );
-				wxLongLong starttime = wxGetLocalTimeMillis();
+        printf("AtlasLogicFetchWorker: location fetch started, filter \"%s\", "
+               "country \"%s\", mode %d offset %d\n",
+               str2char(logic->filter), str2char(logic->country), logic->mode,
+               sharedSection->fetchOffset);
+        wxLongLong starttime = wxGetLocalTimeMillis();
 #endif
 
-				sharedSection->fetchHasOrder = false;
-				logic->resetEntries();
+        sharedSection->fetchHasOrder = false;
+        logic->resetEntries();
 
-				std::vector<AtlasEntry> l = dao->getEntries( logic->filter, logic->country, logic->mode,
-					ATLAS_MAX_GRID_ELEMENTS, sharedSection->fetchOffset );
+        std::vector<AtlasEntry> l = dao->getEntries(
+            logic->filter, logic->country, logic->mode, ATLAS_MAX_GRID_ELEMENTS,
+            sharedSection->fetchOffset);
 
-				if ( l.size() > 0 )
-				{
-					theMutex.Lock();
-					for ( uint i = 0; i < l.size(); i++ )
-					{
-						l[i].country = logic->getCountryName( l[i].country_code );
-						l[i].admin = logic->getAdminName( l[i].country_code, l[i].admin1_code );
+        if (l.size() > 0) {
+          theMutex.Lock();
+          for (uint i = 0; i < l.size(); i++) {
+            l[i].country = logic->getCountryName(l[i].country_code);
+            l[i].admin =
+                logic->getAdminName(l[i].country_code, l[i].admin1_code);
 
-						logic->entries[i] = new AtlasEntry( l[i] );
-					}
+            logic->entries[i] = new AtlasEntry(l[i]);
+          }
 #ifdef DEB_ATLAS_LOGIC
-					wxLongLong duration = wxGetLocalTimeMillis() - starttime;
-					printf( "AtlasLogicFetchWorker: location fetch finished, %d results in %ld millisec\n", (int)l.size(), duration.ToLong() );
+          wxLongLong duration = wxGetLocalTimeMillis() - starttime;
+          printf("AtlasLogicFetchWorker: location fetch finished, %d results "
+                 "in %ld millisec\n",
+                 (int)l.size(), duration.ToLong());
 #endif
 
-					if ( sharedSection->fetchHasOrder )
-					{
-						// filter conditions have changed meanwhile: do not write results
-						printf( "WARN: AtlasLogicFetchWorker has new order before finishing request\n" );
-					}
-					else
-					{
-						sharedSection->fetchHasNews = true;
-						sharedSection->fetchIsWorking = false;
-					}
-					theMutex.Unlock();
-				}
-			}
-		}
-		return 0;
-	}
+          if (sharedSection->fetchHasOrder) {
+            // filter conditions have changed meanwhile: do not write results
+            printf("WARN: AtlasLogicFetchWorker has new order before finishing "
+                   "request\n");
+          } else {
+            sharedSection->fetchHasNews = true;
+            sharedSection->fetchIsWorking = false;
+          }
+          theMutex.Unlock();
+        }
+      }
+    }
+    return 0;
+  }
 };
 
-/*************************************************//**
-*
-*   Worker for calculation of the number of matching records
-*
-******************************************************/
-class AtlasLogicCountWorker : public AtlasLogicWorker
-{
+/*************************************************/ /**
+                                                     *
+                                                     *   Worker for calculation
+                                                     * of the number of matching
+                                                     * records
+                                                     *
+                                                     ******************************************************/
+class AtlasLogicCountWorker : public AtlasLogicWorker {
 public:
-	AtlasLogicCountWorker( AtlasLogic *logic ) : AtlasLogicWorker( logic ) {}
+  AtlasLogicCountWorker(AtlasLogic *logic) : AtlasLogicWorker(logic) {}
 
-	/*****************************************************
-	**
-	**   AtlasLogicCountWorker   ---   Entry
-	**
-	******************************************************/
-	ExitCode Entry()
-	{
-		while ( sharedSection->doExit == false )
-		{
-			Sleep( COUNT_THREAD_SLEEP_MILLISEC );
-			if ( sharedSection->countHasOrder )
-			{
+  /*****************************************************
+  **
+  **   AtlasLogicCountWorker   ---   Entry
+  **
+  ******************************************************/
+  ExitCode Entry() {
+    while (sharedSection->doExit == false) {
+      Sleep(COUNT_THREAD_SLEEP_MILLISEC);
+      if (sharedSection->countHasOrder) {
 #ifdef DEB_ATLAS_LOGIC
-				printf( "AtlasLogicCountWorker: location count started, filter \"%s\", country \"%s\", mode %d\n",
-					str2char( logic->filter ), str2char( logic->country ), logic->mode );
-				wxLongLong starttime = wxGetLocalTimeMillis();
+        printf("AtlasLogicCountWorker: location count started, filter \"%s\", "
+               "country \"%s\", mode %d\n",
+               str2char(logic->filter), str2char(logic->country), logic->mode);
+        wxLongLong starttime = wxGetLocalTimeMillis();
 #endif
-				sharedSection->countHasOrder = false;
-				int c = dao->getMatchCount( logic->filter, logic->country, logic->mode );
+        sharedSection->countHasOrder = false;
+        int c = dao->getMatchCount(logic->filter, logic->country, logic->mode);
 
-				if ( sharedSection->countHasOrder )
-				{
-					// new order arrived, filter conditions have changed meanwhile: do not write results
-					printf( "WARN: AtlasLogicCountWorker has new order before finishing request\n" );
-				}
-				else
-				{
-					theMutex.Lock();
-					sharedSection->countHasNews = true;
-					sharedSection->count = c;
-					theMutex.Unlock();
+        if (sharedSection->countHasOrder) {
+          // new order arrived, filter conditions have changed meanwhile: do not
+          // write results
+          printf("WARN: AtlasLogicCountWorker has new order before finishing "
+                 "request\n");
+        } else {
+          theMutex.Lock();
+          sharedSection->countHasNews = true;
+          sharedSection->count = c;
+          theMutex.Unlock();
 #ifdef DEB_ATLAS_LOGIC
-					wxLongLong duration = wxGetLocalTimeMillis() - starttime;
-					printf( "AtlasLogicCountWorker: Location count finished, %d results in %ld millisec\n", c, duration.ToLong() );
+          wxLongLong duration = wxGetLocalTimeMillis() - starttime;
+          printf("AtlasLogicCountWorker: Location count finished, %d results "
+                 "in %ld millisec\n",
+                 c, duration.ToLong());
 #endif
-				}
-			}
-		}
-		return 0;
-	}
+        }
+      }
+    }
+    return 0;
+  }
 };
 
-/*************************************************//**
-*
-* 
-*
-******************************************************/
-class AtlasLogicLifeCycleWorker : public AtlasLogicWorker
-{
+/*************************************************/ /**
+                                                     *
+                                                     *
+                                                     *
+                                                     ******************************************************/
+class AtlasLogicLifeCycleWorker : public AtlasLogicWorker {
 public:
-	AtlasLogicLifeCycleWorker( AtlasLogic *logic ) : AtlasLogicWorker( logic ) {}
+  AtlasLogicLifeCycleWorker(AtlasLogic *logic) : AtlasLogicWorker(logic) {}
 
-	/*****************************************************
-	**
-	**   AtlasLogicLifeCycleWorker   ---   Entry
-	**
-	******************************************************/
-	ExitCode Entry()
-	{
-		while ( true )
-		{
-			Sleep( LIFECYCLE_THREAD_SLEEP_MILLISEC );
-			if ( sharedSection->doExit )
-			{
+  /*****************************************************
+  **
+  **   AtlasLogicLifeCycleWorker   ---   Entry
+  **
+  ******************************************************/
+  ExitCode Entry() {
+    while (true) {
+      Sleep(LIFECYCLE_THREAD_SLEEP_MILLISEC);
+      if (sharedSection->doExit) {
 #ifdef DEB_ATLAS_LOGIC
-				printf( "AtlasLogicLifeCycleWorker received interrupt order\n" );
+        printf("AtlasLogicLifeCycleWorker received interrupt order\n");
 #endif
-				dao->interruptAllQueries();
+        dao->interruptAllQueries();
 #ifdef DEB_ATLAS_LOGIC
-				printf( "AtlasLogicLifeCycleWorker: DB operations canceled\n" );
+        printf("AtlasLogicLifeCycleWorker: DB operations canceled\n");
 #endif
-				break;
-			}
-		}
-		return 0;
-	}
+        break;
+      }
+    }
+    return 0;
+  }
 };
 
 /*****************************************************
@@ -267,65 +252,70 @@ public:
 **   AtlasLogic   ---   Constructor
 **
 ******************************************************/
-AtlasLogic::AtlasLogic( const bool runWorkerThreads )
-{
-	dao = new AtlasDao();
-	for ( int i = 0; i < ATLAS_MAX_GRID_ELEMENTS; i++ ) entries[i] = 0;
+AtlasLogic::AtlasLogic(const bool runWorkerThreads) {
+  dao = new AtlasDao();
+  for (int i = 0; i < ATLAS_MAX_GRID_ELEMENTS; i++)
+    entries[i] = 0;
 
-	sharedSection = 0;
-	fetchWorker = 0;
-	countWorker = 0;
-	lifeCycleWorker = 0;
+  sharedSection = 0;
+  fetchWorker = 0;
+  countWorker = 0;
+  lifeCycleWorker = 0;
 
-	if ( runWorkerThreads )
-	{
-		sharedSection = new AtlasLogicSharedSection;
+  if (runWorkerThreads) {
+    sharedSection = new AtlasLogicSharedSection;
 
-		lifeCycleWorker = new AtlasLogicLifeCycleWorker( this );
-		wxThreadError te1 = lifeCycleWorker->Create();
-		if ( te1 != wxTHREAD_NO_ERROR )
-		{
-			printf( "AtlasLogic ERROR: cannot create lifeCycleWorker thread, error code %d\n", te1 );
-		}
-		wxThreadError te2 = lifeCycleWorker->Run();
-		if ( te2 != wxTHREAD_NO_ERROR )
-		{
-			printf( "AtlasLogic ERROR: cannot start lifeCycleWorker thread, error code %d\n", te2 );
-		}
+    lifeCycleWorker = new AtlasLogicLifeCycleWorker(this);
+    wxThreadError te1 = lifeCycleWorker->Create();
+    if (te1 != wxTHREAD_NO_ERROR) {
+      printf("AtlasLogic ERROR: cannot create lifeCycleWorker thread, error "
+             "code %d\n",
+             te1);
+    }
+    wxThreadError te2 = lifeCycleWorker->Run();
+    if (te2 != wxTHREAD_NO_ERROR) {
+      printf("AtlasLogic ERROR: cannot start lifeCycleWorker thread, error "
+             "code %d\n",
+             te2);
+    }
 #ifdef DEB_ATLAS_LOGIC
-		printf( "AtlasLogicLifeCycleWorker started\n" );
+    printf("AtlasLogicLifeCycleWorker started\n");
 #endif
 
-		countWorker = new AtlasLogicCountWorker( this );
-		wxThreadError te3 = countWorker->Create();
-		if ( te3 != wxTHREAD_NO_ERROR )
-		{
-			printf( "AtlasLogic ERROR: cannot create countWorker thread, error code %d\n", te1 );
-		}
-		wxThreadError te4 = countWorker->Run();
-		if ( te4 != wxTHREAD_NO_ERROR )
-		{
-			printf( "AtlasLogic ERROR: cannot start countWorker thread, error code %d\n", te2 );
-		}
+    countWorker = new AtlasLogicCountWorker(this);
+    wxThreadError te3 = countWorker->Create();
+    if (te3 != wxTHREAD_NO_ERROR) {
+      printf(
+          "AtlasLogic ERROR: cannot create countWorker thread, error code %d\n",
+          te1);
+    }
+    wxThreadError te4 = countWorker->Run();
+    if (te4 != wxTHREAD_NO_ERROR) {
+      printf(
+          "AtlasLogic ERROR: cannot start countWorker thread, error code %d\n",
+          te2);
+    }
 #ifdef DEB_ATLAS_LOGIC
-		printf( "AtlasLogicCountWorker started\n" );
+    printf("AtlasLogicCountWorker started\n");
 #endif
 
-		fetchWorker = new AtlasLogicFetchWorker( this );
-		wxThreadError te5 = fetchWorker->Create();
-		if ( te5 != wxTHREAD_NO_ERROR )
-		{
-			printf( "AtlasLogic ERROR: cannot create fetchWorker thread, error code %d\n", te3 );
-		}
-		wxThreadError te6 = fetchWorker->Run();
-		if ( te6 != wxTHREAD_NO_ERROR )
-		{
-			printf( "AtlasLogic ERROR: cannot start fetchWorker thread, error code %d\n", te4 );
-		}
+    fetchWorker = new AtlasLogicFetchWorker(this);
+    wxThreadError te5 = fetchWorker->Create();
+    if (te5 != wxTHREAD_NO_ERROR) {
+      printf(
+          "AtlasLogic ERROR: cannot create fetchWorker thread, error code %d\n",
+          te3);
+    }
+    wxThreadError te6 = fetchWorker->Run();
+    if (te6 != wxTHREAD_NO_ERROR) {
+      printf(
+          "AtlasLogic ERROR: cannot start fetchWorker thread, error code %d\n",
+          te4);
+    }
 #ifdef DEB_ATLAS_LOGIC
-		printf( "AtlasLogicFetchWorker started\n" );
+    printf("AtlasLogicFetchWorker started\n");
 #endif
-	}
+  }
 }
 
 /*****************************************************
@@ -333,75 +323,74 @@ AtlasLogic::AtlasLogic( const bool runWorkerThreads )
 **   AtlasLogic   ---   Destructor
 **
 ******************************************************/
-AtlasLogic::~AtlasLogic()
-{
-	if (  sharedSection )  sharedSection->doExit = true;
+AtlasLogic::~AtlasLogic() {
+  if (sharedSection)
+    sharedSection->doExit = true;
 
-	if ( lifeCycleWorker )
-	{
-		if ( lifeCycleWorker->IsRunning())
-		{
+  if (lifeCycleWorker) {
+    if (lifeCycleWorker->IsRunning()) {
 #ifdef DEB_ATLAS_LOGIC
-			printf( "AtlasLogic destructor waiting for life cycle worker to join ...\n" );
-			wxLongLong starttime = wxGetLocalTimeMillis();
+      printf(
+          "AtlasLogic destructor waiting for life cycle worker to join ...\n");
+      wxLongLong starttime = wxGetLocalTimeMillis();
 #endif
-			lifeCycleWorker->Wait();
+      lifeCycleWorker->Wait();
 #ifdef DEB_ATLAS_LOGIC
-			wxLongLong duration = wxGetLocalTimeMillis() - starttime;
-			printf( "Life cycle worker stopped in %ld milllisec\n", duration.ToLong());
+      wxLongLong duration = wxGetLocalTimeMillis() - starttime;
+      printf("Life cycle worker stopped in %ld milllisec\n", duration.ToLong());
 #endif
-		}
+    }
 #ifdef DEB_ATLAS_LOGIC
-		else printf( "AtlasLogic destructor: life cycle worker not running\n" );
+    else
+      printf("AtlasLogic destructor: life cycle worker not running\n");
 #endif
-		delete lifeCycleWorker;
-	}
+    delete lifeCycleWorker;
+  }
 
-	if ( countWorker )
-	{
-		if ( countWorker->IsRunning())
-		{
+  if (countWorker) {
+    if (countWorker->IsRunning()) {
 #ifdef DEB_ATLAS_LOGIC
-			printf( "AtlasLogic destructor waiting for count worker to join ...\n" );
-			wxLongLong starttime = wxGetLocalTimeMillis();
+      printf("AtlasLogic destructor waiting for count worker to join ...\n");
+      wxLongLong starttime = wxGetLocalTimeMillis();
 #endif
-			countWorker->Wait();
+      countWorker->Wait();
 #ifdef DEB_ATLAS_LOGIC
-			wxLongLong duration = wxGetLocalTimeMillis() - starttime;
-			printf( "Count worker stopped in %ld milllisec\n", duration.ToLong());
+      wxLongLong duration = wxGetLocalTimeMillis() - starttime;
+      printf("Count worker stopped in %ld milllisec\n", duration.ToLong());
 #endif
-		}
+    }
 #ifdef DEB_ATLAS_LOGIC
-		else printf( "AtlasLogic destructor: count worker not running\n" );
+    else
+      printf("AtlasLogic destructor: count worker not running\n");
 #endif
-		delete countWorker;
-	}
+    delete countWorker;
+  }
 
-	if ( fetchWorker )
-	{
-		if ( fetchWorker->IsRunning())
-		{
+  if (fetchWorker) {
+    if (fetchWorker->IsRunning()) {
 #ifdef DEB_ATLAS_LOGIC
-			printf( "AtlasLogic destructor waiting for fetch worker to join ...\n" );
-			wxLongLong starttime = wxGetLocalTimeMillis();
+      printf("AtlasLogic destructor waiting for fetch worker to join ...\n");
+      wxLongLong starttime = wxGetLocalTimeMillis();
 #endif
-			fetchWorker->Wait();
+      fetchWorker->Wait();
 #ifdef DEB_ATLAS_LOGIC
-			wxLongLong duration = wxGetLocalTimeMillis() - starttime;
-			printf( "Fetch worker stopped in %ld milllisec\n", duration.ToLong());
+      wxLongLong duration = wxGetLocalTimeMillis() - starttime;
+      printf("Fetch worker stopped in %ld milllisec\n", duration.ToLong());
 #endif
-		}
+    }
 #ifdef DEB_ATLAS_LOGIC
-		else printf( "AtlasLogic destructor: fetch worker not running\n" );
+    else
+      printf("AtlasLogic destructor: fetch worker not running\n");
 #endif
-		delete fetchWorker;
-	}
+    delete fetchWorker;
+  }
 
-	// free memory of list elements
-	resetEntries();
+  // free memory of list elements
+  resetEntries();
 
-	if ( sharedSection ) delete sharedSection;
-	delete dao;
+  if (sharedSection)
+    delete sharedSection;
+  delete dao;
 }
 
 /*****************************************************
@@ -409,26 +398,23 @@ AtlasLogic::~AtlasLogic()
 **   AtlasLogic   ---   getFavouriteCountries
 **
 ******************************************************/
-std::list<AtlasCountry> AtlasLogic::getFavouriteCountries( std::vector<wxString> countries )
-{
-	wxString name;
-	std::list<AtlasCountry> l;
+std::list<AtlasCountry>
+AtlasLogic::getFavouriteCountries(std::vector<wxString> countries) {
+  wxString name;
+  std::list<AtlasCountry> l;
 
-	if ( countries.size() == 0 )
-	{
-		countries = config->atlas->favouriteCountries;
-	}
+  if (countries.size() == 0) {
+    countries = config->atlas->favouriteCountries;
+  }
 
-	for( uint i = 0; i < countries.size(); i++ )
-	{
-		name = dao->getCountryName( countries[i] );
-		if ( ! name.IsEmpty())
-		{
-			l.push_back( AtlasCountry( countries[i], name ));
-		}
-	}
-	l.sort( AtlasCountrySorter() );
-	return l;
+  for (uint i = 0; i < countries.size(); i++) {
+    name = dao->getCountryName(countries[i]);
+    if (!name.IsEmpty()) {
+      l.push_back(AtlasCountry(countries[i], name));
+    }
+  }
+  l.sort(AtlasCountrySorter());
+  return l;
 }
 
 /*****************************************************
@@ -436,9 +422,8 @@ std::list<AtlasCountry> AtlasLogic::getFavouriteCountries( std::vector<wxString>
 **   AtlasLogic   ---   getAllCountries
 **
 ******************************************************/
-std::list<AtlasCountry> AtlasLogic::getAllCountries()
-{
-	return dao->getAllCountries();
+std::list<AtlasCountry> AtlasLogic::getAllCountries() {
+  return dao->getAllCountries();
 }
 
 /*****************************************************
@@ -446,9 +431,8 @@ std::list<AtlasCountry> AtlasLogic::getAllCountries()
 **   AtlasLogic   ---   getAllTimezones
 **
 ******************************************************/
-std::list<TimezoneEntry> AtlasLogic::getAllTimezones()
-{
-	return dao->getAllTimezones();
+std::list<TimezoneEntry> AtlasLogic::getAllTimezones() {
+  return dao->getAllTimezones();
 }
 
 /*****************************************************
@@ -456,24 +440,23 @@ std::list<TimezoneEntry> AtlasLogic::getAllTimezones()
 **   AtlasLogic   ---   getFeatureName
 **
 ******************************************************/
-wxString AtlasLogic::getFeatureName( wxString feature_class, wxString feature_code )
-{
-	wxString name;
+wxString AtlasLogic::getFeatureName(wxString feature_class,
+                                    wxString feature_code) {
+  wxString name;
 
-	if ( feature_class.IsEmpty()) return wxEmptyString;
-	if ( feature_code.IsEmpty()) return wxEmptyString;
+  if (feature_class.IsEmpty())
+    return wxEmptyString;
+  if (feature_code.IsEmpty())
+    return wxEmptyString;
 
-	wxString key = feature_class + wxT( "." ) + feature_code;
-	if ( featurenames.find( key ) == featurenames.end())
-	{
-		name = dao->getFeatureName( feature_class, feature_code );
-		featurenames[key] = name;
-	}
-	else
-	{
-		name = featurenames[key];
-	}
-	return name;
+  wxString key = feature_class + wxT(".") + feature_code;
+  if (featurenames.find(key) == featurenames.end()) {
+    name = dao->getFeatureName(feature_class, feature_code);
+    featurenames[key] = name;
+  } else {
+    name = featurenames[key];
+  }
+  return name;
 }
 
 /*****************************************************
@@ -481,21 +464,18 @@ wxString AtlasLogic::getFeatureName( wxString feature_class, wxString feature_co
 **   AtlasLogic   ---   getCountryName
 **
 ******************************************************/
-wxString AtlasLogic::getCountryName( wxString iso )
-{
-	wxString name;
+wxString AtlasLogic::getCountryName(wxString iso) {
+  wxString name;
 
-	if ( iso.IsEmpty()) return wxEmptyString;
-	if ( countrynames.find( iso ) == countrynames.end())
-	{
-		name = dao->getCountryName( iso );
-		countrynames[ iso ] = name;
-	}
-	else
-	{
-		name = countrynames[iso];
-	}
-	return name;
+  if (iso.IsEmpty())
+    return wxEmptyString;
+  if (countrynames.find(iso) == countrynames.end()) {
+    name = dao->getCountryName(iso);
+    countrynames[iso] = name;
+  } else {
+    name = countrynames[iso];
+  }
+  return name;
 }
 
 /*****************************************************
@@ -503,10 +483,10 @@ wxString AtlasLogic::getCountryName( wxString iso )
 **   AtlasLogic   ---   getCountryCodeForName
 **
 ******************************************************/
-wxString AtlasLogic::getCountryCodeForName( wxString name )
-{
-	if ( name.IsEmpty()) return wxEmptyString;
-	return dao->getCountryCodeForName( name );
+wxString AtlasLogic::getCountryCodeForName(wxString name) {
+  if (name.IsEmpty())
+    return wxEmptyString;
+  return dao->getCountryCodeForName(name);
 }
 
 /*****************************************************
@@ -514,10 +494,11 @@ wxString AtlasLogic::getCountryCodeForName( wxString name )
 **   AtlasLogic   ---   getAdminCodeForCountryAndName
 **
 ******************************************************/
-wxString AtlasLogic::getAdminCodeForCountryAndName( wxString country_code, wxString name )
-{
-	if ( name.IsEmpty()) return wxEmptyString;
-	return dao->getAdminCodeForCountryAndName( country_code, name );
+wxString AtlasLogic::getAdminCodeForCountryAndName(wxString country_code,
+                                                   wxString name) {
+  if (name.IsEmpty())
+    return wxEmptyString;
+  return dao->getAdminCodeForCountryAndName(country_code, name);
 }
 
 /*****************************************************
@@ -525,24 +506,19 @@ wxString AtlasLogic::getAdminCodeForCountryAndName( wxString country_code, wxStr
 **   AtlasLogic   ---   getAdminName
 **
 ******************************************************/
-wxString AtlasLogic::getAdminName( wxString country_code, wxString admin1_code )
-{
-	wxString name;
-	wxString key;
-	if ( ! admin1_code.IsEmpty())
-	{
-		key = country_code + wxT( "." ) + admin1_code;
-		if ( adminnames.find( key ) == adminnames.end())
-		{
-			name = dao->getAdminName( country_code, admin1_code );
-			adminnames[ key ] = name;
-		}
-		else
-		{
-			name = adminnames[ key ];
-		}
-	}
-	return name;
+wxString AtlasLogic::getAdminName(wxString country_code, wxString admin1_code) {
+  wxString name;
+  wxString key;
+  if (!admin1_code.IsEmpty()) {
+    key = country_code + wxT(".") + admin1_code;
+    if (adminnames.find(key) == adminnames.end()) {
+      name = dao->getAdminName(country_code, admin1_code);
+      adminnames[key] = name;
+    } else {
+      name = adminnames[key];
+    }
+  }
+  return name;
 }
 
 /*****************************************************
@@ -550,9 +526,9 @@ wxString AtlasLogic::getAdminName( wxString country_code, wxString admin1_code )
 **   AtlasLogic   ---   getAllAdminNamesForCountry
 **
 ******************************************************/
-std::list<wxString> AtlasLogic::getAllAdminNamesForCountry( const wxString &country_code )
-{
-	return dao->getAllAdminNamesForCountry( country_code );
+std::list<wxString>
+AtlasLogic::getAllAdminNamesForCountry(const wxString &country_code) {
+  return dao->getAllAdminNamesForCountry(country_code);
 }
 
 /*****************************************************
@@ -560,13 +536,12 @@ std::list<wxString> AtlasLogic::getAllAdminNamesForCountry( const wxString &coun
 **   AtlasLogic   ---   resetEntries
 **
 ******************************************************/
-void AtlasLogic::resetEntries()
-{
-	for ( int i = 0; i < ATLAS_MAX_GRID_ELEMENTS; i++ )
-	{
-		if ( entries[i] ) delete entries[i];
-		entries[i] = 0;
-	}
+void AtlasLogic::resetEntries() {
+  for (int i = 0; i < ATLAS_MAX_GRID_ELEMENTS; i++) {
+    if (entries[i])
+      delete entries[i];
+    entries[i] = 0;
+  }
 }
 
 /*****************************************************
@@ -574,15 +549,14 @@ void AtlasLogic::resetEntries()
 **   AtlasLogic   ---   updateFilter
 **
 ******************************************************/
-void AtlasLogic::updateFilter()
-{
-	theMutex.Lock();
-	resetEntries();
+void AtlasLogic::updateFilter() {
+  theMutex.Lock();
+  resetEntries();
 
-	assert( sharedSection );
-	sharedSection->countHasOrder = true;
-	sharedSection->fetchHasOrder = true;
-	theMutex.Unlock();
+  assert(sharedSection);
+  sharedSection->countHasOrder = true;
+  sharedSection->fetchHasOrder = true;
+  theMutex.Unlock();
 }
 
 /*****************************************************
@@ -590,18 +564,17 @@ void AtlasLogic::updateFilter()
 **   AtlasLogic   ---   setFilterConditions
 **
 ******************************************************/
-void AtlasLogic::setFilterConditions( wxString f, wxString c, const int& m )
-{
-	filter = AllTrim( f );
-	filter.Replace( wxT( "*" ), wxT( "%" ));
-	//filter.Replace( wxT( "'" ), wxT( "\"" ));
-	filter.Replace( wxT( "?" ), wxT( "_" ));
-	country = c;
-	mode = m;
+void AtlasLogic::setFilterConditions(wxString f, wxString c, const int &m) {
+  filter = AllTrim(f);
+  filter.Replace(wxT("*"), wxT("%"));
+  // filter.Replace( wxT( "'" ), wxT( "\"" ));
+  filter.Replace(wxT("?"), wxT("_"));
+  country = c;
+  mode = m;
 
-	assert( sharedSection );
-	sharedSection->fetchOffset = 0;
-	updateFilter();
+  assert(sharedSection);
+  sharedSection->fetchOffset = 0;
+  updateFilter();
 }
 
 /*****************************************************
@@ -609,30 +582,27 @@ void AtlasLogic::setFilterConditions( wxString f, wxString c, const int& m )
 **   AtlasLogic   ---   getEntryByRowId
 **
 ******************************************************/
-AtlasEntry *AtlasLogic::getEntryByRowId( const int &rowid )
-{
-	assert( sharedSection );
+AtlasEntry *AtlasLogic::getEntryByRowId(const int &rowid) {
+  assert(sharedSection);
 
-	theMutex.Lock();
-	for ( int i = 0; i < ATLAS_MAX_GRID_ELEMENTS; i++ )
-	{
-		if ( entries[i] != 0 && entries[i]->rowid == rowid )
-		{
-			theMutex.Unlock();
-			return entries[i];
-		}
-	}
-	theMutex.Unlock();
+  theMutex.Lock();
+  for (int i = 0; i < ATLAS_MAX_GRID_ELEMENTS; i++) {
+    if (entries[i] != 0 && entries[i]->rowid == rowid) {
+      theMutex.Unlock();
+      return entries[i];
+    }
+  }
+  theMutex.Unlock();
 
-	if ( rowid > 0 && ! sharedSection->fetchHasOrder && ! sharedSection->fetchIsWorking )
-	{
-		theMutex.Lock();
-		resetEntries();
-		sharedSection->fetchOffset = Max( 0, rowid - 15 );
-		sharedSection->fetchHasOrder = true;
-		theMutex.Unlock();
-	}
-	return 0;
+  if (rowid > 0 && !sharedSection->fetchHasOrder &&
+      !sharedSection->fetchIsWorking) {
+    theMutex.Lock();
+    resetEntries();
+    sharedSection->fetchOffset = Max(0, rowid - 15);
+    sharedSection->fetchHasOrder = true;
+    theMutex.Unlock();
+  }
+  return 0;
 }
 
 /*****************************************************
@@ -640,34 +610,33 @@ AtlasEntry *AtlasLogic::getEntryByRowId( const int &rowid )
 **   AtlasLogic   ---   getFullEntry
 **
 ******************************************************/
-AtlasEntry AtlasLogic::getFullEntry( const int &featureid )
-{
-	AtlasEntry entry = dao->getFullEntry( featureid );
-	entry.country = getCountryName( entry.country_code );
-	entry.admin = getAdminName( entry.country_code, entry.admin1_code );
-	return entry;
+AtlasEntry AtlasLogic::getFullEntry(const int &featureid) {
+  AtlasEntry entry = dao->getFullEntry(featureid);
+  entry.country = getCountryName(entry.country_code);
+  entry.admin = getAdminName(entry.country_code, entry.admin1_code);
+  return entry;
 }
 
 bool AtlasLogic::countHasNews() {
-	assert( sharedSection );
-	return sharedSection->countHasNews;
+  assert(sharedSection);
+  return sharedSection->countHasNews;
 }
 int AtlasLogic::getCount() {
-	assert( sharedSection );
-	return sharedSection->count;
+  assert(sharedSection);
+  return sharedSection->count;
 }
 void AtlasLogic::aknowledgeCountHasNews() {
-	assert( sharedSection );
-	sharedSection->countHasNews = false;
+  assert(sharedSection);
+  sharedSection->countHasNews = false;
 }
 
 bool AtlasLogic::fetchHasNews() {
-	assert( sharedSection );
-	return sharedSection->fetchHasNews;
+  assert(sharedSection);
+  return sharedSection->fetchHasNews;
 }
 void AtlasLogic::aknowledgeFetchHasNews() {
-	assert( sharedSection );
-	sharedSection->fetchHasNews = false;
+  assert(sharedSection);
+  sharedSection->fetchHasNews = false;
 }
 
 /*****************************************************
@@ -675,18 +644,11 @@ void AtlasLogic::aknowledgeFetchHasNews() {
 **   AtlasLogic   ---   saveEntry
 **
 ******************************************************/
-void AtlasLogic::saveEntry( AtlasEntry &entry )
-{
-	dao->saveEntry( entry );
-}
+void AtlasLogic::saveEntry(AtlasEntry &entry) { dao->saveEntry(entry); }
 
 /*****************************************************
 **
 **   AtlasLogic   ---   deleteEntry
 **
 ******************************************************/
-void AtlasLogic::deleteEntry( const int& id )
-{
-	dao->deleteEntry( id );
-}
-
+void AtlasLogic::deleteEntry(const int &id) { dao->deleteEntry(id); }

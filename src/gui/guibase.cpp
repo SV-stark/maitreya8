@@ -45,7 +45,7 @@
 
 extern Config *config;
 
-DEFINE_EVENT_TYPE(CREATE_ENTRY_CHART)
+const wxEventType CREATE_ENTRY_CHART = wxID_HIGHEST + 1004;
 
 /*************************************************/ /**
                                                      *

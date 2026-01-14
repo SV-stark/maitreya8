@@ -24,29 +24,35 @@
 #include <wx/clrpicker.h>
 #include <wx/spinctrl.h>
 
-IMPLEMENT_CLASS( ConfigPanel, wxPanel )
+IMPLEMENT_CLASS(ConfigPanel, wxPanel)
 
-DEFINE_EVENT_TYPE( CONFIG_CHANGED )
-DEFINE_EVENT_TYPE( CONFIG_TOOLBAR_CHANGED )
-DEFINE_EVENT_TYPE( CONFIG_PANEL_CHANGED )
+const wxEventType CONFIG_CHANGED = wxID_HIGHEST + 1300;
+const wxEventType CONFIG_TOOLBAR_CHANGED = wxID_HIGHEST + 1301;
+const wxEventType CONFIG_PANEL_CHANGED = wxID_HIGHEST + 1302;
 
 /*****************************************************
 **
 **   ConfigPanel   ---   Constructor
 **
 ******************************************************/
-ConfigPanel::ConfigPanel( wxWindow* parent, const bool showRestoreDefaultButton )
-	: wxPanel( parent, -1 , wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL | wxWS_EX_VALIDATE_RECURSIVELY ),
-	showDefaultButton( showRestoreDefaultButton )
-{
-	SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
-	dirty = false;
-	Connect( wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( ConfigPanel::OnCommand ));
-	Connect( wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( ConfigPanel::OnSpin ));
-	//Connect( wxID_ANY, wxEVT_SPINCTRL, wxSpinEventHandler( ConfigPanel::OnSpin ));
-	Connect( wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ConfigPanel::OnText ));
-	Connect( wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( ConfigPanel::OnCommand ));
-	Connect( wxID_ANY, wxEVT_COMMAND_COLOURPICKER_CHANGED, wxCommandEventHandler( ConfigPanel::OnCommand ));
+ConfigPanel::ConfigPanel(wxWindow *parent, const bool showRestoreDefaultButton)
+    : wxPanel(parent, -1, wxDefaultPosition, wxDefaultSize,
+              wxTAB_TRAVERSAL | wxWS_EX_VALIDATE_RECURSIVELY),
+      showDefaultButton(showRestoreDefaultButton) {
+  SetExtraStyle(wxWS_EX_VALIDATE_RECURSIVELY);
+  dirty = false;
+  Connect(wxID_ANY, wxEVT_COMMAND_CHOICE_SELECTED,
+          wxCommandEventHandler(ConfigPanel::OnCommand));
+  Connect(wxID_ANY, wxEVT_COMMAND_SPINCTRL_UPDATED,
+          wxSpinEventHandler(ConfigPanel::OnSpin));
+  // Connect( wxID_ANY, wxEVT_SPINCTRL, wxSpinEventHandler( ConfigPanel::OnSpin
+  // ));
+  Connect(wxID_ANY, wxEVT_COMMAND_TEXT_UPDATED,
+          wxCommandEventHandler(ConfigPanel::OnText));
+  Connect(wxID_ANY, wxEVT_COMMAND_CHECKBOX_CLICKED,
+          wxCommandEventHandler(ConfigPanel::OnCommand));
+  Connect(wxID_ANY, wxEVT_COMMAND_COLOURPICKER_CHANGED,
+          wxCommandEventHandler(ConfigPanel::OnCommand));
 }
 
 /*****************************************************
@@ -54,16 +60,14 @@ ConfigPanel::ConfigPanel( wxWindow* parent, const bool showRestoreDefaultButton 
 **   ConfigPanel   ---   setDirty
 **
 ******************************************************/
-void ConfigPanel::setDirty( const bool b )
-{
-	//printf( "ConfigPanel::setDirty %d\n", b );
-	if ( dirty != b )
-	{
-		wxCommandEvent e( CONFIG_PANEL_CHANGED, GetId() );
-		e.SetInt( b );
-		wxPostEvent( GetParent(), e );
-	}
-	dirty = b;
+void ConfigPanel::setDirty(const bool b) {
+  // printf( "ConfigPanel::setDirty %d\n", b );
+  if (dirty != b) {
+    wxCommandEvent e(CONFIG_PANEL_CHANGED, GetId());
+    e.SetInt(b);
+    wxPostEvent(GetParent(), e);
+  }
+  dirty = b;
 }
 
 /*****************************************************
@@ -71,11 +75,10 @@ void ConfigPanel::setDirty( const bool b )
 **   ConfigPanel   ---   OnSize
 **
 ******************************************************/
-void ConfigPanel::OnSize( wxSizeEvent &event )
-{
-	//int a = event.GetSize().GetWidth();
-	//int b = event.GetSize().GetHeight();
-	event.Skip();
+void ConfigPanel::OnSize(wxSizeEvent &event) {
+  // int a = event.GetSize().GetWidth();
+  // int b = event.GetSize().GetHeight();
+  event.Skip();
 }
 
 /*****************************************************
@@ -83,11 +86,10 @@ void ConfigPanel::OnSize( wxSizeEvent &event )
 **   ConfigPanel   ---   OnCommand
 **
 ******************************************************/
-void ConfigPanel::OnCommand( wxCommandEvent &event )
-{
-	//printf( "ConfigPanel::OnCommand\n" );
-	setDirty();
-	event.Skip();
+void ConfigPanel::OnCommand(wxCommandEvent &event) {
+  // printf( "ConfigPanel::OnCommand\n" );
+  setDirty();
+  event.Skip();
 }
 
 /*****************************************************
@@ -95,11 +97,10 @@ void ConfigPanel::OnCommand( wxCommandEvent &event )
 **   ConfigPanel   ---   OnSpin
 **
 ******************************************************/
-void ConfigPanel::OnSpin( wxSpinEvent &event )
-{
-	//printf( "ConfigPanel::OnSpin\n" );
-	setDirty();
-	event.Skip();
+void ConfigPanel::OnSpin(wxSpinEvent &event) {
+  // printf( "ConfigPanel::OnSpin\n" );
+  setDirty();
+  event.Skip();
 }
 
 /*****************************************************
@@ -107,11 +108,10 @@ void ConfigPanel::OnSpin( wxSpinEvent &event )
 **   ConfigPanel   ---   OnText
 **
 ******************************************************/
-void ConfigPanel::OnText( wxCommandEvent &event )
-{
-	//printf( "ConfigPanel::OnText\n" );
-	setDirty();
-	event.Skip();
+void ConfigPanel::OnText(wxCommandEvent &event) {
+  // printf( "ConfigPanel::OnText\n" );
+  setDirty();
+  event.Skip();
 }
 
 /*****************************************************
@@ -119,10 +119,9 @@ void ConfigPanel::OnText( wxCommandEvent &event )
 **   ConfigPanel   ---   onActivate
 **
 ******************************************************/
-void ConfigPanel::onActivate()
-{
-	//printf( "ConfigPanel::onActivate\n" );
-	updateUi();
+void ConfigPanel::onActivate() {
+  // printf( "ConfigPanel::onActivate\n" );
+  updateUi();
 }
 
 /*****************************************************
@@ -130,9 +129,8 @@ void ConfigPanel::onActivate()
 **   ConfigPanel   ---   onPassivate
 **
 ******************************************************/
-void ConfigPanel::onPassivate()
-{
-	//printf( "ConfigPanel::onPassivate\n" );
+void ConfigPanel::onPassivate() {
+  // printf( "ConfigPanel::onPassivate\n" );
 }
 
 /*****************************************************
@@ -140,41 +138,26 @@ void ConfigPanel::onPassivate()
 **   ConfigPanelFactory   ---   getPanelName
 **
 ******************************************************/
-wxString ConfigPanelFactory::getPanelName( const int &id )
-{
-	assert( id >= 0 && id < NB_PANELS );
-	const wxString notebook_title[NB_PANELS] =
-	{
-		// General section
-		_( "General"),
-		_( "Ephemeris" ),
-		_( "Multiple Views" ),
-		_( "Atlas" ),
-		_( "Print" ),
-		_( "Animation" ),
+wxString ConfigPanelFactory::getPanelName(const int &id) {
+  assert(id >= 0 && id < NB_PANELS);
+  const wxString notebook_title[NB_PANELS] = {
+      // General section
+      _("General"), _("Ephemeris"), _("Multiple Views"), _("Atlas"), _("Print"),
+      _("Animation"),
 
-		// User Interface
-		_( "User Interface" ),  // = SheetStylePanel
-		_( "Planets and Signs" ),
-		_( "Colors" ),
-		_( "Fonts" ),
-		_( "Toolbar" ),
+      // User Interface
+      _("User Interface"), // = SheetStylePanel
+      _("Planets and Signs"), _("Colors"), _("Fonts"), _("Toolbar"),
 
-		// Vedic 
-		_( "Vedic Astrology" ),
-		_( "Chart"),
-		_( "Calculation" ),
+      // Vedic
+      _("Vedic Astrology"), _("Chart"), _("Calculation"),
 
-		// Western 
-		_( "Western Astrology" ),
-		_( "Chart" ),
-		_( "Calculation" ),
-		_( "Aspects" ),
+      // Western
+      _("Western Astrology"), _("Chart"), _("Calculation"), _("Aspects"),
 
-		_( "Miscellaneous" )
-	};
+      _("Miscellaneous")};
 
-	return notebook_title[id];
+  return notebook_title[id];
 }
 
 /*****************************************************
@@ -182,75 +165,71 @@ wxString ConfigPanelFactory::getPanelName( const int &id )
 **   ConfigPanelFactory   ---   createPanel
 **
 ******************************************************/
-ConfigPanel *ConfigPanelFactory::createPanel( const int &id, wxWindow *parent )
-{
-	assert( id >= 0 && id < NB_PANELS );
-	ConfigPanel *panel = 0;
-	switch ( id )
-	{
-	case CONFIGPANEL_GENERAL:
-		panel = createGeneralPanel( parent );
-		break;
-	case CONFIGPANEL_MULTIPLEVIEW:
-		panel = createMultipleViewPanel( parent );
-		break;
-	case CONFIGPANEL_ATLAS:
-		panel = createAtlasPanel( parent );
-		break;
-	case CONFIGPANEL_EPHEMERIS:
-		panel = createEphemerisPanel( parent );
-		break;
-	case CONFIGPANEL_PRINTOUT:
-		panel = createPrintoutPanel( parent );
-		break;
-	case CONFIGPANEL_ANIMATION:
-		panel = createAnimationPanel( parent );
-		break;
-	case CONFIGPANEL_MISCELLANEOUS:
-		panel = createMiscellaneousPanel( parent );
-		break;
-	case CONFIGPANEL_PLANETSIGNDISPLAY:
-		panel = createPlanetSignDisplayPanel( parent );
-		break;
-	case CONFIGPANEL_FONT:
-		panel = createFontPanel( parent );
-		break;
-	case CONFIGPANEL_SHEETSTYLE:
-		panel = createSheetStylePanel( parent );
-		break;
-	case CONFIGPANEL_COLOR:
-		panel = createColorPanel( parent );
-		break;
-	case CONFIGPANEL_TOOLBAR:
-		panel = createToolbarPanel( parent );
-		break;
-	case CONFIGPANEL_VEDIC:
-		panel = createVedicPanel( parent );
-		break;
-	case CONFIGPANEL_VEDICCHART:
-		panel = createVedicChartPanel( parent );
-		break;
-	case CONFIGPANEL_VEDICCALCULATION:
-		panel = createVedicCalculationPanel( parent );
-		break;
-	case CONFIGPANEL_WESTERN:
-		panel = createWesternPanel( parent );
-		break;
-	case CONFIGPANEL_WESTERNCHART:
-		panel = createWesternChartPanel( parent );
-		break;
-	case CONFIGPANEL_WESTERNCALCULATION:
-		panel = createWesternCalculationPanel( parent );
-		break;
-	case CONFIGPANEL_WESTERNASPECT:
-		panel = createAspectPanel( parent );
-		break;
-	default:
-		assert( false );
-		break;
-	}
-	assert( panel );
-	return panel;
+ConfigPanel *ConfigPanelFactory::createPanel(const int &id, wxWindow *parent) {
+  assert(id >= 0 && id < NB_PANELS);
+  ConfigPanel *panel = 0;
+  switch (id) {
+  case CONFIGPANEL_GENERAL:
+    panel = createGeneralPanel(parent);
+    break;
+  case CONFIGPANEL_MULTIPLEVIEW:
+    panel = createMultipleViewPanel(parent);
+    break;
+  case CONFIGPANEL_ATLAS:
+    panel = createAtlasPanel(parent);
+    break;
+  case CONFIGPANEL_EPHEMERIS:
+    panel = createEphemerisPanel(parent);
+    break;
+  case CONFIGPANEL_PRINTOUT:
+    panel = createPrintoutPanel(parent);
+    break;
+  case CONFIGPANEL_ANIMATION:
+    panel = createAnimationPanel(parent);
+    break;
+  case CONFIGPANEL_MISCELLANEOUS:
+    panel = createMiscellaneousPanel(parent);
+    break;
+  case CONFIGPANEL_PLANETSIGNDISPLAY:
+    panel = createPlanetSignDisplayPanel(parent);
+    break;
+  case CONFIGPANEL_FONT:
+    panel = createFontPanel(parent);
+    break;
+  case CONFIGPANEL_SHEETSTYLE:
+    panel = createSheetStylePanel(parent);
+    break;
+  case CONFIGPANEL_COLOR:
+    panel = createColorPanel(parent);
+    break;
+  case CONFIGPANEL_TOOLBAR:
+    panel = createToolbarPanel(parent);
+    break;
+  case CONFIGPANEL_VEDIC:
+    panel = createVedicPanel(parent);
+    break;
+  case CONFIGPANEL_VEDICCHART:
+    panel = createVedicChartPanel(parent);
+    break;
+  case CONFIGPANEL_VEDICCALCULATION:
+    panel = createVedicCalculationPanel(parent);
+    break;
+  case CONFIGPANEL_WESTERN:
+    panel = createWesternPanel(parent);
+    break;
+  case CONFIGPANEL_WESTERNCHART:
+    panel = createWesternChartPanel(parent);
+    break;
+  case CONFIGPANEL_WESTERNCALCULATION:
+    panel = createWesternCalculationPanel(parent);
+    break;
+  case CONFIGPANEL_WESTERNASPECT:
+    panel = createAspectPanel(parent);
+    break;
+  default:
+    assert(false);
+    break;
+  }
+  assert(panel);
+  return panel;
 }
-
-
