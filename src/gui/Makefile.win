@@ -17,7 +17,7 @@ MAITREYA_PROG = maitreya8.exe
 
 MAKEFILE = Makefile.win
 
-CPPFLAGS = -g -c -I. -I../.. -I../base -I../jyotish -I../dialogs -I../swe -I../wxpdfdoc \
+CPPFLAGS = -g -c -I. -I.. -I../.. -I../base -I../jyotish -I../dialogs -I../swe -I../wxpdfdoc \
 	-I../swe `wx-config --cppflags` 
 
 LDLIBS = -lstdc++ $(VIEW_LIB) $(JYOTISH_LIB) $(DIALOG_LIB) $(BASE_LIB) $(SWE_LIB) $(DB_LIB)\
