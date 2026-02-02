@@ -14,6 +14,7 @@ ArchitecturesInstallIn64BitMode=x64
 [Files]
 ; Main executable
 Source: "release_v8\maitreya8.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release_v8\*.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Resource folders
 Source: "release_v8\resources\*"; DestDir: "{app}\resources"; Flags: ignoreversion recursesubdirs createallsubdirs
