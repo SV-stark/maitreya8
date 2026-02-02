@@ -55,7 +55,7 @@ release: all
 	$(CPR) $(SRC_DIR)/fonts/OFL.txt $(RELEASE_DIR)/fonts
 	$(CP) $(PICS_DIR)/maitreya8.ico $(RELEASE_DIR)
 	$(CP) po/maitreya8.pot $(RELEASE_DIR)
-	for LANG in de de ru te pl it hu ro es fr ta; \
+	for LANG in de ru te pl it hu ro es fr ta si; \
 	do \
 		$(RMR) $(RELEASE_DIR)/$$LANG; \
 		$(MKDIR) $(RELEASE_DIR)/$$LANG; \

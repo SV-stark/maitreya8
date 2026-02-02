@@ -20,6 +20,7 @@ Source: "release_v8\resources\*"; DestDir: "{app}\resources"; Flags: ignoreversi
 Source: "release_v8\pics\*"; DestDir: "{app}\pics"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "release_v8\fonts\*"; DestDir: "{app}\fonts"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "release_v8\de\*"; DestDir: "{app}\de"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "release_v8\es\*"; DestDir: "{app}\es"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "release_v8\fr\*"; DestDir: "{app}\fr"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "release_v8\hu\*"; DestDir: "{app}\hu"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "release_v8\it\*"; DestDir: "{app}\it"; Flags: ignoreversion recursesubdirs createallsubdirs
@@ -28,6 +29,7 @@ Source: "release_v8\ro\*"; DestDir: "{app}\ro"; Flags: ignoreversion recursesubd
 Source: "release_v8\ru\*"; DestDir: "{app}\ru"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "release_v8\ta\*"; DestDir: "{app}\ta"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "release_v8\te\*"; DestDir: "{app}\te"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "release_v8\si\*"; DestDir: "{app}\si"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; Other files
 Source: "release_v8\geonames1000.sql"; DestDir: "{app}"; Flags: ignoreversion
