@@ -42,17 +42,16 @@ jobs:
       shell: msys2 {0}
       run: |
         mkdir -p release_v8
-        cp /mingw64/bin/libgcc_s_seh-1.dll release_v8/
-        cp /mingw64/bin/libstdc++-6.dll release_v8/
-        cp /mingw64/bin/libwinpthread-1.dll release_v8/
-        cp /mingw64/bin/wxbase32u_gcc*.dll release_v8/
-        cp /mingw64/bin/wxmsw32u_core_gcc*.dll release_v8/
-        cp /mingw64/bin/wxmsw32u_aui_gcc*.dll release_v8/
-        cp /mingw64/bin/wxmsw32u_html_gcc*.dll release_v8/
-        cp /mingw64/bin/wxmsw32u_adv_gcc*.dll release_v8/
-        cp /mingw64/bin/wxmsw32u_richtext_gcc*.dll release_v8/
-        # Check if other DLLs are needed
-        ls release_v8/
+        echo "Resolving dependencies..."
+        # Use ldd to find all dependencies located in /mingw64/
+        # awk '{print $3}' extracts the path from lines like: "libname.dll => /path/to/libname.dll (address)"
+        deps=$(ldd release_v8/maitreya8.exe | grep '/mingw64/' | awk '{print $3}' | sort | uniq)
+        for dep in $deps; do
+          cp "$dep" release_v8/
+          echo "Copied $dep"
+        done
+        # Check files
+        ls -l release_v8/
 
     - name: Build Installer
       run: |
